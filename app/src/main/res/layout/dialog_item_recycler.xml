@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#545454"
+            android:text="Dipura"
+            android:id="@+id/name"
+            android:layout_weight="0.3"
+            android:textStyle="bold"
+            android:gravity="left"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Edit"
+            android:id="@+id/edit"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:textSize="12sp"
+            android:textColor="#fff"
+            android:background="@drawable/dark_btn"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="For Asthama"
+        android:textSize="12sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/thing1"
+        android:textColor="#000"
+        android:gravity="center|left"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Duration - Permanent"
+        android:textSize="12sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/thing2"
+        android:textColor="#000"
+        android:gravity="center|left"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Dosage - 1 puff"
+        android:textSize="12sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/thing3"
+        android:textColor="#000"
+        android:gravity="center|left"/>
+    <TableRow android:layout_width="250dp"
+        android:layout_height="1dp"
+        android:background="#000"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"/>
+</LinearLayout>

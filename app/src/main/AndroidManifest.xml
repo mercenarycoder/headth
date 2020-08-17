@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.developer.headthapp">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/app"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/app"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Prescription.PrescriptionsView"></activity>
+        <activity android:name=".Report.ReportView" />
+        <activity android:name=".Qr.QRprofile" />
+        <activity android:name=".Qr.QRotp" />
+        <activity android:name=".Qr.QrScanner" />
+        <activity android:name=".Qr.QRone" />
+        <activity android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Prescription.PrescriptionAdd" />
+        <activity android:name=".Report.ReportAdd" />
+        <activity android:name=".Prescription.Prescriptions" />
+        <activity android:name=".Report.ReportActivity" />
+        <activity android:name=".Profile" />
+        <activity android:name=".Notifications" />
+        <activity android:name=".HealthCart" />
+        <activity android:name=".Nominations" />
+        <activity android:name=".dashmainadapter$ProfileUpdate" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".LoginUser" />
+
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
+    </application>
+
+</manifest>

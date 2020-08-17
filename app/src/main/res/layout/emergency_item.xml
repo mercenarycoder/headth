@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Amittab bachan"
+            android:layout_weight="0.5"
+            android:id="@+id/name"
+            android:textColor="#000"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="+91-9425671234"
+            android:gravity="right"
+            android:layout_weight="0.5"
+            android:id="@+id/phone"
+            android:textColor="#545454"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+</LinearLayout>
