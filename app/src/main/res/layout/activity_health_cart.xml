@@ -44,6 +44,7 @@
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:textSize="12sp"
+            android:id="@+id/help"
             android:textColor="#fff"
             android:background="@drawable/dark_btn"/>
         <Button
@@ -52,6 +53,7 @@
            android:text="S"
             android:layout_weight="1"
             android:textColor="#fff"
+            android:tooltipText="Profile Button"
             android:id="@+id/open_profile"
             android:layout_marginTop="3dp"
             android:textSize="20sp"
@@ -325,4 +327,434 @@
         android:background="#7E000000"
         android:visibility="invisible"
         android:id="@+id/layout_changer"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/help_layout"
+        android:visibility="invisible"
+        android:background="#7E000000"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="365dp"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="143dp"
+            android:layout_marginBottom="4dp"
+            android:baselineAligned="false"
+            android:layout_marginLeft="20dp"
+            android:gravity="center">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/disease_help"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:background="@drawable/helpedit"
+                android:orientation="vertical">
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/medicine_help"
+                android:layout_weight="1"
+                android:background="@drawable/helpedit"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:background="@drawable/helpedit"
+                android:id="@+id/allergies_help"
+                android:orientation="vertical">
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:gravity="center"
+                android:background="@drawable/helpedit"
+                android:id="@+id/history_help"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="0dp"
+            android:gravity="center">
+               <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:layout_width="95dp"
+                    android:padding="10dp"
+                   android:visibility="invisible"
+                   android:id="@+id/d_help"
+                    android:background="@drawable/edit2"
+                    android:layout_height="120dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Here you can add an and view your current health ailments"
+                        android:gravity="center"
+                        android:textColor="#000"
+                        android:textSize="12sp"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:layout_width="60dp"
+                        android:layout_height="35dp"
+                        android:text="Next"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="5dp"
+                        android:textSize="11sp"
+                        android:id="@+id/next_d"
+                        android:textColor="#fff"
+                        android:background="@drawable/dark_btn"/>
+                </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="95dp"
+                android:padding="10dp"
+                android:id="@+id/m_help"
+                android:visibility="invisible"
+                android:background="@drawable/edit2"
+                android:layout_height="120dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Here you can add an and view your current health ailments"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    android:layout_weight="1"/>
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:text="Next"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:textSize="11sp"
+                    android:id="@+id/next_m"
+                    android:textColor="#fff"
+                    android:background="@drawable/dark_btn"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="95dp"
+                android:padding="10dp"
+                android:id="@+id/a_help"
+                android:visibility="invisible"
+                android:background="@drawable/edit2"
+                android:layout_height="120dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Here you can add an and view your current health ailments"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    android:layout_weight="1"/>
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:text="Next"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:textSize="11sp"
+                    android:id="@+id/next_a"
+                    android:textColor="#fff"
+                    android:background="@drawable/dark_btn"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="95dp"
+                android:padding="10dp"
+                android:id="@+id/h_help"
+                android:visibility="invisible"
+                android:background="@drawable/edit2"
+                android:layout_height="120dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Here you can add an and view your current health ailments"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    android:layout_weight="1"/>
+                <Button
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:text="Next"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:textSize="11sp"
+                    android:textColor="#fff"
+                    android:id="@+id/next_h"
+                    android:background="@drawable/dark_btn"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7E000000"
+        android:visibility="invisible"
+        android:id="@+id/help_layout2">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/sam"
+                android:layout_weight="1">
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:id="@+id/qr"
+                    android:visibility="invisible"
+                    android:background="@drawable/helpedit"/>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="0.7"/>
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"
+                android:id="@+id/noti"
+                android:visibility="invisible"
+                android:background="@drawable/helpedit"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:textSize="12sp"
+                android:background="@drawable/helpedit"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:textColor="#fff"
+                android:visibility="invisible"
+                android:id="@+id/profile_2"
+                android:layout_marginTop="3dp"
+                android:textSize="20sp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/helpedit"/>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="95dp"
+            android:padding="10dp"
+            android:visibility="invisible"
+            android:id="@+id/qr_help"
+            android:layout_marginTop="65dp"
+            android:background="@drawable/edit2"
+            android:layout_height="120dp"
+            tools:ignore="NotSibling">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Here you can add an and view your current health ailments"
+                android:gravity="center"
+                android:textColor="#000"
+                android:textSize="12sp"
+                android:layout_weight="1"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:text="Next"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:textSize="11sp"
+                android:id="@+id/next_qr"
+                android:textColor="#fff"
+                android:background="@drawable/dark_btn"/>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="95dp"
+            android:padding="10dp"
+            android:visibility="invisible"
+            android:id="@+id/noti_help"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="120dp"
+            android:layout_marginTop="65dp"
+            android:background="@drawable/edit2"
+            android:layout_height="120dp"
+            tools:ignore="NotSibling">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Here you can add an and view your current health ailments"
+                android:gravity="center"
+                android:textColor="#000"
+                android:textSize="12sp"
+                android:layout_weight="1"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:text="Next"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:textSize="11sp"
+                android:id="@+id/next_n"
+                android:textColor="#fff"
+                android:background="@drawable/dark_btn"/>
+        </LinearLayout>
+         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="95dp"
+            android:padding="10dp"
+            android:visibility="invisible"
+            android:id="@+id/profile_help"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="65dp"
+            android:background="@drawable/edit2"
+            android:layout_height="120dp"
+            tools:ignore="NotSibling">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Here you can add an and view your current health ailments"
+                android:gravity="center"
+                android:textColor="#000"
+                android:textSize="12sp"
+                android:layout_weight="1"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:text="Next"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:textSize="11sp"
+                android:id="@+id/next_p"
+                android:textColor="#fff"
+                android:background="@drawable/dark_btn"/>
+        </LinearLayout>
+        <Button
+            android:layout_width="90dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:visibility="invisible"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/report_help"
+            android:layout_marginTop="250dp"
+            android:textSize="20sp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/helpedit"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="95dp"
+            android:padding="10dp"
+            android:visibility="invisible"
+            android:id="@+id/report_help2"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="315dp"
+            android:background="@drawable/edit2"
+            android:layout_height="120dp"
+            tools:ignore="NotSibling">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Here you can add an and view your current health ailments"
+                android:gravity="center"
+                android:textColor="#000"
+                android:textSize="12sp"
+                android:layout_weight="1"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:text="Next"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:textSize="11sp"
+                android:id="@+id/next_r"
+                android:textColor="#fff"
+                android:background="@drawable/dark_btn"/>
+        </LinearLayout> <Button
+            android:layout_width="90dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:visibility="invisible"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/pres_help"
+            android:layout_marginTop="480dp"
+            android:textSize="20sp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/helpedit"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="95dp"
+            android:padding="10dp"
+            android:visibility="invisible"
+            android:id="@+id/pres_help2"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="545dp"
+            android:background="@drawable/edit2"
+            android:layout_height="120dp"
+            tools:ignore="NotSibling">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Here you can add an and view your current health ailments"
+                android:gravity="center"
+                android:textColor="#000"
+                android:textSize="12sp"
+                android:layout_weight="1"/>
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:text="Done"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:textSize="11sp"
+                android:id="@+id/next_pres"
+                android:textColor="#fff"
+                android:background="@drawable/dark_btn"/>
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

@@ -36,7 +36,7 @@ Button add_prescription,remove_prescription;
             public void onClick(View view) {
                 dialogShower();
             }
-            
+
         });
         back=(ImageButton)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
