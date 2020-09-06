@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "838283170532",
+    "firebase_url": "https://headth-app.firebaseio.com",
+    "project_id": "headth-app",
+    "storage_bucket": "headth-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838283170532:android:0c92c6bbb413b957ce12f1",
+        "android_client_info": {
+          "package_name": "com.developer.headthapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838283170532-a8633e3igqj6hl2n0a62f5pg63shkc90.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.developer.headthapp",
+            "certificate_hash": "94ef8829b159abeb7f19f54816d818006702bb51"
+          }
+        },
+        {
+          "client_id": "838283170532-pr1vc8l14cidg8796g1h51p7o0c2tbrc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3CgDzDrpoY3gHALvzK6Vgu5HVOCh95K4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838283170532-pr1vc8l14cidg8796g1h51p7o0c2tbrc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

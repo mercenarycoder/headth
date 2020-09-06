@@ -19,7 +19,7 @@
             android:text="Amittab bachan"
             android:layout_weight="0.5"
             android:id="@+id/name"
-            android:textColor="#000"
+            android:textColor="#333333"
             android:textSize="16sp"
             />
         <TextView
@@ -29,7 +29,7 @@
             android:gravity="right"
             android:layout_weight="0.5"
             android:id="@+id/phone"
-            android:textColor="#545454"
+            android:textColor="#333333"
             android:textSize="16sp"
             />
     </LinearLayout>

@@ -41,6 +41,7 @@
             android:background="@drawable/edit_text"
             android:textColor="#9A9A9A"
             android:textSize="13sp"
+            android:id="@+id/title"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:layout_marginBottom="30dp"
@@ -75,9 +76,10 @@
             android:text="Upload Image"
             android:textColor="#EA496F"
             android:textSize="16sp"/>
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="52dp"
+            android:id="@+id/image"
             android:background="@drawable/edit_text"
             android:layout_marginTop="10dp"/>
         <Button
@@ -85,6 +87,7 @@
             android:layout_gravity="right"
             android:layout_height="34dp"
             android:layout_marginTop="20dp"
+            android:id="@+id/choose"
             android:layout_marginBottom="15dp"
             android:background="@drawable/shadow_btn"
             android:text="Add Photo"
@@ -103,6 +106,7 @@
             android:paddingStart="5dp"
             android:background="@drawable/edit_text"
             android:textColor="#9A9A9A"
+            android:id="@+id/doc_name"
             android:textSize="13sp"
             android:layout_marginBottom="10dp"
             android:hint="Name of Reffering Doctor"
@@ -114,6 +118,7 @@
             android:background="@drawable/edit_text"
             android:textColor="#9A9A9A"
             android:textSize="13sp"
+            android:id="@+id/observation"
             android:paddingStart="5dp"
             android:hint="Observation"
             android:layout_marginTop="10dp"/>
@@ -123,6 +128,7 @@
             android:layout_height="34dp"
             android:background="@drawable/shadow_btn"
             android:text="Submit"
+            android:id="@+id/upload"
             android:layout_marginTop="25dp"
             android:textColor="@color/colorPrimary"
             android:textSize="10sp"/>

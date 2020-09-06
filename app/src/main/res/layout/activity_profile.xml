@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_back"
-            android:layout_weight="1"
+            android:layout_weight="1.1"
             android:id="@+id/back"
             android:background="@drawable/main_base_btn"/>
         <TextView
@@ -29,23 +29,23 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginRight="5dp"
+            android:layout_weight="1.1"
+            android:layout_marginRight="0dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_qq"
+            android:src="@drawable/ic_icon"
             android:tint="#000"
             android:background="#fff"/>
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Help"
-            android:layout_weight="1"
+            android:layout_weight="1.1"
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:textSize="12sp"
             android:tint="#000"
             android:textColor="#000"
-            android:src="@drawable/ic_settings"
+            android:src="@drawable/ic_setting_two"
             android:background="#fff"/>
     </LinearLayout>
     <LinearLayout
@@ -55,18 +55,19 @@
         android:layout_marginTop="120dp"
         android:orientation="vertical">
         <TextView
-            android:layout_width="196dp"
-            android:layout_height="31dp"
+            android:layout_width="296dp"
+            android:layout_height="41dp"
             android:text="Rahul Ganjawala"
-            android:textSize="24sp"
+            android:textSize="32sp"
+            android:gravity="center"
             android:textStyle="bold"
             android:textColor="#000"
             />
         <TextView
             android:layout_width="196dp"
             android:layout_height="31dp"
-            android:text="+91 7389438159"
-            android:textSize="16sp"
+            android:text="+917389438159"
+            android:textSize="20sp"
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="#089BAB"
@@ -76,14 +77,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="@drawable/edit_text"
+        android:background="@drawable/main_curve"
         android:layout_marginTop="220dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
@@ -94,15 +95,17 @@
                 android:text="Name"
                 android:layout_weight="0.6"
                 android:textColor="#000"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="DoB"
+                android:text="DOB"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textColor="#000"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 />
             <TextView
@@ -113,6 +116,7 @@
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:textColor="#000"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 />
         </LinearLayout>
@@ -156,7 +160,7 @@
             android:layout_height="0.79dp"
             android:background="#000"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             tools:ignore="Suspicious0dp" />
         <TextView
@@ -167,11 +171,12 @@
             android:layout_marginBottom="0dp"
             android:layout_marginRight="15dp"
             android:textColor="#000"
+            android:textStyle="bold"
             android:textSize="16sp"
             />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="160dp"
             android:id="@+id/emergency"/>
         <TableRow
             android:layout_width="262dp"
@@ -198,6 +203,7 @@
                     android:layout_height="35dp"
                     android:textColor="#EB5757"
                     android:text="Height"
+                    android:textStyle="bold"
                     android:textSize="14sp"
                     android:layout_marginTop="2dp"
                     android:gravity="center"
@@ -222,6 +228,7 @@
                     android:layout_height="35dp"
                     android:textColor="#EB5757"
                     android:text="Weight"
+                    android:textStyle="bold"
                     android:textSize="14sp"
                     android:layout_marginTop="2dp"
                     android:gravity="center"
@@ -247,6 +254,7 @@
                     android:textColor="#EB5757"
                     android:text="Blood Group"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:layout_marginTop="2dp"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -282,6 +290,7 @@
         android:text="Consent Status"
         android:layout_weight="0.5"
         android:textColor="#000"
+        android:textStyle="bold"
         android:textSize="16sp"
         />
     <TextView
@@ -290,7 +299,7 @@
         android:text="Allowed"
         android:gravity="right"
         android:layout_weight="0.5"
-        android:textColor="#545454"
+        android:textColor="#333333"
         android:textSize="16sp"
         />
 </LinearLayout>
@@ -308,15 +317,17 @@
                 android:text="Volunteer Status"
                 android:layout_weight="0.5"
                 android:textColor="#000"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Enrolled"
+
                 android:gravity="right"
                 android:layout_weight="0.5"
-                android:textColor="#545454"
+                android:textColor="#333333"
                 android:textSize="16sp"
                 />
         </LinearLayout>

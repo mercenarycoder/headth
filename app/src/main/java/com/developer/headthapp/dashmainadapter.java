@@ -84,22 +84,6 @@ public class dashmainadapter extends RecyclerView.Adapter<dashmainadapter.viewho
     }
     ProgressDialog progressDialog;
 
-    public static class ProfileUpdate extends AppCompatActivity {
-    Button verify;
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_profile_update);
-            verify=(Button)findViewById(R.id.verify);
-            verify.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(ProfileUpdate.this, Nominations.class);
-                    startActivity(intent);
-                    finish();
-                }
-            });
-        }
-    }
+
 }
 

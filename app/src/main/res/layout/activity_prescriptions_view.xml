@@ -24,14 +24,15 @@
             android:text="Prescription"
             android:layout_weight="1"
             android:textColor="#000"
+            android:textStyle="bold"
             android:gravity="center|left"
-            android:textSize="24sp"/>
+            android:textSize="32sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="90dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -41,7 +42,7 @@
             android:layout_marginLeft="30dp"
             android:textColor="#000"
             android:gravity="center|left"
-            android:textSize="16sp"/>
+            android:textSize="22sp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,22 +52,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Diagnosed By-"
-                android:layout_weight="2.7"
+                android:layout_weight="2.9"
                 android:textColor="#000"
                 android:gravity="center|left"
-                android:textSize="13sp"/>
+                android:textSize="14sp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Dr.Ajaay Verma"
                 android:layout_weight="1"
                 android:id="@+id/dr_name"
+                android:paddingStart="0dp"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center|left"
                 android:textSize="14sp"/>
         </LinearLayout>
         <ImageView
-            android:layout_width="300dp"
+            android:layout_width="350dp"
             android:layout_height="360dp"
             android:src="@drawable/ic_pdf"
             android:padding="15dp"
@@ -85,7 +87,7 @@
                 android:layout_height="40dp"
                 android:text="Share"
                 android:textColor="@color/colorPrimary"
-                android:gravity="center|left"
+                android:gravity="center"
                 android:drawableRight="@drawable/ic_share"
                 android:background="@drawable/mainbtn2"
                 android:textSize="16sp"/>
@@ -95,10 +97,10 @@
                 android:text="Download"
                 android:background="@drawable/mainbtn2"
                 android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
                 android:drawableRight="@drawable/ic_download"
-                android:gravity="center|left"
+                android:gravity="center"
                 android:textSize="16sp"/>
         </LinearLayout>
     </LinearLayout>
@@ -106,6 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:baselineAligned="false"
+        android:layout_marginBottom="50dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -120,9 +123,10 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/ic_arrow"
+            android:tint="@color/colorPrimary"
             android:background="@drawable/main_base_btn"
             android:id="@+id/back_other"
-            android:layout_weight="4.9"/>
+            android:layout_weight="2.8"/>
     </LinearLayout>
 </RelativeLayout>
