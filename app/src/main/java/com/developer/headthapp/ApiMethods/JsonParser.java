@@ -437,7 +437,7 @@ public class JsonParser {
         }
         return null;
     }
-    public String getSupportInfo(String url2, String mobile, String title, String date, Uri image,
+    public String getSupportInfo(String url2, String mobile, String title, String date, String image,
                                  String doctor,String observation)
     {
         HttpURLConnection httpURLConnection = null;
@@ -454,7 +454,7 @@ public class JsonParser {
             params.put("mobile", mobile);
             params.put("title", title);
             params.put("date", date);
-          //  params.put("image", image);
+            params.put("image", image);
             params.put("doctor", doctor);
             params.put("observation", observation); //params.put("status",status);
             StringBuilder builder=new StringBuilder();

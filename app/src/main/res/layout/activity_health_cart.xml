@@ -342,7 +342,7 @@
             android:layout_width="365dp"
             android:layout_height="80dp"
             android:orientation="horizontal"
-            android:layout_marginTop="143dp"
+            android:layout_marginTop="195dp"
             android:layout_marginBottom="4dp"
             android:baselineAligned="false"
             android:layout_marginLeft="20dp"
@@ -680,7 +680,7 @@
             android:visibility="invisible"
             android:layout_alignParentEnd="true"
             android:id="@+id/report_help"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="345dp"
             android:textSize="20sp"
             android:layout_marginRight="15dp"
             android:background="@drawable/helpedit"/>
@@ -692,7 +692,7 @@
             android:id="@+id/report_help2"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="315dp"
+            android:layout_marginTop="415dp"
             android:background="@drawable/edit2"
             android:layout_height="120dp"
             tools:ignore="NotSibling">
@@ -715,7 +715,8 @@
                 android:id="@+id/next_r"
                 android:textColor="#fff"
                 android:background="@drawable/dark_btn"/>
-        </LinearLayout> <Button
+        </LinearLayout>
+        <Button
             android:layout_width="90dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -723,7 +724,7 @@
             android:visibility="invisible"
             android:layout_alignParentEnd="true"
             android:id="@+id/pres_help"
-            android:layout_marginTop="480dp"
+            android:layout_marginTop="576dp"
             android:textSize="20sp"
             android:layout_marginRight="15dp"
             android:background="@drawable/helpedit"/>
@@ -735,9 +736,9 @@
             android:id="@+id/pres_help2"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="15dp"
-            android:layout_marginTop="545dp"
+            android:layout_marginTop="645dp"
             android:background="@drawable/edit2"
-            android:layout_height="120dp"
+            android:layout_height="70dp"
             tools:ignore="NotSibling">
             <TextView
                 android:layout_width="match_parent"

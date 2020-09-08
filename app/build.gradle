@@ -48,4 +48,5 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.0.0'
     implementation 'com.google.android.gms:play-services-vision:11.8.0'
     implementation "com.github.skydoves:balloon:1.1.5"
+    implementation 'net.gotev:uploadservice:2.1'
 }
