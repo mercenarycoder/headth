@@ -454,7 +454,7 @@ public class JsonParser {
             params.put("mobile", mobile);
             params.put("title", title);
             params.put("date", date);
-            params.put("image", image);
+            params.put("image_64", image);
             params.put("doctor", doctor);
             params.put("observation", observation); //params.put("status",status);
             StringBuilder builder=new StringBuilder();
@@ -497,8 +497,8 @@ public class JsonParser {
         return null;
 
     }
-    public String saveCategory(String url2, String mobile, String title, String date, Uri image,
-                               String doctor,String observation)
+    public String saveCategory(String url2, String mobile, String title, String date, String image,
+                               String doctor,String observation,String name)
     {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
@@ -515,9 +515,10 @@ public class JsonParser {
             loginData.put("mobile", mobile);
             loginData.put("title", title);
             loginData.put("date", date);
-            loginData.put("image", image);
+            loginData.put("image_64", image);
             loginData.put("doctor", doctor);
             loginData.put("observation", observation);
+            loginData.put("name", name);
             Log.d("LoginData", "---> " + loginData);
             DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
             wr.writeBytes(loginData.toString());
@@ -1641,58 +1642,44 @@ public class JsonParser {
         }
         return null;
     }
- public String viewOffer(String url, String offer_id)
+ public String viewOffer(String url2, String mobile)
  {
-     HttpURLConnection httpURLConnection = null;
-     try
-     {
+     HttpURLConnection connection = null;
+     BufferedReader reader = null;
 
-         URL url2 = new URL(url);
-
-         httpURLConnection=(HttpURLConnection)url2.openConnection();
+     try {
+         URL url = new URL(url2);
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+         httpURLConnection.setDoOutput(true);
          httpURLConnection.setRequestMethod("POST");
+         httpURLConnection.setRequestProperty("Content-Type", "application/json");
+         httpURLConnection.connect();
 
+         JSONObject loginData = new JSONObject();
+         loginData.put("mobile", mobile);
+         Log.d("LoginData", "---> " + loginData);
+         DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+         wr.writeBytes(loginData.toString());
+         wr.flush();
+         wr.close();
 
-         OutputStream os=httpURLConnection.getOutputStream();
-         BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-         HashMap<String, String> params = new HashMap<>();
-         params.put("offer_id",offer_id);
-         StringBuilder builder=new StringBuilder();
-         boolean first=true;
-         for(Map.Entry<String, String> entry:params.entrySet())
-         {
-             if(first)
-                 first=false;
-             else
-                 builder.append("&");
-             builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-             builder.append("=");
-             builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
+         InputStream stream = httpURLConnection.getInputStream();
+         reader = new BufferedReader(new InputStreamReader(stream));
+
+         StringBuffer buffer = new StringBuffer();
+         String line = "";
+         while ((line = reader.readLine()) != null) {
+             buffer.append(line);
          }
-         String flow=builder.toString();
-         bufferedWriter.write(flow);
-         bufferedWriter.flush();
-         bufferedWriter.close();
-         os.close();
+         String finalJson = buffer.toString();
+         return finalJson;
 
-         String current="";
-         InputStream ir=httpURLConnection.getInputStream();
-         InputStreamReader inputStreamReader = new InputStreamReader(ir);
-         int data = inputStreamReader.read();
-         while (data != -1) {
-             current += (char) data;
-             data = inputStreamReader.read();
-             System.out.print(current);
-         }
-         return current;
-     } catch (Exception e) {
+     } catch (MalformedURLException e) {
          e.printStackTrace();
-     }
-     finally {
-         if(httpURLConnection!=null)
-         {
-             httpURLConnection.disconnect();
-         }
+     } catch (IOException e) {
+         e.printStackTrace();
+     } catch (JSONException e) {
+         e.printStackTrace();
      }
      return null;
  }

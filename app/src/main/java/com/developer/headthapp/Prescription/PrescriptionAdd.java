@@ -6,6 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import android.Manifest;
 import android.app.Activity;
@@ -18,6 +27,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,6 +44,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.ApiService;
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Nominations;
@@ -49,6 +60,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -65,6 +78,7 @@ public class PrescriptionAdd extends AppCompatActivity {
     Button choose,upload;
     TextView date;
     Uri imageuri;
+    ApiService apiService;
     Context context;
     Bitmap img=null;
     FirebaseAuth mauth;
@@ -72,6 +86,13 @@ public class PrescriptionAdd extends AppCompatActivity {
     String titleF,docF,observationF,dateF,imageF="";
     ProgressDialog progressDialog;
     String path="";
+    private void initRetrofitClient() {
+        OkHttpClient client = new OkHttpClient.Builder().build();
+
+        new networkData();
+        apiService = new Retrofit.Builder().baseUrl(networkData.url+"/").client(client).build().create(ApiService.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +102,7 @@ public class PrescriptionAdd extends AppCompatActivity {
         mauth=FirebaseAuth.getInstance();
         context=PrescriptionAdd.this;
         back=(ImageButton)findViewById(R.id.back);
+        initRetrofitClient();
         date=(TextView)findViewById(R.id.date);
         myCalendar=Calendar.getInstance();
         date.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +147,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                dateF=date.getText().toString();
                docF=doc_name.getText().toString();
                observationF=observation.getText().toString();
-               if(path.equals(""))
+               if(imageF.equals(""))
                {
                    Toast.makeText(context,"Choose a image and try again",Toast.LENGTH_SHORT).show();
                    return;
@@ -139,13 +161,8 @@ public class PrescriptionAdd extends AppCompatActivity {
                    }
                    else
                    {
-                       String uploadId= UUID.randomUUID().toString();
-                       new networkData();
-                       String base= networkData.url;
-                       String method=networkData.precription;
-                       String url=base+method;
-                       String number=mauth.getCurrentUser().getPhoneNumber();
-                       number=number.substring(3,number.length()-1);
+
+                       //multipartImageUpload();
                        new uploadPres().execute();
                    }
                }
@@ -157,6 +174,50 @@ public class PrescriptionAdd extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+    private void multipartImageUpload() {
+        try {
+            String uploadId= UUID.randomUUID().toString();
+            File filesDir = getApplicationContext().getFilesDir();
+            File file = new File(filesDir, uploadId + ".jpeg");
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            img.compress(Bitmap.CompressFormat.JPEG, 0, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
+            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "image");
+            Call<ResponseBody> req = apiService.postImage(body, name);
+            req.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                    if (response.code() == 201) {
+                     Toast.makeText(getApplicationContext(),"Image Uploaded successfully",Toast.LENGTH_SHORT).show();
+                    }
+                    Toast.makeText(getApplicationContext(), response.code() + " ", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Request failed", Toast.LENGTH_SHORT).show();
+                    t.printStackTrace();
+                }
+            });
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -174,7 +235,8 @@ public class PrescriptionAdd extends AppCompatActivity {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 img.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
-                imageF= Base64.encodeToString(byteArray,Base64.DEFAULT);
+                imageF= Base64.encodeToString(byteArray,Base64.NO_WRAP);
+                System.out.println("-------------------------------------"+imageF);
                //                Log.d("image ", "doInBackground: "+convertImage);
 
             } catch (IOException e) {
@@ -396,25 +458,10 @@ public class uploadPres extends AsyncTask<String,String,String>
         String method=networkData.precription;
         String url=base+method;
         String number=mauth.getCurrentUser().getPhoneNumber();
-        number=number.substring(3,number.length()-1);
+        number=number.substring(3,number.length());
         String uploadId= UUID.randomUUID().toString();
-//        try {
-//            new MultipartUploadRequest(context, uploadId, url)
-//                    .addFileToUpload(path, "image")
-//                    .addParameter("mobile", number)
-//                    .addParameter("title", titleF)
-//                    .addParameter("date", dateF)
-//                    .addParameter("doctor", docF)
-//                    .addParameter("observation", observationF)
-//                    .setNotificationConfig(new UploadNotificationConfig())
-//                    .setMaxRetries(2)
-//                    .startUpload();
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//         //   new uploadPres().execute();
-//        }
-        String json=new JsonParser().getSupportInfo(url,number,titleF,dateF,path,docF,observationF);
+
+        String json=new JsonParser().saveCategory(url,number,titleF,dateF,imageF,docF,observationF,uploadId);
         return json;
     }
 
@@ -431,7 +478,17 @@ public class uploadPres extends AsyncTask<String,String,String>
                 final String responce2=String.valueOf(jsonObject.get("msg"));
                 if(responce.equals("1"))
                 {
-                    finish();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(responce2)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                                }
+                            });
+                    builder.create();
+                    builder.show();
                 }
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -478,4 +535,5 @@ public class uploadPres extends AsyncTask<String,String,String>
 
     }
 }
+
 }

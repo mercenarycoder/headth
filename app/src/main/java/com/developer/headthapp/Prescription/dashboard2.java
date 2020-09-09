@@ -12,7 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -48,10 +50,21 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context,PrescriptionsView.class);
+                intent.putExtra("title",adapter.getDiesease());
+                intent.putExtra("doctor",adapter.getDoctor());
+                intent.putExtra("observation",adapter.getObservation());
+                intent.putExtra("image",adapter.getImg_url());
+                intent.putExtra("id",adapter.getId());
+                intent.putExtra("date",adapter.getDate());
                 context.startActivity(intent);
                // Toast.makeText(context,"Report Page soon",Toast.LENGTH_SHORT).show();
             }
         });
+        holder.diesease.setText(adapter.getDiesease());
+        String url=new networkData().url.substring(0,new networkData().url.length()-4)+adapter.getImg_url();
+        Picasso.with(context).load(url).placeholder(R.drawable.ic_pdf).into(holder.img);
+        holder.date.setText(adapter.getDate());
+        holder.dr_name.setText(adapter.getDoctor());
     }
     @Override
     public int getItemCount() {

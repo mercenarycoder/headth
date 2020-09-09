@@ -320,12 +320,12 @@ public static void changeVisiblity()
         list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
         list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
         list2=new ArrayList<>();
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
+        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
+        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
+        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
+        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
+        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
+        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
     }
     public void formList2()
     {

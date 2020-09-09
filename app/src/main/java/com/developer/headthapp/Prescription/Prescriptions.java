@@ -4,18 +4,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Prescriptions extends AppCompatActivity {
 RecyclerView previous_pres;
@@ -23,12 +36,14 @@ ArrayList<presClass> list2;
 Context context;
 ImageButton back,filter;
 dashboard2 adapter;
+FirebaseAuth mauth;
+ProgressDialog progressDialog;
 Button add_prescription,remove_prescription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mauth=FirebaseAuth.getInstance();
         setContentView(R.layout.activity_prescriptions);
-        formList();
         context=Prescriptions.this;
         filter=(ImageButton)findViewById(R.id.filter);
         filter.setOnClickListener(new View.OnClickListener() {
@@ -55,10 +70,7 @@ Button add_prescription,remove_prescription;
             }
         });
         previous_pres=(RecyclerView)findViewById(R.id.previous_pres);
-        adapter=new dashboard2(list2,context);
-        previous_pres.setHasFixedSize(true);
-        previous_pres.setLayoutManager(new LinearLayoutManager(context));
-        previous_pres.setAdapter(adapter);
+        new getallPres().execute();
     }
     public void dialogShower()
     {
@@ -75,14 +87,107 @@ Button add_prescription,remove_prescription;
         });
         dialog.show();
     }
-    public void formList()
+
+    public class getallPres extends AsyncTask<String,String,String>
     {
-        list2=new ArrayList<>();
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123"));
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(context);
+            progressDialog.setMessage("Sending information");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            new networkData();
+            String base= networkData.url;
+            String method=networkData.getprescriptions;
+            String url=base+method;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String uploadId= UUID.randomUUID().toString();
+
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            if(null!=result)
+            {
+                try
+                {
+                    list2=new ArrayList<>();
+                    JSONObject jsonObject = new JSONObject(result);
+                    final String responce = String.valueOf(jsonObject.get("status"));
+                   // final String responce2=String.valueOf(jsonObject.get("msg"));
+                    if(responce.equals("1"))
+                    {
+                    JSONArray data=jsonObject.getJSONArray("data");
+                    for(int i=0;i<data.length();i++)
+                    {
+                        JSONObject object = data.getJSONObject(i);
+                        String title=object.getString("title");
+                        String doctor=object.getString("doctor");
+                        String observation=object.getString("observation");
+                        String date=object.getString("date");
+                        String id=object.getString("id");
+                        String image=object.getString("image");
+                        list2.add(new presClass(title,date,doctor,image,id,observation));
+                    }
+                        adapter=new dashboard2(list2,context);
+                        previous_pres.setHasFixedSize(true);
+                        previous_pres.setLayoutManager(new LinearLayoutManager(context));
+                        previous_pres.setAdapter(adapter);
+                     }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage("Some Error in fetching info please swipe to refresh")
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        final String responce2=String.valueOf(jsonObject.get("msg"));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    catch (Exception r)
+                    {
+
+                    }
+                }
+            }
+            //Toast.makeText(signup_Activity.this, "something missing", Toast.LENGTH_SHORT).show();
+            else
+            {
+                Toast.makeText(context,"please check details and try again",Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 }

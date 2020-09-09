@@ -25,7 +25,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
-
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     //check this comment this could be suspicious
     //noinspection GradleCompatible
@@ -49,4 +48,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:11.8.0'
     implementation "com.github.skydoves:balloon:1.1.5"
     implementation 'net.gotev:uploadservice:2.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 }

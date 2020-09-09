@@ -44,7 +44,9 @@
         <activity android:name=".HealthCart" />
         <activity android:name=".Nominations" />
         <activity android:name=".ProfileUpdate" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity" >
+
+        </activity>
         <activity android:name=".LoginUser" />
 
         <meta-data
