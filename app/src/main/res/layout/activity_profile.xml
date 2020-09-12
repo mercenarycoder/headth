@@ -60,6 +60,7 @@
             android:text="Rahul Ganjawala"
             android:textSize="32sp"
             android:gravity="center"
+            android:id="@+id/name_main"
             android:textStyle="bold"
             android:textColor="#000"
             />
@@ -68,6 +69,7 @@
             android:layout_height="31dp"
             android:text="+917389438159"
             android:textSize="20sp"
+            android:id="@+id/phone"
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="#089BAB"
@@ -132,6 +134,7 @@
                 android:layout_height="match_parent"
                 android:text="Rahul Ganjawala"
                 android:layout_weight="0.6"
+                android:id="@+id/name"
                 android:textColor="#333333"
                 android:textSize="13sp"
                 />
@@ -141,6 +144,7 @@
                 android:text="23/02/1900"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:id="@+id/dob"
                 android:textColor="#333333"
                 android:textSize="13sp"
                 />
@@ -150,6 +154,7 @@
                 android:text="120"
                 android:gravity="right"
                 android:layout_marginRight="4dp"
+                android:id="@+id/age"
                 android:layout_weight="1"
                 android:textColor="#333333"
                 android:textSize="13sp"
@@ -215,6 +220,7 @@
                     android:text="180 cm"
                     android:textColor="#000"
                     android:textSize="14sp"
+                    android:id="@+id/height"
                     android:gravity="center"
                     android:layout_gravity="center"/>
             </LinearLayout>
@@ -234,14 +240,16 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     />
+
                 <TextView
                     android:layout_width="60dp"
-                    android:layout_height="20dp"
-                    android:text="100 Kg"
-                    android:textColor="#000"
-                    android:textSize="14sp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_gravity="center"/>
+                    android:text="100 Kg"
+                    android:id="@+id/weight"
+                    android:textColor="#000"
+                    android:textSize="14sp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -265,6 +273,7 @@
                     android:text="B +"
                     android:textColor="#000"
                     android:textSize="14sp"
+                    android:id="@+id/blood"
                     android:gravity="center"
                     android:layout_gravity="center"/>
             </LinearLayout>
@@ -336,6 +345,7 @@
            android:layout_height="40dp"
            android:text="Edit Profile"
            android:textColor="#fff"
+           android:id="@+id/edit_profile"
            android:background="@drawable/btn2"
            android:layout_marginTop="20dp"
            android:layout_marginBottom="20dp"/>

@@ -36,13 +36,15 @@ public class ProfileUpdate extends AppCompatActivity {
     ProgressDialog dialog;
     EditText name,dob,height,weight,blood;
     FirebaseAuth mauth;
-    String nameS,dobS,heightS,weightS,bloodS;
+    String nameS,dobS,heightS,weightS,bloodS,edit="false";
 Calendar myCalendar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=ProfileUpdate.this;
         mauth=FirebaseAuth.getInstance();
+        Intent intent=getIntent();
+        edit=intent.getStringExtra("edit");
         setContentView(R.layout.activity_profile_update);
         name=(EditText)findViewById(R.id.name);
         dob=(EditText)findViewById(R.id.dob);
@@ -51,6 +53,16 @@ Calendar myCalendar;
         weight=(EditText)findViewById(R.id.weight);
         blood=(EditText)findViewById(R.id.blood);
         verify=(Button)findViewById(R.id.verify);
+        if(edit.equals("true"))
+        {
+            nameS=intent.getStringExtra("name");
+            name.setText(nameS);
+            dob.setText(intent.getStringExtra("dob"));
+            height.setText(intent.getStringExtra("height"));
+            weight.setText(intent.getStringExtra("weight"));
+            blood.setText(intent.getStringExtra("blood"));
+
+        }
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +123,14 @@ Calendar myCalendar;
         @Override
         protected String doInBackground(String... strings) {
             JsonParser jsonParser=new JsonParser();
-            String url="http://192.168.1.3:5000/app1/newUser";
+            String url="";
+            if(edit.equals("false")) {
+                url = "http://192.168.1.3:5000/app1/newUser";
+            }
+            else
+            {
+                url=new networkData().url+new networkData().profileUpdate;
+            }
             String number=mauth.getCurrentUser().getPhoneNumber();
             number=number.substring(3,number.length());
             String json=jsonParser.signingIn(url,nameS,number,heightS,weightS,bloodS,dobS);
@@ -135,6 +154,14 @@ Calendar myCalendar;
                     if(responce.equals("1"))
                     {
                         Intent intent=new Intent(ProfileUpdate.this, Nominations.class);
+                        if(edit.equals("true"))
+                        {
+                            intent.putExtra("edit","true");
+                        }
+                        else
+                        {
+                            intent.putExtra("edit","false");
+                        }
                         startActivity(intent);
                         finish();
                     }

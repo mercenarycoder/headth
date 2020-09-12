@@ -5,8 +5,12 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.FragmentMains.DiseaseFragment;
 import com.developer.headthapp.FragmentMains.FragmentAllergies;
 import com.developer.headthapp.FragmentMains.FragmentHistiry;
@@ -26,12 +32,18 @@ import com.developer.headthapp.Prescription.presClass;
 import com.developer.headthapp.Qr.QRone;
 import com.developer.headthapp.Report.ReportActivity;
 import com.google.android.gms.vision.text.Line;
+import com.google.firebase.auth.FirebaseAuth;
 import com.skydoves.balloon.ArrowOrientation;
 import com.skydoves.balloon.Balloon;
 import com.skydoves.balloon.BalloonAnimation;
 import com.skydoves.balloon.OnBalloonClickListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class HealthCart extends AppCompatActivity {
 RecyclerView recycler_report,recycler_pres;
@@ -43,6 +55,8 @@ ArrayList<presClass>  list2;
 ArrayList<typeClass> dis,med,all,his;
 Context context;
 Button open_profile;
+FirebaseAuth mauth;
+ProgressDialog progressDialog;
 static FrameLayout layout_changer;
 ImageButton open_notification,qr_act;
 LinearLayout disease,medicine,allergies,history,help_layout,disease_help,medicine_hep,allergies_help,history_help,qr_help;
@@ -59,6 +73,8 @@ public static void changeVisiblity()
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context=HealthCart.this;
+        mauth=FirebaseAuth.getInstance();
         setContentView(R.layout.activity_health_cart);
         formList();
         formList2();
@@ -225,10 +241,6 @@ public static void changeVisiblity()
         });
         //
         recycler_pres=(RecyclerView)findViewById(R.id.recycler_pres);
-        adapter2=new dashboard2(list2,context);
-        recycler_pres.setHasFixedSize(true);
-        recycler_pres.setLayoutManager(new LinearLayoutManager(context));
-        recycler_pres.setAdapter(adapter2);
 
         open_profile=(Button)findViewById(R.id.open_profile);
         open_notification=(ImageButton)findViewById(R.id.open_notification);
@@ -261,6 +273,7 @@ public static void changeVisiblity()
                 startActivity(intent);
             }
         });
+        new getallPres().execute();
     }
     public void initiaLize()
     {
@@ -319,13 +332,7 @@ public static void changeVisiblity()
         list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
         list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
         list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
-        list2=new ArrayList<>();
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
-        list2.add(new presClass("Black Death","03/08/20","Dr. Manjeet Singh"," ","123",""));
+
     }
     public void formList2()
     {
@@ -353,5 +360,107 @@ public static void changeVisiblity()
         his.add(new typeClass("Admitted","history"," For Asthamatic Attack Last Month","",""));
         his.add(new typeClass("Admitted","history"," For Asthamatic Attack Last Month","",""));
         his.add(new typeClass("Admitted","history"," For Asthamatic Attack Last Month","",""));
+    }
+    public class getallPres extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(context);
+            progressDialog.setMessage("Sending information");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            new networkData();
+            String base= networkData.url;
+            String method=networkData.gettoppres;
+            String url=base+method;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String uploadId= UUID.randomUUID().toString();
+
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            if(null!=result)
+            {
+                try
+                {
+                    list2=new ArrayList<>();
+                    JSONObject jsonObject = new JSONObject(result);
+                    final String responce = String.valueOf(jsonObject.get("status"));
+                    // final String responce2=String.valueOf(jsonObject.get("msg"));
+                    if(responce.equals("1"))
+                    {
+                        JSONArray data=jsonObject.getJSONArray("data");
+                        for(int i=0;i<data.length();i++)
+                        {
+                            JSONObject object = data.getJSONObject(i);
+                            String title=object.getString("title");
+                            String doctor=object.getString("doctor");
+                            String observation=object.getString("observation");
+                            String date=object.getString("date");
+                            String id=object.getString("id");
+                            String image=object.getString("image");
+                            list2.add(new presClass(title,date,doctor,image,id,observation));
+                        }
+                        adapter2=new dashboard2(list2,context);
+                        recycler_pres.setHasFixedSize(true);
+                        recycler_pres.setLayoutManager(new LinearLayoutManager(context));
+                        recycler_pres.setAdapter(adapter2);
+                    }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage("Some Error in fetching info please swipe to refresh")
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        final String responce2=String.valueOf(jsonObject.get("msg"));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    catch (Exception r)
+                    {
+
+                    }
+                }
+            }
+            //Toast.makeText(signup_Activity.this, "something missing", Toast.LENGTH_SHORT).show();
+            else
+            {
+                Toast.makeText(context,"please check details and try again",Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 }

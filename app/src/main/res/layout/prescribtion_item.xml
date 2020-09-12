@@ -69,11 +69,12 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/ic_arrow"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:textSize="12sp"
+            android:tint="#089BAB"
             android:textColor="#089BAB"
             android:background="#fff"/>
     </LinearLayout>

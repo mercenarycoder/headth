@@ -44,7 +44,8 @@ public class emergencyAdapter extends RecyclerView.Adapter<emergencyAdapter.view
     @Override
     public void onBindViewHolder(@NonNull final viewholder1 holder, final int position) {
         final emergencyClass adapter=list.get(position);
-
+        holder.name.setText(adapter.getName());
+        holder.phone.setText(adapter.getPhone());
     }
     @Override
     public int getItemCount() {
