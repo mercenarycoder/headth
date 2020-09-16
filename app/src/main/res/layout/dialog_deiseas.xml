@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="344dp"
     android:orientation="vertical"
-    android:layout_height="190dp">
+    android:layout_height="260dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Name *"
+            android:text="Dieseas"
             android:textColor="#000"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -27,6 +27,32 @@
             android:src="@drawable/ic_close"
             />
     </LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="311dp"
+        android:layout_marginTop="4dp"
+        android:layout_height="68dp"
+        android:layout_gravity="center"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:hint="Name"
+            android:id="@+id/name"
+            android:background="@drawable/updater"
+            android:layout_width="311dp"
+            android:layout_height="38dp"
+            android:height="0dp"
+            android:inputType="text"
+            android:textColorLink="#6C6B6B"
+            android:textCursorDrawable="@color/graycolor"
+            android:layout_marginTop="0dp"
+            android:textColorHint="#6C6B6B"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            android:paddingStart="5dp"
+            android:maxLines="1"
+            android:gravity="center|left"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="311dp"
         android:layout_marginTop="4dp"
@@ -59,6 +85,7 @@
         android:background="@drawable/bootstrap_primary"
         android:text="Add"
         android:layout_gravity="center"
+        android:id="@+id/add_d"
         android:textSize="12sp"
         android:layout_marginTop="10dp"
         android:textColor="#41b5c1"/>

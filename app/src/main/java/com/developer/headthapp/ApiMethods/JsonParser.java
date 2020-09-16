@@ -810,838 +810,8 @@ public class JsonParser {
       }
       return null;
   }
-    public String acceptingOrderFinally(String url, String appointment_id, String status)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-            URL url2 = new URL(url);
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
 
 
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("appointment_id",appointment_id);
-            params.put("status",status);
-            //params.put("description",decription);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-
-    }
-    public String changingProduct(String url, String staff_id, String service_id, String status)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-            URL url2 = new URL(url);
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("service_id",service_id);
-            params.put("staff_id",staff_id);
-            params.put("status",status);
-            //params.put("description",decription);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-
-    }
-    public String updateSlots(String url, String slot_id, String day_name, String start_time, String end_time,
-                              String status, String max_appointment)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-            URL url2 = new URL(url);
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            //params.put("service_id",service_id);
-            params.put("slot_id",slot_id);
-            params.put("day_name",day_name);
-            params.put("start_time",start_time);
-            params.put("end_time",end_time);
-            //params.put("day_repeate",day_repeate);
-            params.put("max_appointment",max_appointment);
-            params.put("status",status);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-    }
-    public String getServices(String url, String product_id)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-            URL url2 = new URL(url);
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            //params.put("service_id",service_id);
-            params.put("category_id",product_id);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-    }
-    public String updateSettings(String url, String cmp_id, String name, String cmp_city,
-                                 String email, String gstin, String nature, String pan, String state,
-                                 String account_name, String account_number, String bank_ifsc_code, String address,
-                                 String number, String tnc,
-                                 String bus_cat, String bus_status, String service_id, String img,
-                                 String doc, String latitude, String longitude, String areas)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-
-            URL url2 = new URL(url);
-
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("cmp_id",cmp_id);
-
-            params.put("cmp_name",name);
-            params.put("city_name",cmp_city);
-            params.put("logo",img);
-            params.put("email",email);
-            params.put("gstin","GST");
-            params.put("nature_of_busniess",nature);
-            params.put("pan",pan);
-            params.put("state",state);
-            params.put("account_name",account_name);
-            params.put("account_number",account_number);
-            params.put("bank_ifsc_code",bank_ifsc_code);
-            params.put("address",address);
-            params.put("contact_no",number);
-            params.put("term_condition",tnc);
-            params.put("business_status",bus_status);
-            params.put("business_category",bus_cat);
-            params.put("service_at",service_id);
-            params.put("business_doc_upload",doc);
-            if(!latitude.equals("empty")) {
-                params.put("longitude", longitude);
-                params.put("latitude", latitude);
-            }
-            params.put("localitybycity",areas);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-    }
-    public String updateServices2(String url, String prod_id, String name, String rate, String description,
-                                  String image, String hsn_id, String cat_id, String status)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-
-            URL url2 = new URL(url);
-
-
-
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setDoOutput(true);
-            httpURLConnection.setRequestMethod("POST");
-            httpURLConnection.setRequestProperty("Content-Type", "application/json");
-            //httpURLConnection.connect();
-
-
-            JSONObject params = new JSONObject();
-            params.put("product_id",prod_id);
-            params.put("name",name);
-            params.put("category_id",cat_id);
-            params.put("rate",rate);
-            params.put("status",status);
-            params.put("description",description);
-            //img.compress()
-            params.put("photo",image);
-            params.put("hsn_id",hsn_id);
-
-            Log.d("LoginData", "---> " + params);
-
-            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-            wr.writeBytes(params.toString());
-            wr.flush();
-            wr.close();
-
-/*
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String,String> params = new HashMap<>();
-            params.put("product_id",prod_id);
-            params.put("name",name);
-            params.put("category_id",cat_id);
-            params.put("rate",rate);
-            params.put("status",status);
-            params.put("description",description);
-            //img.compress()
-            params.put("photo",image);
-            params.put("hsn_id",hsn_id);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String,String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-*/
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-
-    }
-    public String updateServices(String url, String prod_id, String name, String rate, String description,
-                                 String image, String hsn_id, String cat_id, String status, String unit_id, String pp, String old_mrp
-    , String barcode)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-
-            URL url2 = new URL(url);
-
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("product_id",prod_id);
-            params.put("name",name);
-            params.put("category_id",cat_id);
-            params.put("rate",rate);
-            params.put("status",status);
-            params.put("description",description);
-            //img.compress()
-            params.put("photo",image);
-            params.put("hsn_id",hsn_id);
-            params.put("pp",pp);
-            params.put("old_mrp",old_mrp);
-            params.put("unit_id",unit_id);
-            params.put("barcode",barcode);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-              //  System.out.print(current);
-            }
-            System.out.println(current);
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-    }
-    public String getProduct(String url, String prod_id)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-
-            URL url2 = new URL(url);
-
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("product_id",prod_id);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-            //    System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-
-    }
-    public String getcityState(String url, String state_id)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-
-            URL url2 = new URL(url);
-
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("state_id",state_id);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                //    System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-
-    }
-    public String updateCategory(String url, String category_id, String name, String position, String status, String image)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-
-            URL url2 = new URL(url);
-
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("category_id",category_id);
-            params.put("name",name);
-            params.put("position",position);
-            params.put("status",status);
-            params.put("image",image);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-
-    }
-    public String addSlots(String url, String staff_id, String day_name, String start_time, String end_time,
-                           String max_appointment)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-
-            URL url2 = new URL(url);
-
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("staff_id",staff_id);
-            params.put("day_name",day_name);
-            params.put("start_time",start_time);
-            params.put("end_time",end_time);
-            params.put("max_appointment",max_appointment);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-
-    }
-    public String getOffers(String url, String staff_id, String code, String status)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-
-            URL url2 = new URL(url);
-
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("staff_id",staff_id);
-            params.put("code",code);
-            params.put("status",status);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-    }
-    public String add_offer(String url, String code, String name, String uses, String max_uses, String amount
-     , String percentage, String min_sell, String description, String type, String fixed, String start_date,
-                            String end_date, String image, String staff_id)
-    {
-        HttpURLConnection httpURLConnection = null;
-        try
-        {
-
-            URL url2 = new URL(url);
-
-            httpURLConnection=(HttpURLConnection)url2.openConnection();
-            httpURLConnection.setRequestMethod("POST");
-
-
-            OutputStream os=httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-            HashMap<String, String> params = new HashMap<>();
-            params.put("staff_id",staff_id);
-            params.put("offer_code",code);
-            params.put("offer_name",name);
-            params.put("offer_uses",uses);
-            params.put("offer_max_uses_user",max_uses);
-            params.put("offer_type",type);
-            params.put("offer_amount",amount);
-            params.put("offer_percentage",percentage);
-            params.put("offer_fixed",fixed);
-            params.put("offer_min_selling_price",min_sell);
-            params.put("offer_start_date",start_date);
-            params.put("offer_close_date",end_date);
-            params.put("offer_discription",description);
-            params.put("offer_image",image);
-            //params.put("status",status);
-            StringBuilder builder=new StringBuilder();
-            boolean first=true;
-            for(Map.Entry<String, String> entry:params.entrySet())
-            {
-                if(first)
-                    first=false;
-                else
-                    builder.append("&");
-                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-                builder.append("=");
-                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-            }
-            String flow=builder.toString();
-            bufferedWriter.write(flow);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-            os.close();
-
-            String current="";
-            InputStream ir=httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(ir);
-            int data = inputStreamReader.read();
-            while (data != -1) {
-                current += (char) data;
-                data = inputStreamReader.read();
-                System.out.print(current);
-            }
-            return current;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            if(httpURLConnection!=null)
-            {
-                httpURLConnection.disconnect();
-            }
-        }
-        return null;
-    }
  public String viewOffer(String url2, String mobile)
  {
      HttpURLConnection connection = null;
@@ -1680,196 +850,6 @@ public class JsonParser {
          e.printStackTrace();
      } catch (JSONException e) {
          e.printStackTrace();
-     }
-     return null;
- }
- public String updateOffer(String url, String code, String name, String uses, String max_uses, String amount
-         , String percentage, String min_sell, String description, String type, String fixed, String start_date,
-                           String end_date, String image, String status, String offer_id)
- {
-     HttpURLConnection httpURLConnection = null;
-     try
-     {
-
-         URL url2 = new URL(url);
-
-         httpURLConnection=(HttpURLConnection)url2.openConnection();
-         httpURLConnection.setRequestMethod("POST");
-
-
-         OutputStream os=httpURLConnection.getOutputStream();
-         BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-         HashMap<String, String> params = new HashMap<>();
-         params.put("offer_id",offer_id);
-         params.put("offer_code",code);
-         params.put("offer_name",name);
-         params.put("offer_uses",uses);
-         params.put("offer_max_uses_user",max_uses);
-         params.put("offer_type",type);
-         params.put("offer_amount",amount);
-         params.put("offer_percentage",percentage);
-         params.put("offer_fixed",fixed);
-         params.put("offer_min_selling_price",min_sell);
-         params.put("offer_start_date",start_date);
-         params.put("status",status);
-         params.put("offer_close_date",end_date);
-         params.put("offer_discription",description);
-         params.put("offer_image",image);
-         //params.put("status",status);
-         StringBuilder builder=new StringBuilder();
-         boolean first=true;
-         for(Map.Entry<String, String> entry:params.entrySet())
-         {
-             if(first)
-                 first=false;
-             else
-                 builder.append("&");
-             builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-             builder.append("=");
-             builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-         }
-         String flow=builder.toString();
-         bufferedWriter.write(flow);
-         bufferedWriter.flush();
-         bufferedWriter.close();
-         os.close();
-
-         String current="";
-         InputStream ir=httpURLConnection.getInputStream();
-         InputStreamReader inputStreamReader = new InputStreamReader(ir);
-         int data = inputStreamReader.read();
-         while (data != -1) {
-             current += (char) data;
-             data = inputStreamReader.read();
-             System.out.print(current);
-         }
-         return current;
-     } catch (Exception e) {
-         e.printStackTrace();
-     }
-     finally {
-         if(httpURLConnection!=null)
-         {
-             httpURLConnection.disconnect();
-         }
-     }
-     return null;
- }
- public String notifications(String url, String staff_id)
- {
-     HttpURLConnection httpURLConnection = null;
-     try
-     {
-
-         URL url2 = new URL(url);
-
-         httpURLConnection=(HttpURLConnection)url2.openConnection();
-         httpURLConnection.setRequestMethod("POST");
-
-
-         OutputStream os=httpURLConnection.getOutputStream();
-         BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-         HashMap<String, String> params = new HashMap<>();
-         params.put("staff_id",staff_id);
-         StringBuilder builder=new StringBuilder();
-         boolean first=true;
-         for(Map.Entry<String, String> entry:params.entrySet())
-         {
-             if(first)
-                 first=false;
-             else
-                 builder.append("&");
-             builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-             builder.append("=");
-             builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-         }
-         String flow=builder.toString();
-         bufferedWriter.write(flow);
-         bufferedWriter.flush();
-         bufferedWriter.close();
-         os.close();
-
-         String current="";
-         InputStream ir=httpURLConnection.getInputStream();
-         InputStreamReader inputStreamReader = new InputStreamReader(ir);
-         int data = inputStreamReader.read();
-         while (data != -1) {
-             current += (char) data;
-             data = inputStreamReader.read();
-             System.out.print(current);
-         }
-         return current;
-     } catch (Exception e) {
-         e.printStackTrace();
-     }
-     finally {
-         if(httpURLConnection!=null)
-         {
-             httpURLConnection.disconnect();
-         }
-     }
-     return null;
- }
- public String placeAuto(String url, String cmp_id, String place_id, String lat, String lng, String country, String google
- , String business_name, String address, String city_name, String postal_code)
- {
-     HttpURLConnection httpURLConnection = null;
-     try
-     {
-         URL url2 = new URL(url);
-         httpURLConnection=(HttpURLConnection)url2.openConnection();
-         httpURLConnection.setRequestMethod("POST");
-
-
-         OutputStream os=httpURLConnection.getOutputStream();
-         BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
-         HashMap<String, String> params = new HashMap<>();
-         params.put("cmp_id",cmp_id);
-         params.put("place_id",place_id);
-         params.put("latitude",lat);
-         params.put("longitude",lng);
-         params.put("country","India");
-         params.put("city_name",city_name);
-         params.put("postalcode",postal_code);
-         params.put("address",address);
-         params.put("business_name",business_name);
-         params.put("google_map_url",google);
-         StringBuilder builder=new StringBuilder();
-         boolean first=true;
-         for(Map.Entry<String, String> entry:params.entrySet())
-         {
-             if(first)
-                 first=false;
-             else
-                 builder.append("&");
-             builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
-             builder.append("=");
-             builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
-         }
-         String flow=builder.toString();
-         bufferedWriter.write(flow);
-         bufferedWriter.flush();
-         bufferedWriter.close();
-         os.close();
-
-         String current="";
-         InputStream ir=httpURLConnection.getInputStream();
-         InputStreamReader inputStreamReader = new InputStreamReader(ir);
-         int data = inputStreamReader.read();
-         while (data != -1) {
-             current += (char) data;
-             data = inputStreamReader.read();
-             System.out.print(current);
-         }
-         return current;
-     } catch (Exception e) {
-         e.printStackTrace();
-     }
-     finally {
-         if(httpURLConnection!=null)
-         {
-             httpURLConnection.disconnect();
-         }
      }
      return null;
  }
@@ -2014,4 +994,178 @@ public class JsonParser {
      }
      return null;
  }
+ public String addDieseas(String url2,String mobile,String name,String details)
+ {
+     HttpURLConnection connection = null;
+     BufferedReader reader = null;
+
+     try {
+         URL url = new URL(url2);
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+         httpURLConnection.setDoOutput(true);
+         httpURLConnection.setRequestMethod("POST");
+         httpURLConnection.setRequestProperty("Content-Type", "application/json");
+         httpURLConnection.connect();
+
+         JSONObject loginData = new JSONObject();
+         loginData.put("mobile", mobile);
+         loginData.put("name",name);
+         loginData.put("details",details);
+         Log.d("LoginData", "---> " + loginData);
+         DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+         wr.writeBytes(loginData.toString());
+         wr.flush();
+         wr.close();
+
+         InputStream stream = httpURLConnection.getInputStream();
+         reader = new BufferedReader(new InputStreamReader(stream));
+
+         StringBuffer buffer = new StringBuffer();
+         String line = "";
+         while ((line = reader.readLine()) != null) {
+             buffer.append(line);
+         }
+         String finalJson = buffer.toString();
+         return finalJson;
+
+     } catch (MalformedURLException e) {
+         e.printStackTrace();
+     } catch (IOException e) {
+         e.printStackTrace();
+     } catch (JSONException e) {
+         e.printStackTrace();
+     }
+     return null;
+ }
+ public String addAllergy(String url2,String mobile,String allergy,String triggers)
+ {
+     HttpURLConnection connection = null;
+     BufferedReader reader = null;
+
+     try {
+         URL url = new URL(url2);
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+         httpURLConnection.setDoOutput(true);
+         httpURLConnection.setRequestMethod("POST");
+         httpURLConnection.setRequestProperty("Content-Type", "application/json");
+         httpURLConnection.connect();
+
+         JSONObject loginData = new JSONObject();
+         loginData.put("mobile", mobile);
+         loginData.put("allergy",allergy);
+         loginData.put("triggers",triggers);
+         Log.d("LoginData", "---> " + loginData);
+         DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+         wr.writeBytes(loginData.toString());
+         wr.flush();
+         wr.close();
+
+         InputStream stream = httpURLConnection.getInputStream();
+         reader = new BufferedReader(new InputStreamReader(stream));
+
+         StringBuffer buffer = new StringBuffer();
+         String line = "";
+         while ((line = reader.readLine()) != null) {
+             buffer.append(line);
+         }
+         String finalJson = buffer.toString();
+         return finalJson;
+
+     } catch (MalformedURLException e) {
+         e.printStackTrace();
+     } catch (IOException e) {
+         e.printStackTrace();
+     } catch (JSONException e) {
+         e.printStackTrace();
+     }
+     return null;
+ }
+    public String addHistory(String url2,String mobile,String title,String description)
+    {
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+
+        try {
+            URL url = new URL(url2);
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
+            httpURLConnection.connect();
+
+            JSONObject loginData = new JSONObject();
+            loginData.put("mobile", mobile);
+            loginData.put("title",title);
+            loginData.put("description",description);
+            Log.d("LoginData", "---> " + loginData);
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes(loginData.toString());
+            wr.flush();
+            wr.close();
+
+            InputStream stream = httpURLConnection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            String finalJson = buffer.toString();
+            return finalJson;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String addMedicine(String url2,String mobile,String name,String purpose,String duration,String dosage)
+    {
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+
+        try {
+            URL url = new URL(url2);
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
+            httpURLConnection.connect();
+
+            JSONObject loginData = new JSONObject();
+            loginData.put("mobile", mobile);
+            loginData.put("name",name);
+            loginData.put("purpose",purpose);
+            loginData.put("duration",duration);
+            loginData.put("dosage",dosage);
+            Log.d("LoginData", "---> " + loginData);
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes(loginData.toString());
+            wr.flush();
+            wr.close();
+
+            InputStream stream = httpURLConnection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            String finalJson = buffer.toString();
+            return finalJson;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

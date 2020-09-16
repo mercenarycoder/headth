@@ -12,4 +12,9 @@ public class networkData {
     public static String singleemergency="/singleEmergency";
     public static String updateemergency="/updateEmergency";
     public static String gettoppres="/frontpres";
+    public static String allergyAdd="/allergyAdd";
+    public static String dieseasAdd="/dieseasAdd";
+    public static String historyAdd="/historyAdd";
+    public static String medicineAdd="/medicineAdd";
+    public static String getDieseas="/getDieseas";
 }

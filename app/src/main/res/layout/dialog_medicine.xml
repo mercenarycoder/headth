@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="344dp"
     android:orientation="vertical"
-    android:layout_height="250dp">
+    android:layout_height="330dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Name *"
+            android:text="Medicine *"
             android:textColor="#000"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -34,8 +34,34 @@
         android:layout_gravity="center"
         >
         <com.google.android.material.textfield.TextInputEditText
-            android:hint="Purpose"
+            android:hint="Name"
             android:id="@+id/name"
+            android:background="@drawable/updater"
+            android:layout_width="311dp"
+            android:layout_height="38dp"
+            android:height="0dp"
+            android:inputType="text"
+            android:textColorLink="#6C6B6B"
+            android:textCursorDrawable="@color/graycolor"
+            android:layout_marginTop="0dp"
+            android:textColorHint="#6C6B6B"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            android:paddingStart="5dp"
+            android:maxLines="1"
+            android:gravity="center|left"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="311dp"
+        android:layout_marginTop="4dp"
+        android:layout_height="68dp"
+        android:layout_gravity="center"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:hint="Purpose"
+            android:id="@+id/purpose"
             android:background="@drawable/updater"
             android:layout_width="311dp"
             android:layout_height="38dp"
@@ -68,13 +94,13 @@
             android:layout_marginRight="6dp"
             >
             <com.google.android.material.textfield.TextInputEditText
-                android:hint="Duration"
+                android:hint="Duration(in months)"
                 android:id="@+id/duration"
                 android:background="@drawable/updater"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:height="0dp"
-                android:inputType="text"
+                android:inputType="number"
                 android:textColorLink="#6C6B6B"
                 android:textCursorDrawable="@color/graycolor"
                 android:layout_marginTop="0dp"
@@ -94,13 +120,13 @@
             android:layout_marginRight="6dp"
             >
             <com.google.android.material.textfield.TextInputEditText
-                android:hint="Dosage"
+                android:hint="Dosage(pills per day)"
                 android:id="@+id/dosage"
                 android:background="@drawable/updater"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:height="0dp"
-                android:inputType="text"
+                android:inputType="number"
                 android:textColorLink="#6C6B6B"
                 android:textCursorDrawable="@color/graycolor"
                 android:layout_marginTop="0dp"
@@ -120,6 +146,7 @@
         android:background="@drawable/bootstrap_primary"
         android:text="Add"
         android:layout_gravity="center"
+        android:id="@+id/add"
         android:textSize="12sp"
         android:layout_marginTop="10dp"
         android:textColor="#41b5c1"/>
