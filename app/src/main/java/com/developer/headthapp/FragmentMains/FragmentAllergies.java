@@ -13,6 +13,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -23,6 +25,7 @@ import com.developer.headthapp.R;
 import com.developer.headthapp.typeClass;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -44,12 +47,14 @@ public class FragmentAllergies extends Fragment
     Button add,remove;
     FirebaseAuth mauth=FirebaseAuth.getInstance();
     ImageButton close_btn;
+    ProgressBar progress;
+    TextView sabchanga;
     String allergiesF,triggersF;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     context=getContext();
-    formList();
+    //formList();
     }
 
     @Nullable
@@ -59,8 +64,9 @@ public class FragmentAllergies extends Fragment
         View view = inflater.inflate(R.layout.allergies_fragment, container, false);
         alles=(RecyclerView)view.findViewById(R.id.alles);
         refresh_alles=(SwipeRefreshLayout)view.findViewById(R.id.refresh_alles);
-        adapter=new dialogRecyler(list,context);
         add=(Button)view.findViewById(R.id.add);
+        progress=(ProgressBar)view.findViewById(R.id.progress);
+        sabchanga=(TextView)view.findViewById(R.id.sabchanga);
         remove=(Button)view.findViewById(R.id.remove);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +74,6 @@ public class FragmentAllergies extends Fragment
                 dialogShower();
             }
         });
-        alles.setLayoutManager(new LinearLayoutManager(context));
-        alles.setHasFixedSize(true);
-        alles.setAdapter(adapter);
         refresh_alles.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -85,6 +88,7 @@ public class FragmentAllergies extends Fragment
                 HealthCart.changeVisiblity();
             }
         });
+        new getDieseas().execute();
         return view;
     }
     Dialog dialog;
@@ -167,12 +171,70 @@ public class FragmentAllergies extends Fragment
             }
         }
     }
-    public void formList()
+    public class getDieseas extends AsyncTask<String,String,String>
     {
-        list=new ArrayList<>();
-        list.add(new typeClass("Urticeria","allergies","Triggers - Body Heat","",""));
-        list.add(new typeClass("Urticeria","allergies","Triggers - Body Heat","",""));
-        list.add(new typeClass("Urticeria","allergies","Triggers - Body Heat","",""));
-        list.add(new typeClass("Urticeria","allergies","Triggers - Body Heat","",""));
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().getAllergy;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progress.setVisibility(View.INVISIBLE);
+            if(s!=null)
+            {
+                try{
+                    JSONObject object = new JSONObject(s);
+                    String status=object.getString("status");
+                    if(status.equals("1"))
+                    {
+                        list=new ArrayList<>();
+                        JSONArray array=object.getJSONArray("data");
+                        if(array.length()>0) {
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject object1 = array.getJSONObject(i);
+                                String name = object1.getString("allergy");
+                                String id = object1.getString("id");
+                                String details = object1.getString("triggers");
+                                list.add(new typeClass(name, "allergies", details, "", "",id));
+                            }
+                            adapter = new dialogRecyler(list, context);
+                            alles.setLayoutManager(new LinearLayoutManager(context));
+                            alles.setHasFixedSize(true);
+                            alles.setAdapter(adapter);
+                        }
+                        else
+                        {
+                            sabchanga.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Some error in request",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    sabchanga.setVisibility(View.VISIBLE);
+                }
+            }
+            else
+            {
+
+            }
+        }
     }
+
 }

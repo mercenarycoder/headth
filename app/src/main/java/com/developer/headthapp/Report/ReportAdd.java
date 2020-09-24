@@ -1,31 +1,73 @@
 package com.developer.headthapp.Report;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.FragmentMains.DiseaseFragment;
 import com.developer.headthapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.UUID;
 
 public class ReportAdd extends AppCompatActivity {
 ImageButton back;
-TextView date;
+TextView date,pdf;
+EditText title,observer,detail;
+private static final int STORAGE_PERMISSION_CODE = 123;
+private static final int PICK_IMAGE_REQUEST = 1;
+Button choose,submit;
 Calendar myCalendar;
+ProgressDialog progressDialog;
+FirebaseAuth mauth=FirebaseAuth.getInstance();
+String titleF,observerF,dateF,detailF,typeF,base65;
+Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context=ReportAdd.this;
         setContentView(R.layout.activity_report_add);
         back=(ImageButton)findViewById(R.id.back);
         date=(TextView)findViewById(R.id.date);
         myCalendar=Calendar.getInstance();
+        choose=(Button)findViewById(R.id.choose);
+        submit=(Button)findViewById(R.id.submit);
+        title=(EditText)findViewById(R.id.title);
+        observer=(EditText)findViewById(R.id.observer);
+        detail=(EditText)findViewById(R.id.detail);
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,11 +90,279 @@ Calendar myCalendar;
                         myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        choose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               dialogShower();
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             titleF=title.getText().toString();
+             observerF=observer.getText().toString();
+             dateF=date.getText().toString();
+             detailF=detail.getText().toString();
+             if(titleF.isEmpty())
+             {
+                 Toast.makeText(context,"title cannot be empty",Toast.LENGTH_SHORT).show();
+                 return;
+             }
+             else if(observerF.isEmpty())
+             {
+                 Toast.makeText(context,"Observer cannot be empty",Toast.LENGTH_SHORT).show();
+                 return;
+             }
+             else if(detailF.isEmpty())
+             {
+                 Toast.makeText(context,"Detail cannot be empty",Toast.LENGTH_SHORT).show();
+                 return;
+             }
+             else if(dateF.isEmpty()||dateF.contains("date"))
+             {
+                 Toast.makeText(context,"Date cannot be empty",Toast.LENGTH_SHORT).show();
+                 return;
+             }
+             else if(base65.isEmpty())
+             {
+                 Toast.makeText(context,"Document cannot be empty",Toast.LENGTH_SHORT).show();
+                 return;
+             }
+             else
+             {
+                 new submitReport().execute();
+             }
+            }
+        });
+    }
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+    private void openPdfChooser()
+    {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+
+        try {
+            startActivityForResult(Intent.createChooser(intent, "Select Your .pdf File"), STORAGE_PERMISSION_CODE);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(ReportAdd.this, "Please Install a File Manager",Toast.LENGTH_SHORT).show();
+        }
+    }
+    Dialog dialog;
+    public void dialogShower()
+    {
+        dialog=new Dialog(context, 0);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_choice);
+        ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
+        TextView image=(TextView)dialog.findViewById(R.id.image);
+        TextView pdf=(TextView)dialog.findViewById(R.id.pdf);
+        TextView camera=(TextView)dialog.findViewById(R.id.camera);
+        close_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFileChooser();
+                dialog.dismiss();
+            }
+        });
+        pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             openPdfChooser();
+             dialog.dismiss();
+            }
+        });
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        dialog.show();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(context, "here", Toast.LENGTH_SHORT).show();
+        if(resultCode==RESULT_OK&&requestCode==STORAGE_PERMISSION_CODE&&data!=null&&data.getData()!=null)
+        {
+            Toast.makeText(context, "reached here", Toast.LENGTH_SHORT).show();
+            Uri pdfUri = data.getData();
+            base65=getStringPdf(pdfUri);
+            base65="data:application/pdf;base64,"+base65;
+            System.out.println("------------------"+base65);
+            typeF=".pdf";
+        }
+        if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK&&data!=null&&data.getData()!=null)
+        {
+           Uri imageuri=data.getData();
+            //path=getPath(imageuri);
+            try
+            {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
+                //imageView_pic.setImageURI(imageuri);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
+                base65="data:image/jpeg;base64,"+base65;
+                typeF=".jpeg";
+                System.out.println("-------------------------------------"+base65);
+                //                Log.d("image ", "doInBackground: "+convertImage);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getStringPdf (Uri filepath){
+        InputStream inputStream = null;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            inputStream =  getContentResolver().openInputStream(filepath);
+
+            byte[] buffer = new byte[1024];
+            byteArrayOutputStream = new ByteArrayOutputStream();
+
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        byte[] pdfByteArray = byteArrayOutputStream.toByteArray();
+        String base=Base64.encodeToString(pdfByteArray, Base64.NO_WRAP);
+        System.out.println("---------------------------------"+base);
+        return base;
+    }
+    public class submitReport extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(context);
+            progressDialog.setMessage("Sending information");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            new networkData();
+            String base= networkData.url;
+            String method=networkData.addReport;
+            String url=base+method;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String uploadId= UUID.randomUUID().toString();
+
+            String json=new JsonParser().addReport(url,number,titleF,base65,observerF,dateF,detailF,typeF,uploadId);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            if(null!=result)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(result);
+                    final String responce = String.valueOf(jsonObject.get("status"));
+                    final String responce2=String.valueOf(jsonObject.get("msg"));
+                    if(responce.equals("1"))
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        final String responce2=String.valueOf(jsonObject.get("msg"));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    catch (Exception r)
+                    {
+
+                    }
+                }
+            }
+            //Toast.makeText(signup_Activity.this, "something missing", Toast.LENGTH_SHORT).show();
+            else
+            {
+                Toast.makeText(context,"please check details and try again",Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 }

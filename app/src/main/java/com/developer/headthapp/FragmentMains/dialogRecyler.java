@@ -1,15 +1,24 @@
 package com.developer.headthapp.FragmentMains;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.R;
 
 import java.util.ArrayList;
@@ -17,13 +26,16 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.developer.headthapp.typeClass;
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.json.JSONObject;
 
 public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder1>{
     ArrayList<typeClass> list;
     Context context;
-    int cats[];
-    int anchor[];
-    int i=4;
+    int i=0;
+    String allergiesF,triggersF,idF,titleF,descriptionF,nameF,detailF,purposeF,dosageF,durationF;
+    FirebaseAuth mauth=FirebaseAuth.getInstance();
     public dialogRecyler(ArrayList<typeClass> list, Context context)
     {
         this.list=list;
@@ -52,7 +64,8 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
          holder.edit.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                 Toast.makeText(context,"disease",Toast.LENGTH_SHORT).show();
+                 i=3;
+                 dialogShower3(adapter.getTitle(),adapter.getThing1(),adapter.getId());
              }
          });
         }
@@ -65,12 +78,15 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
             holder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"medicine",Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context,"medicine",Toast.LENGTH_SHORT).show();
+                i=4;
+    dialogShower4(adapter.getTitle(),adapter.getThing1(),adapter.getThing2(),adapter.getThing3(),adapter.getId());
                 }
             });
         }
         if(adapter.getType().equals("allergies"))
         {
+
             holder.name.setText(adapter.getTitle());
             holder.thing1.setText(adapter.getThing1());
             holder.thing2.setText("");
@@ -78,7 +94,8 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
             holder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"allergies",Toast.LENGTH_SHORT).show();
+                    i=1;
+                   dialogShower(adapter.getTitle(),adapter.getThing1(),adapter.getId());
                 }
             });
         }
@@ -91,7 +108,9 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
             holder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"history",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"history",Toast.LENGTH_SHORT).show();
+                    i=2;
+                    dialogShower2(adapter.getTitle(),adapter.getThing1(),adapter.getId());
                 }
             });
         }
@@ -111,6 +130,247 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
             thing1=(TextView)itemView.findViewById(R.id.thing1);
             thing2=(TextView)itemView.findViewById(R.id.thing2);
             thing3=(TextView)itemView.findViewById(R.id.thing3);
+        }
+    }
+    Dialog dialog;
+    public void dialogShower(String allergies2,String triggers2,String id)
+    {
+        idF=id;
+        dialog=new Dialog(context, 0);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_allergies);
+        ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
+        final EditText allergies=(EditText)dialog.findViewById(R.id.allergy);
+        allergies.setText(allergies2);
+        final EditText triggers=(EditText)dialog.findViewById(R.id.triggers);
+        triggers.setText(triggers2);
+        Button add=(Button)dialog.findViewById(R.id.add);
+        add.setText("Update");
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                allergiesF=allergies.getText().toString();
+                triggersF=triggers.getText().toString();
+                if(!allergiesF.isEmpty()&&!triggersF.isEmpty()) {
+                    new addAllergy().execute();
+                    //dialog.dismiss();
+                }
+                else
+                {
+                    Toast.makeText(context,"Please fill in the details correctly",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        close_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    public void dialogShower2(String title2,String description2,String id) {
+        dialog = new Dialog(context, 0);
+        idF=id;
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_history);
+        ImageButton close_btn2 = (ImageButton) dialog.findViewById(R.id.close_btn2);
+        final EditText title = (EditText) dialog.findViewById(R.id.title);
+        title.setText(title2);
+        final EditText description = (EditText) dialog.findViewById(R.id.description);
+        description.setText(description2);
+        Button add = (Button) dialog.findViewById(R.id.add);
+        add.setText("Update");
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                titleF = title.getText().toString();
+                descriptionF = description.getText().toString();
+                if (titleF.isEmpty() || descriptionF.isEmpty()) {
+                    Toast.makeText(context, "Please fill all the details", Toast.LENGTH_SHORT).show();
+                } else {
+                    new addAllergy().execute();
+                }
+            }
+        });
+    }
+    public void dialogShower3(String name2,String detail2,String id)
+    {
+        idF=id;
+        dialog=new Dialog(context, 0);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_deiseas);
+        ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
+        final EditText name=(EditText)dialog.findViewById(R.id.name);
+        name.setText(name2);
+        final EditText detail=(EditText)dialog.findViewById(R.id.detail);
+        detail.setText(detail2);
+        Button add_d=(Button)dialog.findViewById(R.id.add_d);
+        add_d.setText("Update");
+        add_d.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nameF=name.getText().toString();
+                detailF=detail.getText().toString();
+                if(!nameF.isEmpty()&&!detailF.isEmpty())
+                {
+                    new addAllergy().execute();
+                }
+                else
+                {
+                    Toast.makeText(context,"Please Fill in the details properly",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        close_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+    public void dialogShower4(String name2,String purpose2,String dosage2,String duration2,String id)
+    {
+        idF=id;
+        dialog=new Dialog(context, 0);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_medicine);
+        final EditText name=(EditText)dialog.findViewById(R.id.name);
+        name.setText(name2);
+        final EditText purpose=(EditText)dialog.findViewById(R.id.purpose);
+        purpose.setText(purpose2);
+        final EditText dosage=(EditText)dialog.findViewById(R.id.dosage);
+        dosage.setText(dosage2);
+        final EditText duration=(EditText)dialog.findViewById(R.id.duration);
+        duration.setText(duration2);
+        Button add=(Button)dialog.findViewById(R.id.add);
+        add.setText("Update");
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nameF=name.getText().toString();
+                purposeF=purpose.getText().toString();
+                dosageF=dosage.getText().toString();
+                durationF=duration.getText().toString();
+                if(nameF.isEmpty())
+                {
+                    Toast.makeText(context,"Please fill the name",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(purposeF.isEmpty())
+                {
+                    Toast.makeText(context,"Please fill the purpose",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(dosageF.isEmpty())
+                {
+                    Toast.makeText(context,"Please fill the dosage",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(durationF.isEmpty())
+                {
+                    Toast.makeText(context,"Please fill the duration",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else
+                {
+                    new addAllergy().execute();
+                }
+            }
+        });
+        ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
+        close_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    public class addAllergy extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url,json = null;
+            switch (i)
+            {
+                case 1:
+                {
+                    url=new networkData().url+new networkData().updateAllergy;
+                    String number=mauth.getCurrentUser().getPhoneNumber();
+                    number=number.substring(3,number.length());
+                    json=new JsonParser().updateAllergy(url,idF,allergiesF,triggersF);
+                    break;
+                }
+                case 2:
+                {
+                    url=new networkData().url+new networkData().updateHistory;
+                    String number=mauth.getCurrentUser().getPhoneNumber();
+                    number=number.substring(3,number.length());
+                    json=new JsonParser().updateHistory(url,idF,allergiesF,triggersF);
+                    break;
+                }
+                case 3:
+                {
+                    url=new networkData().url+new networkData().updateDieseas;
+                    String number=mauth.getCurrentUser().getPhoneNumber();
+                    number=number.substring(3,number.length());
+                    json=new JsonParser().updateDieseas(url,idF,allergiesF,triggersF);
+                    break;
+                }
+                case 4:
+                {
+                    url=new networkData().url+new networkData().updateMedicine;
+                    String number=mauth.getCurrentUser().getPhoneNumber();
+                    number=number.substring(3,number.length());
+                    json=new JsonParser().updateMedicine(url,idF,nameF,purposeF,durationF,dosageF);
+                    break;
+                }
+                default:
+                {
+                    Toast.makeText(context,"Empty Request",Toast.LENGTH_SHORT).show();
+                }
+            }
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if(result!=null)
+            {
+                try{
+                    JSONObject jsonObject = new JSONObject(result);
+                    String status = jsonObject.getString("status");
+                    final String responce2=String.valueOf(jsonObject.get("msg"));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(responce2)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     public void setProgress()

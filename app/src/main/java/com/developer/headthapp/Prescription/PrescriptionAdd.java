@@ -6,15 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+
 
 import android.Manifest;
 import android.app.Activity;
@@ -44,7 +36,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.developer.headthapp.ApiMethods.ApiService;
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Nominations;
@@ -52,8 +43,6 @@ import com.developer.headthapp.ProfileUpdate;
 import com.developer.headthapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-import net.gotev.uploadservice.MultipartUploadRequest;
-import net.gotev.uploadservice.UploadNotificationConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,7 +67,6 @@ public class PrescriptionAdd extends AppCompatActivity {
     Button choose,upload;
     TextView date;
     Uri imageuri;
-    ApiService apiService;
     Context context;
     Bitmap img=null;
     FirebaseAuth mauth;
@@ -87,10 +75,8 @@ public class PrescriptionAdd extends AppCompatActivity {
     ProgressDialog progressDialog;
     String path="";
     private void initRetrofitClient() {
-        OkHttpClient client = new OkHttpClient.Builder().build();
 
         new networkData();
-        apiService = new Retrofit.Builder().baseUrl(networkData.url+"/").client(client).build().create(ApiService.class);
     }
 
     @Override
@@ -174,50 +160,6 @@ public class PrescriptionAdd extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
-    private void multipartImageUpload() {
-        try {
-            String uploadId= UUID.randomUUID().toString();
-            File filesDir = getApplicationContext().getFilesDir();
-            File file = new File(filesDir, uploadId + ".jpeg");
-
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            img.compress(Bitmap.CompressFormat.JPEG, 0, bos);
-            byte[] bitmapdata = bos.toByteArray();
-
-
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
-            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "image");
-            Call<ResponseBody> req = apiService.postImage(body, name);
-            req.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                    if (response.code() == 201) {
-                     Toast.makeText(getApplicationContext(),"Image Uploaded successfully",Toast.LENGTH_SHORT).show();
-                    }
-                    Toast.makeText(getApplicationContext(), response.code() + " ", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(), "Request failed", Toast.LENGTH_SHORT).show();
-                    t.printStackTrace();
-                }
-            });
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

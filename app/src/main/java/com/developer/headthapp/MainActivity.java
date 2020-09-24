@@ -22,14 +22,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.developer.headthapp.ApiMethods.ApiService;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 //import android.view.FloatingActionButton;
@@ -38,19 +35,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -58,7 +46,6 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ApiService apiService;
     Uri picUri;
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -82,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fabUpload.setOnClickListener(this);
 
         askPermissions();
-        initRetrofitClient();
-
 
     }
 
@@ -102,12 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void initRetrofitClient() {
-        OkHttpClient client = new OkHttpClient.Builder().build();
-
-        new networkData();
-        apiService = new Retrofit.Builder().baseUrl(networkData.url+"/").client(client).build().create(ApiService.class);
-    }
 
 
     public Intent getPickImageChooserIntent() {
@@ -290,74 +269,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void multipartImageUpload() {
-        try {
-            File filesDir = getApplicationContext().getFilesDir();
-            File file = new File(filesDir, "image" + ".jpeg");
-
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            mBitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos);
-            byte[] bitmapdata = bos.toByteArray();
-
-
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
-            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), "image");
-            Call<ResponseBody> req = apiService.postImage(body, name);
-            req.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                    if (response.code() == 201) {
-                        textView.setText("Uploaded Successfully!");
-                        textView.setTextColor(Color.BLUE);
-                    }
-                    Toast.makeText(getApplicationContext(), response.code() + " ", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    textView.setText("Uploaded Failed!");
-                    textView.setTextColor(Color.RED);
-                    Toast.makeText(getApplicationContext(), "Request failed", Toast.LENGTH_SHORT).show();
-                    t.printStackTrace();
-                }
-            });
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, IMAGE_RESULT);
     }
+
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fab:
-                openFileChooser();
-                //startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
-                break;
 
-            case R.id.fabUpload:
-                if (mBitmap != null)
-                    multipartImageUpload();
-                else {
-                    Toast.makeText(getApplicationContext(), "Bitmap is null. Try again", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
     }
 }
 

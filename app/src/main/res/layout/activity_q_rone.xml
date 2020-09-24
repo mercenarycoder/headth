@@ -77,6 +77,7 @@
             android:background="@drawable/edit2"
             android:text="Share"
             android:textSize="14sp"
+            android:id="@+id/share"
             android:layout_marginRight="30dp"
             android:textColor="#000"
             android:fontFamily="@font/robotoregular"/>
@@ -86,6 +87,7 @@
             android:background="@drawable/edit2"
             android:text="Print"
             android:textSize="14sp"
+            android:id="@+id/save"
             android:textColor="#000"
             android:fontFamily="@font/robotoregular"/>
     </LinearLayout>
@@ -95,7 +97,6 @@
         android:id="@+id/qr_logo"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/qr"
         android:scaleType="fitXY"/>
         <TextView
             android:layout_width="wrap_content"

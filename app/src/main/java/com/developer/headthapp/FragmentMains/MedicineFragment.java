@@ -13,6 +13,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
@@ -22,6 +24,7 @@ import com.developer.headthapp.R;
 import com.developer.headthapp.typeClass;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -41,13 +44,15 @@ public class MedicineFragment extends Fragment {
     dialogRecyler adapter;
     Button add,remove;
     ImageButton close_btn;
+    ProgressBar progress;
+    TextView sabchanga;
     FirebaseAuth mauth=FirebaseAuth.getInstance();
     String nameF,purposeF,dosageF,durationF;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=getContext();
-        formList();
+       // formList();
     }
 
     @Nullable
@@ -57,8 +62,10 @@ public class MedicineFragment extends Fragment {
         View view = inflater.inflate(R.layout.medicine_fragment, container, false);
         meds=(RecyclerView)view.findViewById(R.id.meds);
         refresh_meds=(SwipeRefreshLayout)view.findViewById(R.id.refresh_meds);
-        adapter=new dialogRecyler(list,context);
+
         add=(Button)view.findViewById(R.id.add);
+        progress=(ProgressBar)view.findViewById(R.id.progress);
+        sabchanga=(TextView)view.findViewById(R.id.sabchanga);
         remove=(Button)view.findViewById(R.id.remove);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,13 +73,12 @@ public class MedicineFragment extends Fragment {
             dialogShower();
             }
         });
-        meds.setLayoutManager(new LinearLayoutManager(context));
-        meds.setHasFixedSize(true);
-        meds.setAdapter(adapter);
+
         refresh_meds.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refresh_meds.setRefreshing(false);
+                new getDieseas().execute();
             }
         });
         close_btn=(ImageButton)view.findViewById(R.id.close_btn);
@@ -83,6 +89,7 @@ public class MedicineFragment extends Fragment {
                 HealthCart.changeVisiblity();
             }
         });
+new getDieseas().execute();
         return view;
     }
     Dialog dialog;
@@ -187,13 +194,73 @@ public class MedicineFragment extends Fragment {
             }
         }
     }
-    public void formList()
+    public class getDieseas extends AsyncTask<String,String,String>
     {
-    list=new ArrayList<>();
-    list.add(new typeClass("Asthalin","medicine","For Asthama","Duration - Permanent","Dosage - 1 puff"));
-    list.add(new typeClass("Asthalin","medicine","For Asthama","Duration - Permanent","Dosage - 1 puff"));
-    list.add(new typeClass("Asthalin","medicine","For Asthama","Duration - Permanent","Dosage - 1 puff"));
-    list.add(new typeClass("Asthalin","medicine","For Asthama","Duration - Permanent","Dosage - 1 puff"));
-    list.add(new typeClass("Asthalin","medicine","For Asthama","Duration - Permanent","Dosage - 1 puff"));
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().getMedicine;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progress.setVisibility(View.INVISIBLE);
+            if(s!=null)
+            {
+                try{
+                    JSONObject object = new JSONObject(s);
+                    String status=object.getString("status");
+                    if(status.equals("1"))
+                    {
+                        list=new ArrayList<>();
+                        JSONArray array=object.getJSONArray("data");
+                        if(array.length()>0) {
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject object1 = array.getJSONObject(i);
+                                String name = object1.getString("name");
+                                String id = object1.getString("id");
+                                String purpose=object1.getString("purpose");
+                                String duration = object1.getString("duration");
+                                String dosage = object1.getString("dosage");
+                                list.add(new typeClass(name, "medicine", purpose, "Duration in months "+duration,
+                                        "Dosage of pills a day "+dosage,id));
+                            }
+                            adapter = new dialogRecyler(list, context);
+                            meds.setLayoutManager(new LinearLayoutManager(context));
+                            meds.setHasFixedSize(true);
+                            meds.setAdapter(adapter);
+                        }
+                        else
+                        {
+                            sabchanga.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Some error in request",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    sabchanga.setVisibility(View.VISIBLE);
+                }
+            }
+            else
+            {
+
+            }
+        }
     }
+
 }

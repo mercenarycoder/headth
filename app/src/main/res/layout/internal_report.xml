@@ -41,7 +41,7 @@
             android:id="@+id/date1"
             android:textColor="#545454"
             android:gravity="center"/>
-        <ImageView
+        <WebView
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:src="@drawable/ic_pdf"
@@ -84,7 +84,7 @@
             android:id="@+id/date2"
             android:textColor="#545454"
             android:gravity="center"/>
-        <ImageView
+        <WebView
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:src="@drawable/ic_pdf"
@@ -127,7 +127,7 @@
             android:id="@+id/date3"
             android:textColor="#545454"
             android:gravity="center"/>
-        <ImageView
+        <WebView
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:src="@drawable/ic_pdf"

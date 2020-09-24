@@ -43,6 +43,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="52dp"
+            android:id="@+id/pdf"
             android:background="@drawable/edit_text"
             android:layout_marginTop="10dp"/>
         <Button
@@ -53,6 +54,7 @@
             android:layout_marginBottom="15dp"
             android:background="@drawable/shadow_btn"
             android:text="Add Document"
+            android:id="@+id/choose"
             android:textColor="@color/colorPrimary"
             android:textSize="10sp"/>
         <TextView
@@ -67,6 +69,7 @@
             android:background="@drawable/edit_text"
             android:textColor="#9A9A9A"
             android:textSize="13sp"
+            android:id="@+id/title"
             android:layout_marginBottom="30dp"
             android:paddingStart="5dp"
             android:hint="Enter the Title of Product"
@@ -84,6 +87,7 @@
             android:background="@drawable/edit_text"
             android:textColor="#9A9A9A"
             android:textSize="13sp"
+            android:id="@+id/observer"
             android:layout_marginBottom="10dp"
             android:hint="Observer"
             android:layout_marginTop="10dp"/>
@@ -104,6 +108,7 @@
             android:layout_height="39dp"
             android:background="@drawable/edit_text"
             android:textColor="#9A9A9A"
+            android:id="@+id/detail"
             android:textSize="13sp"
             android:paddingStart="5dp"
             android:hint="Additional Details"
@@ -114,6 +119,7 @@
             android:layout_height="34dp"
             android:background="@drawable/shadow_btn"
             android:text="Submit"
+            android:id="@+id/submit"
             android:layout_marginTop="25dp"
             android:textColor="@color/colorPrimary"
             android:textSize="10sp"/>

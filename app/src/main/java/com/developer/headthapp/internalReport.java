@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,29 +52,43 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
         // ArrayList<reportOf3> childList=adapter.getList();
         if(!item1.name.equals("null"))
         {
-
+            holder.reportitem1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, ReportView.class);
+                    context.startActivity(intent);
+                }
+            });
+            holder.name1.setText(item1.getName());
+            holder.date1.setText(item1.getDate());
+            holder.type1.setText(item1.getType());
         }
-        holder.reportitem1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context, ReportView.class);
-                context.startActivity(intent);
-            }
-        });
-        holder.reportitem2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context, ReportView.class);
-                context.startActivity(intent);
-            }
-        });
-        holder.reportitem3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context, ReportView.class);
-                context.startActivity(intent);
-            }
-        });
+        if(!item2.name.equals("null"))
+        {
+            holder.reportitem2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, ReportView.class);
+                    context.startActivity(intent);
+                }
+            });
+            holder.name2.setText(item2.getName());
+            holder.date2.setText(item2.getDate());
+            holder.type2.setText(item2.getType());
+        }
+        if(!item3.name.equals("null"))
+        {
+            holder.reportitem3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, ReportView.class);
+                    context.startActivity(intent);
+                }
+            });
+            holder.name3.setText(item3.getName());
+            holder.date3.setText(item3.getDate());
+            holder.type3.setText(item3.getType());
+        }
     }
     @Override
     public int getItemCount() {
@@ -82,7 +97,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
     public static class viewholder1 extends RecyclerView.ViewHolder
     {
         TextView name1,date1,type1,name2,date2,type2,name3,date3,type3;
-        ImageView icon1,icon2,icon3;
+        WebView icon1,icon2,icon3;
         LinearLayout reportitem1,reportitem2,reportitem3;
         public viewholder1(@NonNull View itemView) {
             super(itemView);
@@ -91,19 +106,19 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
             name1=(TextView)itemView.findViewById(R.id.name1);
             date1=(TextView)itemView.findViewById(R.id.date1);
             type1=(TextView)itemView.findViewById(R.id.type1);
-            icon1=(ImageView)itemView.findViewById(R.id.icon1);
+            icon1=(WebView)itemView.findViewById(R.id.icon1);
             //item 2
             reportitem2=(LinearLayout)itemView.findViewById(R.id.reportitem2);
             name2=(TextView)itemView.findViewById(R.id.name2);
             date2=(TextView)itemView.findViewById(R.id.date2);
             type2=(TextView)itemView.findViewById(R.id.type2);
-            icon2=(ImageView)itemView.findViewById(R.id.icon2);
+            icon2=(WebView)itemView.findViewById(R.id.icon2);
             //item 3
             reportitem3=(LinearLayout)itemView.findViewById(R.id.reportitem3);
             name3=(TextView)itemView.findViewById(R.id.name3);
             date3=(TextView)itemView.findViewById(R.id.date3);
             type3=(TextView)itemView.findViewById(R.id.type3);
-            icon3=(ImageView)itemView.findViewById(R.id.icon3);
+            icon3=(WebView)itemView.findViewById(R.id.icon3);
         }
     }
     public void setProgress()

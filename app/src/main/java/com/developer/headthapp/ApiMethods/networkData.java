@@ -17,4 +17,12 @@ public class networkData {
     public static String historyAdd="/historyAdd";
     public static String medicineAdd="/medicineAdd";
     public static String getDieseas="/getDieseas";
+    public static String getAllergy="/getAllergy";
+    public static String getHistory="/getHistory";
+    public static String getMedicine="/getMedicine";
+    public static String addReport="/addReport";
+    public static String updateAllergy="/updateAllergy";
+    public static String updateHistory="/updateHistory";
+    public static String updateMedicine="/updateMedicine";
+    public static String updateDieseas="/updateDiesease";
 }

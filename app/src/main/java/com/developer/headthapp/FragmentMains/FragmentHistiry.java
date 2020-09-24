@@ -13,6 +13,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
@@ -22,6 +24,7 @@ import com.developer.headthapp.R;
 import com.developer.headthapp.typeClass;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -43,11 +46,13 @@ Button add,remove;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 String titleF,descriptionF;
 ImageButton close_btn;
+ProgressBar progress;
+TextView sabchanga;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=getActivity();
-        formList();
+       // formList();
     }
 
     @Nullable
@@ -55,19 +60,18 @@ ImageButton close_btn;
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.history_fragment, container, false);
         history=(RecyclerView)view.findViewById(R.id.history);
+        progress=(ProgressBar)view.findViewById(R.id.progress);
+        sabchanga=(TextView)view.findViewById(R.id.sabchanga);
         add=(Button)view.findViewById(R.id.add);
         remove=(Button)view.findViewById(R.id.remove);
         refresh_history=(SwipeRefreshLayout)view.findViewById(R.id.refresh_history);
-        adapter=new dialogRecyler(list,context);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialogShower();
             }
         });
-        history.setLayoutManager(new LinearLayoutManager(context));
-        history.setHasFixedSize(true);
-        history.setAdapter(adapter);
+
         refresh_history.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -82,6 +86,7 @@ ImageButton close_btn;
                 HealthCart.changeVisiblity();
             }
         });
+        new getDieseas().execute();
         return view;
     }
     Dialog dialog;
@@ -164,13 +169,70 @@ ImageButton close_btn;
             }
         }
     }
-    public void formList()
+    public class getDieseas extends AsyncTask<String,String,String>
     {
-        list=new ArrayList<>();
-        list.add(new typeClass("Admitted","history","For Asthamatic Attack Last Month","",""));
-        list.add(new typeClass("Admitted","history","For Asthamatic Attack Last Month","",""));
-        list.add(new typeClass("Admitted","history","For Asthamatic Attack Last Month","",""));
-        list.add(new typeClass("Admitted","history","For Asthamatic Attack Last Month","",""));
-        list.add(new typeClass("Admitted","history","For Asthamatic Attack Last Month","",""));
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().getHistory;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progress.setVisibility(View.INVISIBLE);
+            if(s!=null)
+            {
+                try{
+                    JSONObject object = new JSONObject(s);
+                    String status=object.getString("status");
+                    if(status.equals("1"))
+                    {
+                        list=new ArrayList<>();
+                        JSONArray array=object.getJSONArray("data");
+                        if(array.length()>0) {
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject object1 = array.getJSONObject(i);
+                                String name = object1.getString("title");
+                                String id = object1.getString("id");
+                                String details = object1.getString("description");
+                                list.add(new typeClass(name, "history", details, "", "",id));
+                            }
+                            adapter = new dialogRecyler(list, context);
+                            history.setLayoutManager(new LinearLayoutManager(context));
+                            history.setHasFixedSize(true);
+                            history.setAdapter(adapter);
+                        }
+                        else
+                        {
+                            sabchanga.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Some error in request",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    sabchanga.setVisibility(View.VISIBLE);
+                }
+            }
+            else
+            {
+
+            }
+        }
     }
+
 }

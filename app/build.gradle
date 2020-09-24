@@ -45,8 +45,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:17.0.0"
     implementation 'com.google.android.gms:play-services-places:17.0.0'
     implementation 'com.google.android.libraries.places:places:2.0.0'
-    implementation 'com.google.android.gms:play-services-vision:11.8.0'
+    implementation 'com.google.android.gms:play-services-vision:20.1.2'
+    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     implementation "com.github.skydoves:balloon:1.1.5"
-    implementation 'net.gotev:uploadservice:2.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 }

@@ -77,7 +77,7 @@ public static void changeVisiblity()
         mauth=FirebaseAuth.getInstance();
         setContentView(R.layout.activity_health_cart);
         formList();
-        formList2();
+       // formList2();
         initiaLize();
         help.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -334,33 +334,7 @@ public static void changeVisiblity()
         list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
 
     }
-    public void formList2()
-    {
-        dis=new ArrayList<>();
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-        med=new ArrayList<>();
-        med.add(new typeClass("valprol 500","medicine","for asthama","Duration - Weekly Once","Dosage - 1 puff"));
-        med.add(new typeClass("valprol 500","medicine","for asthama","Duration - Weekly Once","Dosage - 1 puff"));
-        med.add(new typeClass("valprol 500","medicine","for asthama","Duration - Weekly Once","Dosage - 1 puff"));
-        med.add(new typeClass("valprol 500","medicine","for asthama","Duration - Weekly Once","Dosage - 1 puff"));
-        med.add(new typeClass("valprol 500","medicine","for asthama","Duration - Weekly Once","Dosage - 1 puff"));
-        all=new ArrayList<>();
-        all.add(new typeClass("Urticeria","allergies","Triggers - Body Heat","",""));
-        all.add(new typeClass("Urticeria","allergies","Triggers - Body Heat","",""));
-        all.add(new typeClass("Urticeria","allergies","Triggers - Body Heat","",""));
-        all.add(new typeClass("Urticeria","allergies","Triggers - Body Heat","",""));
-        all.add(new typeClass("Urticeria","allergies","Triggers - Body Heat","",""));
-        his=new ArrayList<>();
-        his.add(new typeClass("Admitted","history"," For Asthamatic Attack Last Month","",""));
-        his.add(new typeClass("Admitted","history"," For Asthamatic Attack Last Month","",""));
-        his.add(new typeClass("Admitted","history"," For Asthamatic Attack Last Month","",""));
-        his.add(new typeClass("Admitted","history"," For Asthamatic Attack Last Month","",""));
-        his.add(new typeClass("Admitted","history"," For Asthamatic Attack Last Month","",""));
-    }
+
     public class getallPres extends AsyncTask<String,String,String>
     {
         @Override

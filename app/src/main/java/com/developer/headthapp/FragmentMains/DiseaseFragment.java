@@ -52,7 +52,7 @@ ImageButton close_btn;
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=getContext();
-        formList();
+        //formList();
         mauth=FirebaseAuth.getInstance();
     }
 
@@ -127,15 +127,7 @@ ImageButton close_btn;
         dialog.show();
     }
 
-    public void formList()
-    {
-        dis=new ArrayList<>();
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-        dis.add(new typeClass("Malaria","disease","I have had asthama since the age of 10. I am a regular user of asthalin","",""));
-    }
+
     public class getDieseas extends AsyncTask<String,String,String>
     {
         @Override
@@ -172,7 +164,7 @@ ImageButton close_btn;
                              String name = object1.getString("name");
                              String id = object1.getString("id");
                              String details = object1.getString("details");
-                             dis.add(new typeClass(name, "disease", details, "", ""));
+                             dis.add(new typeClass(name, "disease", details, "", "",id));
                          }
                          adapter = new dialogRecyler(dis, context);
                          dis2.setLayoutManager(new LinearLayoutManager(context));
