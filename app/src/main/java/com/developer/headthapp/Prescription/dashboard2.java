@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,6 +48,30 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
     @Override
     public void onBindViewHolder(@NonNull final viewholder1 holder, final int position) {
         final presClass adapter=list.get(position);
+        holder.prescribtion.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                holder.visible.setVisibility(View.VISIBLE);
+                holder.check.setVisibility(View.VISIBLE);
+                holder.check.setChecked(true);
+                return true;
+            }
+        });
+        holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!b)
+                {
+                    holder.visible.setVisibility(View.INVISIBLE);
+                    holder.check.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    holder.visible.setVisibility(View.VISIBLE);
+                    holder.check.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         holder.prescribtion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +102,8 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
         TextView diesease,dr_name;
         ImageView img;
         LinearLayout prescribtion;
+        CheckBox check;
+        TextView visible;
         public viewholder1(@NonNull View itemView) {
             super(itemView);
             prescribtion=(LinearLayout)itemView.findViewById(R.id.prescribtion);
@@ -83,6 +111,8 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
             diesease=(TextView)itemView.findViewById(R.id.diesease);
             dr_name=(TextView)itemView.findViewById(R.id.dr_name);
             img=(ImageView)itemView.findViewById(R.id.img);
+            check=(CheckBox)itemView.findViewById(R.id.check);
+            visible=(TextView)itemView.findViewById(R.id.visibile);
         }
     }
     public void setProgress()

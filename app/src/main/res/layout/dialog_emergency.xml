@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="330dp"
+    android:orientation="vertical"
+    android:layout_height="400dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Emergency Contacts"
+            android:textColor="#000"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingStart="17dp"
+            android:gravity="center|left"/>
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2.9"
+            android:background="#fff"
+            android:id="@+id/close_btn2"
+            android:src="@drawable/ic_close"
+            />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="25dp"
+        android:id="@+id/recycler"/>
+</LinearLayout>

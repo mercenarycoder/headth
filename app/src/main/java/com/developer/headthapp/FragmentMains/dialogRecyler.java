@@ -59,6 +59,8 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
         {
          holder.name.setText(adapter.getTitle());
          holder.thing1.setText(adapter.getThing1());
+            holder.thing2.setHeight(0);
+            holder.thing3.setHeight(0);
          holder.thing2.setText(adapter.getThing2());
          holder.thing3.setText(adapter.getThing3());
          holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +92,8 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
             holder.name.setText(adapter.getTitle());
             holder.thing1.setText(adapter.getThing1());
             holder.thing2.setText("");
+            holder.thing2.setHeight(0);
+            holder.thing3.setHeight(0);
             holder.thing3.setText("");
             holder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,6 +109,8 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
             holder.thing1.setText(adapter.getThing1());
             holder.thing2.setText(adapter.getThing2());
             holder.thing3.setText(adapter.getThing3());
+            holder.thing2.setHeight(0);
+            holder.thing3.setHeight(0);
             holder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -1,14 +1,19 @@
 package com.developer.headthapp;
 
 public class reportClass {
-    String name,type,date,id,icon;
+    String name,type,date,id,icon,typeD;
 
-    public reportClass(String name, String type, String date, String id, String icon) {
+    public String getTypeD() {
+        return typeD;
+    }
+
+    public reportClass(String name, String type, String date, String id, String icon, String typeD) {
         this.name = name;
         this.type = type;
         this.date = date;
         this.id = id;
         this.icon = icon;
+        this.typeD=typeD;
     }
 
     public String getName() {

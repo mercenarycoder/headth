@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="Help"
-            android:layout_weight="1"
+            android:layout_weight="1.1"
             android:visibility="invisible"
             android:enabled="false"
             android:layout_gravity="center"
@@ -58,7 +58,7 @@
             android:id="@+id/open_profile"
             android:layout_marginTop="3dp"
             android:textSize="20sp"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/round_btn"/>
     </LinearLayout>
     <LinearLayout
@@ -69,20 +69,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="60dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="6dp"
         android:orientation="horizontal">
         <Button
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="35dp"
             android:background="@drawable/edit2"
             android:text="Share"
             android:textSize="14sp"
             android:id="@+id/share"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="10dp"
             android:textColor="#000"
             android:fontFamily="@font/robotoregular"/>
         <Button
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="35dp"
             android:background="@drawable/edit2"
             android:text="Print"
@@ -92,8 +93,8 @@
             android:fontFamily="@font/robotoregular"/>
     </LinearLayout>
     <ImageView
-        android:layout_width="270dp"
-        android:layout_height="260dp"
+        android:layout_width="290dp"
+        android:layout_height="280dp"
         android:id="@+id/qr_logo"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
@@ -101,8 +102,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="31dp"
+            android:layout_marginTop="20dp"
             android:text="Dr Manjeet Singh Pal"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="#EC587B"
             />
@@ -110,18 +112,20 @@
             android:layout_width="196dp"
             android:layout_height="31dp"
             android:text="+91 7389438159"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="#000"
             />
         <Button
-            android:layout_width="242dp"
+            android:layout_width="290dp"
             android:layout_height="83dp"
             android:background="@drawable/roundedit"
             android:layout_marginTop="50dp"
-            android:drawableLeft="@drawable/ic_qq"
-            android:paddingStart="15dp"
+            android:drawableLeft="@drawable/ic_icon"
+            android:paddingStart="20dp"
+            android:textSize="19sp"
+            android:textStyle="bold"
             android:id="@+id/scanner"
             android:text="Open Code Scanner"/>
     </LinearLayout>

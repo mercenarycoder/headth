@@ -172,9 +172,7 @@ public static void changeVisiblity()
             }
         });
         context=HealthCart.this;
-        adapter=new dashmainadapter(list,context);
-        recycler_report.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-        recycler_report.setAdapter(adapter);
+
 
         qr_act.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,6 +272,7 @@ public static void changeVisiblity()
             }
         });
         new getallPres().execute();
+        new getReports().execute();
     }
     public void initiaLize()
     {
@@ -325,16 +324,100 @@ public static void changeVisiblity()
     }
     public void formList()
     {
-        list=new ArrayList<>();
-        list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
-        list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
-        list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
-        list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
-        list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
-        list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1",""));
 
     }
+public class getReports extends AsyncTask<String,String,String>
+{
+    @Override
+    protected String doInBackground(String... strings) {
+        new networkData();
+        String base= networkData.url;
+        String method=networkData.gettopreport;
+        String url=base+method;
+        String number=mauth.getCurrentUser().getPhoneNumber();
+        number=number.substring(3,number.length());
+        String uploadId= UUID.randomUUID().toString();
 
+        String json=new JsonParser().viewOffer(url,number);
+        return json;
+    }
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+         progressDialog.dismiss();
+        if(null!=result)
+        {
+            try
+            {
+                list=new ArrayList<>();
+                JSONObject jsonObject = new JSONObject(result);
+                final String responce = String.valueOf(jsonObject.get("status"));
+                // final String responce2=String.valueOf(jsonObject.get("msg"));
+                if(responce.equals("1"))
+                {
+                    JSONArray data=jsonObject.getJSONArray("data");
+                    for(int i=0;i<data.length();i++)
+                    {
+                        JSONObject object = data.getJSONObject(i);
+                        String title=object.getString("title");
+                        String doctor=object.getString("observer");
+                        String observation=object.getString("details");
+                        String date=object.getString("date");
+                        String id=object.getString("id");
+                        String type = object.getString("type");
+                        String image=object.getString("link");
+                        list.add(new reportClass(doctor,title,date,id,image,type));
+                    }
+                    adapter=new dashmainadapter(list,context);
+                    recycler_report.setHasFixedSize(true);
+                    recycler_report.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+                    recycler_report.setAdapter(adapter);
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage("Some Error in fetching info please swipe to refresh")
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    final String responce2=String.valueOf(jsonObject.get("msg"));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(responce2)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                catch (Exception r)
+                {
+
+                }
+            }
+        }
+        //Toast.makeText(signup_Activity.this, "something missing", Toast.LENGTH_SHORT).show();
+        else
+        {
+            Toast.makeText(context,"please check details and try again",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+}
     public class getallPres extends AsyncTask<String,String,String>
     {
         @Override
@@ -364,7 +447,7 @@ public static void changeVisiblity()
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            progressDialog.dismiss();
+           // progressDialog.dismiss();
             if(null!=result)
             {
                 try

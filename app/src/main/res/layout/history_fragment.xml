@@ -52,29 +52,36 @@
             android:layout_marginRight="10dp"
             android:orientation="horizontal"
             android:baselineAligned="false">
+
             <Button
-                android:layout_width="140dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bootstrap_primary"
-                android:text="Add"
                 android:id="@+id/add"
-                android:textSize="12sp"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="65dp"
                 android:layout_marginRight="30dp"
-                android:textColor="#41b5c1"/>
+                android:background="@drawable/bootstrap_primary"
+                android:fontFamily="@font/dm_font"
+                android:text="Add"
+                android:textColor="#76b7eb"
+                android:textSize="14sp" />
             <Button
-                android:layout_width="140dp"
-                android:layout_height="40dp"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
                 android:background="@drawable/bootstrap_primary"
                 android:text="Remove"
+                android:fontFamily="@font/dm_font"
+                android:textSize="14sp"
                 android:id="@+id/remove"
-                android:textSize="12sp"
-                android:textColor="#41b5c1"/>
+                android:layout_marginRight="40dp"
+                android:textColor="#76b7eb"/>
         </LinearLayout>
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
             android:id="@+id/refresh_history"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="50dp"
             android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"

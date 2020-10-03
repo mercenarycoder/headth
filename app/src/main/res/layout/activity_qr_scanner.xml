@@ -71,15 +71,18 @@
         android:textSize="24sp"
         android:layout_marginBottom="19dp"
         android:gravity="center"
+        android:id="@+id/scanner"
         android:textStyle="bold"
         android:textColor="#fff"
         />
-     <ImageView
-         android:layout_width="240dp"
-         android:layout_height="240dp"
-         android:background="@drawable/dotted_btn"
-         android:layout_marginTop="8dp"
-         android:layout_marginBottom="8dp"/>
+        <SurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="340dp"
+            android:background="@drawable/dotted_btn"
+            android:layout_height="340dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
         <TextView
             android:layout_width="296dp"
             android:layout_height="61dp"

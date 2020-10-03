@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -80,3 +83,20 @@
     </LinearLayout>
 </LinearLayout>
 </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:id="@+id/visibile"
+        android:background="#A6FFFFFF"
+        android:visibility="invisible"
+        android:layout_margin="4dp"/>
+  <CheckBox
+      android:layout_width="170dp"
+      android:layout_height="60dp"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:text="Remove Item"
+      android:textSize="20sp"
+      android:visibility="invisible"
+      android:id="@+id/check"/>
+</RelativeLayout>

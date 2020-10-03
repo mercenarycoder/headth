@@ -35,7 +35,7 @@
         android:layout_weight="1"
         android:textColor="#545454"
         android:gravity="center"/>
-    <ImageView
+    <WebView
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_weight="1"
