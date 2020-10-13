@@ -87,6 +87,7 @@ public class FragmentAllergies extends Fragment
             @Override
             public void onRefresh() {
                 refresh_alles.setRefreshing(false);
+                new getDieseas().execute();
             }
         });
         close_btn=(ImageButton)view.findViewById(R.id.close_btn);
@@ -168,6 +169,7 @@ public class FragmentAllergies extends Fragment
                                    allergiesF="";
                                    triggersF="";
                                     dialog.dismiss();
+                                    new getDieseas().execute();
                                 }
                             });
                     builder.create();

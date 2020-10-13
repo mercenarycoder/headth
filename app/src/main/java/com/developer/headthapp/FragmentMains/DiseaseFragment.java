@@ -283,6 +283,7 @@ ImageButton close_btn;
                           nameF="";
                           detailF="";
                           dialog.dismiss();
+                                    new getDieseas().execute();
                                 }
                             });
                     builder.create();

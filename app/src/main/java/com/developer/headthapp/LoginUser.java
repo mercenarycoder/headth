@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.networkData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -26,6 +29,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
@@ -177,14 +183,52 @@ public class LoginUser extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // FirebaseUser user = task.getResult().getUser();
                             // waitingDialog.dismiss();
-                            Intent intent=new Intent(LoginUser.this, ProfileUpdate.class);
-                            // intent.putExtra("name",name2);
-                            // intent.putExtra("access",access);
-                            startActivity(intent);
-                            finish();
+                          new checkAccount().execute();
                         }
                     }
                 });
+    }
+    public class checkAccount extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().getprofile;
+            String number=mAuth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s!=null)
+            {
+                try{
+                    JSONObject on = new JSONObject(s);
+                    JSONArray array=on.getJSONArray("data");
+                    if(array.length()>0)
+                    {
+                        Intent intent=new Intent(LoginUser.this, HealthCart.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else
+                    {
+                        Intent intent=new Intent(LoginUser.this, ProfileUpdate.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new
             PhoneAuthProvider.OnVerificationStateChangedCallbacks() {

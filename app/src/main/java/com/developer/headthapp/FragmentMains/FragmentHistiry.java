@@ -84,6 +84,7 @@ TextView sabchanga;
             @Override
             public void onRefresh() {
                 refresh_history.setRefreshing(false);
+                new getDieseas().execute();
             }
         });
         close_btn=(ImageButton)view.findViewById(R.id.close_btn);
@@ -211,6 +212,7 @@ TextView sabchanga;
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     titleF="";
                                     descriptionF="";
+                                    new getDieseas().execute();
                                     dialog.dismiss();
                                 }
                             });

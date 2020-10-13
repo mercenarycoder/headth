@@ -236,6 +236,7 @@ new getDieseas().execute();
                                     purposeF="";
                                     dosageF="";
                                     durationF="";
+                                    new getDieseas().execute();
                                     dialog.dismiss();
                                 }
                             });
