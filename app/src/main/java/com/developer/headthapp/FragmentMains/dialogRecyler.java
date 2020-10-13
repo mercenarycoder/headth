@@ -12,13 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.R;
 
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
     ArrayList<typeClass> list;
     Context context;
     int i=0;
+    DeleteClass dd=new DeleteClass();
     String allergiesF,triggersF,idF,titleF,descriptionF,nameF,detailF,purposeF,dosageF,durationF;
     FirebaseAuth mauth=FirebaseAuth.getInstance();
     public dialogRecyler(ArrayList<typeClass> list, Context context)
@@ -120,6 +125,42 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                 }
             });
         }
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                holder.check.setVisibility(View.VISIBLE);
+                holder.visible.setVisibility(View.VISIBLE);
+                holder.check.setChecked(true);
+                dd.listD2.add(adapter.getId());
+                return false;
+            }
+        });
+        holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b)
+                {
+                    holder.check.setVisibility(View.VISIBLE);
+                    holder.check.setChecked(true);
+                    holder.visible.setVisibility(View.VISIBLE);
+                    dd.listD2.add(adapter.getId());
+
+                }
+                else
+                {
+                    holder.check.setVisibility(View.INVISIBLE);
+                    holder.visible.setVisibility(View.INVISIBLE);
+                    for(int i=0;i<dd.listD2.size();i++)
+                    {
+                        String str=dd.listD2.get(i);
+                        if(str.equals(adapter.getId()))
+                        {
+                            dd.listD2.remove(i);
+                        }
+                    }
+                }
+            }
+        });
     }
     @Override
     public int getItemCount() {
@@ -129,6 +170,9 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
     {
         TextView name,thing1,thing2,thing3;
         Button edit;
+        CheckBox check;
+        RelativeLayout layout;
+        TextView visible;
         public viewholder1(@NonNull View itemView) {
             super(itemView);
             name=(TextView)itemView.findViewById(R.id.name);
@@ -136,6 +180,9 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
             thing1=(TextView)itemView.findViewById(R.id.thing1);
             thing2=(TextView)itemView.findViewById(R.id.thing2);
             thing3=(TextView)itemView.findViewById(R.id.thing3);
+            check=(CheckBox)itemView.findViewById(R.id.check);
+            visible=(TextView)itemView.findViewById(R.id.visibile);
+            layout=(RelativeLayout)itemView.findViewById(R.id.layout);
         }
     }
     Dialog dialog;
@@ -324,7 +371,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                     url=new networkData().url+new networkData().updateHistory;
                     String number=mauth.getCurrentUser().getPhoneNumber();
                     number=number.substring(3,number.length());
-                    json=new JsonParser().updateHistory(url,idF,allergiesF,triggersF);
+                    json=new JsonParser().updateHistory(url,idF,titleF,descriptionF);
                     break;
                 }
                 case 3:
@@ -332,7 +379,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                     url=new networkData().url+new networkData().updateDieseas;
                     String number=mauth.getCurrentUser().getPhoneNumber();
                     number=number.substring(3,number.length());
-                    json=new JsonParser().updateDieseas(url,idF,allergiesF,triggersF);
+                    json=new JsonParser().updateDieseas(url,idF,nameF,detailF);
                     break;
                 }
                 case 4:

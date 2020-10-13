@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.DeleteClass;
+import com.developer.headthapp.FragmentMains.FragmentHistiry;
 import com.developer.headthapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,6 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 public class Prescriptions extends AppCompatActivity {
@@ -37,6 +42,7 @@ Context context;
 ImageButton back,filter;
 dashboard2 adapter;
 FirebaseAuth mauth;
+DeleteClass dd=new DeleteClass("fdfd");
 ProgressDialog progressDialog;
 Button add_prescription,remove_prescription;
     @Override
@@ -62,6 +68,12 @@ Button add_prescription,remove_prescription;
         });
         add_prescription=(Button)findViewById(R.id.add);
         remove_prescription=(Button)findViewById(R.id.remove);
+        remove_prescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              new deleteItems().execute();
+            }
+        });
         add_prescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +99,62 @@ Button add_prescription,remove_prescription;
         });
         dialog.show();
     }
+    public class deleteItems extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+          progressDialog.show();
+            super.onPreExecute();
+        }
 
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().deletePrescription;
+            ArrayList<String> arr= new ArrayList<>();
+            ArrayList<String> arr2= new ArrayList<>();
+            HashMap mapper=dd.listD;
+            Iterator<Map.Entry<String,String>> it=mapper.entrySet().iterator();
+            while(it.hasNext())
+            {
+                Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
+                System.out.println(pair.getKey() + " = " + pair.getValue());
+                arr.add(pair.getKey());
+                arr2.add(pair.getValue());
+            }
+            String json=new JsonParser().deleteBigItems(url,arr,arr2);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            if(s!=null)
+            {
+                try{
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    final String responce2=String.valueOf(jsonObject.get("msg"));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(responce2)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dd=new DeleteClass("fdd");
+                                    new getallPres().execute();
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     public class getallPres extends AsyncTask<String,String,String>
     {
         @Override

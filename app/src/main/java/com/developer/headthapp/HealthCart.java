@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
@@ -63,6 +65,8 @@ LinearLayout disease,medicine,allergies,history,help_layout,disease_help,medicin
 LinearLayout d_help,m_help,a_help,h_help,noti_help,profile_help,report_help2,pres_help2;
 Button next_d,next_m,next_a,next_h,next_qr,next_n,next_p,next_r,next_pres,report_help,pres_help,profile_2;
 RelativeLayout help_layout2;
+ProgressBar progress,progress2;
+TextView no_report,no_pres;
 ImageButton disease_2,medicine_2,allergies_2,history_2,qr,noti;
 
 public static void changeVisiblity()
@@ -321,6 +325,10 @@ public static void changeVisiblity()
         report_help2=(LinearLayout)findViewById(R.id.report_help2);
         pres_help=(Button)findViewById(R.id.pres_help);
         pres_help2=(LinearLayout)findViewById(R.id.pres_help2);
+        progress=(ProgressBar)findViewById(R.id.progress);
+        progress2=(ProgressBar)findViewById(R.id.progress2);
+        no_report=(TextView)findViewById(R.id.no_report);
+        no_pres=(TextView)findViewById(R.id.no_pres);
     }
     public void formList()
     {
@@ -328,6 +336,12 @@ public static void changeVisiblity()
     }
 public class getReports extends AsyncTask<String,String,String>
 {
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+      progress.setVisibility(View.VISIBLE);
+    }
+
     @Override
     protected String doInBackground(String... strings) {
         new networkData();
@@ -344,7 +358,8 @@ public class getReports extends AsyncTask<String,String,String>
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-         progressDialog.dismiss();
+         //progressDialog.dismiss();
+        progress.setVisibility(View.INVISIBLE);
         if(null!=result)
         {
             try
@@ -356,22 +371,27 @@ public class getReports extends AsyncTask<String,String,String>
                 if(responce.equals("1"))
                 {
                     JSONArray data=jsonObject.getJSONArray("data");
-                    for(int i=0;i<data.length();i++)
-                    {
-                        JSONObject object = data.getJSONObject(i);
-                        String title=object.getString("title");
-                        String doctor=object.getString("observer");
-                        String observation=object.getString("details");
-                        String date=object.getString("date");
-                        String id=object.getString("id");
-                        String type = object.getString("type");
-                        String image=object.getString("link");
-                        list.add(new reportClass(doctor,title,date,id,image,type));
+                    if(data.length()>0) {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object = data.getJSONObject(i);
+                            String title = object.getString("title");
+                            String doctor = object.getString("observer");
+                            String observation = object.getString("details");
+                            String date = object.getString("date");
+                            String id = object.getString("id");
+                            String type = object.getString("type");
+                            String image = object.getString("link");
+                            list.add(new reportClass(doctor, title, date, id, image, type));
+                        }
+                        adapter = new dashmainadapter(list, context);
+                        recycler_report.setHasFixedSize(true);
+                        recycler_report.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                        recycler_report.setAdapter(adapter);
+                        no_report.setVisibility(View.INVISIBLE);
                     }
-                    adapter=new dashmainadapter(list,context);
-                    recycler_report.setHasFixedSize(true);
-                    recycler_report.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-                    recycler_report.setAdapter(adapter);
+                else{
+                    no_report.setVisibility(View.VISIBLE);
+                    }
                 }
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -423,10 +443,7 @@ public class getReports extends AsyncTask<String,String,String>
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog=new ProgressDialog(context);
-            progressDialog.setMessage("Sending information");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress2.setVisibility(View.VISIBLE);
 //            progressDialog.show();
         }
 
@@ -448,6 +465,7 @@ public class getReports extends AsyncTask<String,String,String>
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
            // progressDialog.dismiss();
+           progress2.setVisibility(View.INVISIBLE);
             if(null!=result)
             {
                 try
@@ -459,21 +477,27 @@ public class getReports extends AsyncTask<String,String,String>
                     if(responce.equals("1"))
                     {
                         JSONArray data=jsonObject.getJSONArray("data");
-                        for(int i=0;i<data.length();i++)
-                        {
-                            JSONObject object = data.getJSONObject(i);
-                            String title=object.getString("title");
-                            String doctor=object.getString("doctor");
-                            String observation=object.getString("observation");
-                            String date=object.getString("date");
-                            String id=object.getString("id");
-                            String image=object.getString("image");
-                            list2.add(new presClass(title,date,doctor,image,id,observation));
+                        if(data.length()>0) {
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONObject object = data.getJSONObject(i);
+                                String title = object.getString("title");
+                                String doctor = object.getString("doctor");
+                                String observation = object.getString("observation");
+                                String date = object.getString("date");
+                                String id = object.getString("id");
+                                String image = object.getString("image");
+                                list2.add(new presClass(title, date, doctor, image, id, observation));
+                            }
+                            adapter2 = new dashboard2(list2, context);
+                            recycler_pres.setHasFixedSize(true);
+                            recycler_pres.setLayoutManager(new LinearLayoutManager(context));
+                            recycler_pres.setAdapter(adapter2);
+                            no_pres.setVisibility(View.INVISIBLE);
                         }
-                        adapter2=new dashboard2(list2,context);
-                        recycler_pres.setHasFixedSize(true);
-                        recycler_pres.setLayoutManager(new LinearLayoutManager(context));
-                        recycler_pres.setAdapter(adapter2);
+                        else
+                        {
+                            no_pres.setVisibility(View.VISIBLE);
+                        }
                     }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);

@@ -21,6 +21,7 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Prescription.dashboard2;
 import com.developer.headthapp.Prescription.presClass;
+import com.developer.headthapp.Qr.QRone;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Profile extends AppCompatActivity {
-ImageButton back;
+ImageButton back,prof;
 RecyclerView emergency;
 ArrayList<emergencyClass> list;
 emergencyAdapter adapter;
@@ -51,6 +52,15 @@ Context context;
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }
+        });
+        prof=(ImageButton)findViewById(R.id.prof);
+        prof.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(Profile.this, QRone.class);
+                startActivity(intent);
                 finish();
             }
         });

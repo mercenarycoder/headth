@@ -10,20 +10,23 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/app"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Prescription.PrescriptionsView"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Qr.QrProfileDoctor"></activity>
+        <activity android:name=".Prescription.PrescriptionsView" />
         <activity android:name=".Report.ReportView" />
         <activity android:name=".Qr.QRprofile" />
         <activity android:name=".Qr.QRotp" />
@@ -45,14 +48,13 @@
         <activity android:name=".HealthCart" />
         <activity android:name=".Nominations" />
         <activity android:name=".ProfileUpdate" />
-        <activity android:name=".MainActivity" >
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".LoginUser" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

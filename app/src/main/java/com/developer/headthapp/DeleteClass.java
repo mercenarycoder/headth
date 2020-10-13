@@ -1,4 +1,4 @@
-package com.developer.headthapp.Prescription;
+package com.developer.headthapp;
 
 import java.util.ArrayList;
 import java.util.HashMap;

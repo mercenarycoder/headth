@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.R;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +29,7 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
     Context context;
     int cats[];
     int anchor[];
+    DeleteClass dd=new DeleteClass();
     int i=4;
     public dashboard2(ArrayList<presClass> list, Context context)
     {
@@ -54,6 +56,9 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
                 holder.visible.setVisibility(View.VISIBLE);
                 holder.check.setVisibility(View.VISIBLE);
                 holder.check.setChecked(true);
+                if(!dd.listD.containsKey(adapter.getId())) {
+                    dd.listD.put(adapter.getId(), adapter.getImg_url());
+                }
                 return true;
             }
         });
@@ -64,11 +69,17 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
                 {
                     holder.visible.setVisibility(View.INVISIBLE);
                     holder.check.setVisibility(View.INVISIBLE);
+                    if(!dd.listD.containsKey(adapter.getId())) {
+                        dd.listD.put(adapter.getId(), adapter.getImg_url());
+                    }
                 }
                 else
                 {
                     holder.visible.setVisibility(View.VISIBLE);
                     holder.check.setVisibility(View.VISIBLE);
+                    if(dd.listD.containsKey(adapter.getId())) {
+                        dd.listD.remove(adapter.getId());
+                    }
                 }
             }
         });

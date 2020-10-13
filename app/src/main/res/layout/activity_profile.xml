@@ -34,6 +34,7 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_icon"
             android:tint="#000"
+            android:id="@+id/prof"
             android:background="#fff"/>
         <ImageButton
             android:layout_width="match_parent"

@@ -16,12 +16,14 @@ import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.Profile;
 import com.developer.headthapp.R;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -44,6 +46,7 @@ TextView next;
     SurfaceView surfaceView;
     FirebaseAuth mauth=FirebaseAuth.getInstance();
     TextView scanner;
+    Button open_profile;
     Context context;
     ProgressDialog progressDialog;
     String numberF="",accessF="";
@@ -52,6 +55,15 @@ TextView next;
         super.onCreate(savedInstanceState);
         context=QrScanner.this;
         setContentView(R.layout.activity_qr_scanner);
+        open_profile=(Button)findViewById(R.id.open_profile);
+        open_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(QrScanner.this, Profile.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         close_btn=(ImageButton)findViewById(R.id.close_btn);
         next=(TextView)findViewById(R.id.next);
         surfaceView=(SurfaceView)findViewById(R.id.surfaceView);

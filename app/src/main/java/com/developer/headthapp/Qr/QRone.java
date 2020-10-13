@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.developer.headthapp.Profile;
 import com.developer.headthapp.R;
 import com.google.zxing.WriterException;
 
@@ -31,7 +32,7 @@ import java.io.IOException;
 
 public class QRone extends AppCompatActivity {
 ImageButton close_btn;
-Button scanner;
+Button scanner,open_profile;
 ImageView qr_logo;
 Button share ,save;
 String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
@@ -45,6 +46,15 @@ Uri for_share;
         setContentView(R.layout.activity_q_rone);
         qr_logo=(ImageView)findViewById(R.id.qr_logo);
         share=(Button)findViewById(R.id.share);
+        open_profile=(Button)findViewById(R.id.open_profile);
+        open_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(QRone.this, Profile.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

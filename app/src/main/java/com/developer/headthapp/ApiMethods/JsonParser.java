@@ -3,6 +3,7 @@ package com.developer.headthapp.ApiMethods;
 import android.net.Uri;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,10 +15,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -315,6 +318,117 @@ public class JsonParser {
      }
      return null;
  }
+ public String deleteItems(String url2, ArrayList<String> arr)
+ {
+     HttpURLConnection connection = null;
+     BufferedReader reader = null;
+     HashMap<String, String> mapper=new HashMap<>();
+     try {
+         URL url = new URL(url2);
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+         httpURLConnection.setDoOutput(true);
+         httpURLConnection.setRequestMethod("POST");
+         httpURLConnection.setRequestProperty("Content-Type", "application/json");
+         httpURLConnection.connect();
+         JSONArray array=new JSONArray();
+         JSONObject loginData = new JSONObject();
+         for(int i=0;i<arr.size();i++)
+         {
+             JSONObject object = new JSONObject();
+            if(!mapper.containsKey(arr.get(i))) {
+                object.put("id", arr.get(i));
+                array.put(object);
+            }
+            else
+            {
+               mapper.put(arr.get(i),"is their");
+            }
+         }
+         loginData.put("id", array);
+         Log.d("LoginData", "---> " + loginData);
+         DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+         wr.writeBytes(loginData.toString());
+         wr.flush();
+         wr.close();
+
+         InputStream stream = httpURLConnection.getInputStream();
+         reader = new BufferedReader(new InputStreamReader(stream));
+
+         StringBuffer buffer = new StringBuffer();
+         String line = "";
+         while ((line = reader.readLine()) != null) {
+             buffer.append(line);
+         }
+         String finalJson = buffer.toString();
+         return finalJson;
+
+     } catch (MalformedURLException e) {
+         e.printStackTrace();
+     } catch (IOException e) {
+         e.printStackTrace();
+     } catch (JSONException e) {
+         e.printStackTrace();
+     }
+     return null;
+ }
+    public String deleteBigItems(String url2, ArrayList<String> arr,ArrayList<String> arr2)
+    {
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+        HashMap<String, String> mapper=new HashMap<>();
+        try {
+            URL url = new URL(url2);
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
+            httpURLConnection.connect();
+            JSONArray array=new JSONArray();
+            JSONArray array2 = new JSONArray();
+            JSONObject loginData = new JSONObject();
+            for(int i=0;i<arr.size();i++)
+            {
+                JSONObject object = new JSONObject();
+                JSONObject object1 = new JSONObject();
+                if(!mapper.containsKey(arr.get(i))) {
+                    object.put("id", arr.get(i));
+                    object1.put("path", arr2.get(i));
+                    array.put(object);
+                    array2.put(object1);
+                }
+                else
+                {
+                    mapper.put(arr.get(i),"is their");
+                }
+            }
+            loginData.put("id", array);
+            loginData.put("path", array2);
+            Log.d("LoginData", "---> " + loginData);
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes(loginData.toString());
+            wr.flush();
+            wr.close();
+
+            InputStream stream = httpURLConnection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            String finalJson = buffer.toString();
+            return finalJson;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
  public String addReport(String url2,String mobile,String title,String data,String observer,String date
          ,String detail,String type,String name)
  {

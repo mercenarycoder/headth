@@ -12,6 +12,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +29,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -122,8 +124,7 @@ public class PrescriptionAdd extends AppCompatActivity {
         choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openFileChooser();
-               // selectImage();
+              dialogShower();
             }
         });
         upload.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +156,40 @@ public class PrescriptionAdd extends AppCompatActivity {
             }
         });
     }
+    Dialog dialog;
+    public void dialogShower()
+    {
+        dialog=new Dialog(context, 0);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_choice2);
+        ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
+        TextView image=(TextView)dialog.findViewById(R.id.image);
+        TextView pdf=(TextView)dialog.findViewById(R.id.pdf);
+        TextView camera=(TextView)dialog.findViewById(R.id.camera);
+        close_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFileChooser();
+                dialog.dismiss();
+            }
+        });
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cam,9);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
     private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -182,6 +217,28 @@ public class PrescriptionAdd extends AppCompatActivity {
                //                Log.d("image ", "doInBackground: "+convertImage);
 
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(requestCode==9&&resultCode==RESULT_OK)
+        {
+            Uri imageuri=data.getData();
+            //path=getPath(imageuri);
+            try
+            {
+                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
+                Bitmap bitmap=(Bitmap)data.getExtras().get("data");
+                image.setImageBitmap(bitmap);
+                //imageView_pic.setImageURI(imageuri);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                imageF= Base64.encodeToString(byteArray,Base64.NO_WRAP);
+
+                System.out.println("-------------------------------------"+imageF);
+                //                Log.d("image ", "doInBackground: "+convertImage);
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

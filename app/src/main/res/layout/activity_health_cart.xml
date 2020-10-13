@@ -230,6 +230,7 @@
             android:layout_marginTop="10dp"
             tools:ignore="Suspicious0dp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -267,15 +268,37 @@
               android:textColor="#fff"
               android:background="@drawable/dark_btn"/>
       </LinearLayout>
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="140dp"
+           android:layout_marginLeft="10dp"
+           android:layout_marginRight="10dp"
+           android:layout_marginTop="10dp">
       <androidx.recyclerview.widget.RecyclerView
           android:layout_width="match_parent"
           android:layout_height="140dp"
           android:padding="5dp"
           android:id="@+id/recycler_report"
-          android:layout_marginLeft="10dp"
-          android:layout_marginTop="10dp"
-          android:layout_marginRight="10dp"
           />
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:text="No Items"
+              android:textColor="@color/graycolor"
+              android:id="@+id/no_report"
+              android:layout_centerHorizontal="true"
+              android:layout_centerVertical="true"
+              android:visibility="invisible"
+              android:gravity="center"
+              android:textSize="20sp"/>
+           <ProgressBar
+               android:layout_width="120dp"
+               android:layout_height="120dp"
+               android:layout_centerHorizontal="true"
+               android:layout_centerVertical="true"
+               android:id="@+id/progress"
+               android:visibility="invisible"/>
+       </RelativeLayout>
         <TableRow
             android:layout_width="262dp"
             android:layout_height="0.79dp"
@@ -314,14 +337,37 @@
                 android:textColor="#fff"
                 android:background="@drawable/dark_btn"/>
         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:id="@+id/recycler_pres"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="No Items"
+                android:textColor="@color/graycolor"
+                android:id="@+id/no_pres"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="invisible"
+                android:gravity="center"
+                android:textSize="20sp"/>
+            <ProgressBar
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:id="@+id/progress2"
+                android:visibility="invisible"/>
+        </RelativeLayout>
     </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"

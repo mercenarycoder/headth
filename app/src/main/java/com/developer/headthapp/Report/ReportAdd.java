@@ -66,6 +66,8 @@ Context context;
         choose=(Button)findViewById(R.id.choose);
         submit=(Button)findViewById(R.id.submit);
         title=(EditText)findViewById(R.id.title);
+        pdf=(TextView)findViewById(R.id.pdf);
+        pdf.setText("No files choosen currently");
         observer=(EditText)findViewById(R.id.observer);
         detail=(EditText)findViewById(R.id.detail);
         date.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +198,9 @@ Context context;
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+             Intent cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+             startActivityForResult(cam,9);
+             dialog.dismiss();
             }
         });
         dialog.show();
@@ -206,13 +210,14 @@ Context context;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(context, "here", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "here", Toast.LENGTH_SHORT).show();
         if(resultCode==RESULT_OK&&requestCode==STORAGE_PERMISSION_CODE&&data!=null&&data.getData()!=null)
         {
             Toast.makeText(context, "reached here", Toast.LENGTH_SHORT).show();
             Uri pdfUri = data.getData();
             base65=getStringPdf(pdfUri);
             base65="data:application/pdf;base64,"+base65;
+            pdf.setText("A pdf File is choosen");
             System.out.println("------------------"+base65);
             typeF=".pdf";
         }
@@ -222,7 +227,31 @@ Context context;
             //path=getPath(imageuri);
             try
             {
+                Toast.makeText(context,"image choosed",Toast.LENGTH_SHORT).show();
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
+                //imageView_pic.setImageURI(imageuri);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
+                pdf.setText("A Image is choosen");
+                base65="data:image/jpeg;base64,"+base65;
+                typeF=".jpeg";
+                System.out.println("-------------------------------------"+base65);
+                //                Log.d("image ", "doInBackground: "+convertImage);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(requestCode==9&&resultCode==RESULT_OK)
+        {
+            Uri imageuri=data.getData();
+            //path=getPath(imageuri);
+            try
+            {
+                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
+                Bitmap bitmap=(Bitmap)data.getExtras().get("data");
                 //imageView_pic.setImageURI(imageuri);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
@@ -230,10 +259,11 @@ Context context;
                 base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
                 base65="data:image/jpeg;base64,"+base65;
                 typeF=".jpeg";
+                pdf.setText("A Image is choosen");
                 System.out.println("-------------------------------------"+base65);
                 //                Log.d("image ", "doInBackground: "+convertImage);
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

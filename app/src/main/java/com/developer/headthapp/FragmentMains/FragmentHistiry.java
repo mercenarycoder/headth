@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.HealthCart;
 import com.developer.headthapp.R;
 import com.developer.headthapp.typeClass;
@@ -42,6 +43,7 @@ RecyclerView history;
 SwipeRefreshLayout refresh_history;
 ArrayList<typeClass> list;
 dialogRecyler adapter;
+DeleteClass dd=new DeleteClass("fbf");
 Button add,remove;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 String titleF,descriptionF;
@@ -64,6 +66,12 @@ TextView sabchanga;
         sabchanga=(TextView)view.findViewById(R.id.sabchanga);
         add=(Button)view.findViewById(R.id.add);
         remove=(Button)view.findViewById(R.id.remove);
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new deleteItems().execute();
+            }
+        });
         refresh_history=(SwipeRefreshLayout)view.findViewById(R.id.refresh_history);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +130,53 @@ TextView sabchanga;
             }
         });
         dialog.show();
+    }
+
+    public class deleteItems extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            progress.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().deleteHistory;
+            ArrayList<String> arr= dd.listD2;
+            String json=new JsonParser().deleteItems(url,arr);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progress.setVisibility(View.INVISIBLE);
+            if(s!=null)
+            {
+                try{
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    final String responce2=String.valueOf(jsonObject.get("msg"));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(responce2)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dd=new DeleteClass("fdd");
+                                    new getDieseas().execute();
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public class addAllergy extends AsyncTask<String,String,String>
     {
