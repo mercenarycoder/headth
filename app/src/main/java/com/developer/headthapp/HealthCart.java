@@ -334,7 +334,17 @@ public static void changeVisiblity()
     {
 
     }
-public class getReports extends AsyncTask<String,String,String>
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    if(mauth.getCurrentUser()==null)
+    {
+        finish();
+    }
+    }
+
+    public class getReports extends AsyncTask<String,String,String>
 {
     @Override
     protected void onPreExecute() {

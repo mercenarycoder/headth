@@ -22,9 +22,6 @@ import com.developer.headthapp.bundleReport;
 public class dateReportAdapter extends RecyclerView.Adapter<dateReportAdapter.viewholder1>{
     ArrayList<bundleReport> list;
     Context context;
-    int cats[];
-    int anchor[];
-    int i=4;
     public dateReportAdapter(ArrayList<bundleReport> list, Context context)
     {
         this.list=list;
@@ -45,6 +42,7 @@ public class dateReportAdapter extends RecyclerView.Adapter<dateReportAdapter.vi
     public void onBindViewHolder(@NonNull final viewholder1 holder, final int position) {
         final bundleReport adapter=list.get(position);
         reportClass item1,item2,item3;
+        holder.date_date.setText(adapter.getDate());
         ArrayList<reportOf3> childList=adapter.getList();
         internalReport adapter_in=new internalReport(childList,context);
         holder.internal_recycler.setLayoutManager(new LinearLayoutManager(context));
@@ -66,13 +64,6 @@ public class dateReportAdapter extends RecyclerView.Adapter<dateReportAdapter.vi
             internal_recycler=(RecyclerView)itemView.findViewById(R.id.internal_recycler);
         }
     }
-    public void setProgress()
-    {
-        progressDialog=new ProgressDialog(context);
-        progressDialog.setMessage("Data Loading");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-    }
-    ProgressDialog progressDialog;
+
 }
 

@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Profile extends AppCompatActivity {
-ImageButton back,prof;
+ImageButton back,prof,setting;
 RecyclerView emergency;
 ArrayList<emergencyClass> list;
 emergencyAdapter adapter;
@@ -70,6 +70,15 @@ Context context;
         height=(TextView)findViewById(R.id.height);
         weight=(TextView)findViewById(R.id.weight);
         blood=(TextView)findViewById(R.id.blood);
+        setting=(ImageButton)findViewById(R.id.setting);
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+         Intent intent=new Intent(Profile.this,Setting.class);
+         startActivity(intent);
+         overridePendingTransition(R.anim.in_from_bottom,R.anim.out_to_top);
+            }
+        });
         age=(TextView)findViewById(R.id.age);
         edit_profile=(Button)findViewById(R.id.edit_profile);
         edit_profile.setOnClickListener(new View.OnClickListener() {
@@ -78,16 +87,31 @@ Context context;
                 Intent intent=new Intent(Profile.this,ProfileUpdate.class);
                 intent.putExtra("edit","true");
                 intent.putExtra("name",name.getText().toString());
+                intent.putExtra("dob",dob.getText().toString());
                 intent.putExtra("height",height.getText().toString());
                 intent.putExtra("weight",weight.getText().toString());
                 intent.putExtra("blood",blood.getText().toString());
                 startActivity(intent);
+                check=true;
             }
         });
         phone=(TextView)findViewById(R.id.phone);
         emergency=(RecyclerView)findViewById(R.id.emergency);
         new getProfile().execute();
     //    new getEmergency().execute();
+    }
+boolean check=false;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(check) {
+            new getProfile().execute();
+        check=false;
+        }
+        if(mauth.getCurrentUser()==null)
+        {
+            finish();
+        }
     }
 
     private class getProfile extends AsyncTask<String,String,String>
@@ -215,7 +239,7 @@ Context context;
                     // final String responce2=String.valueOf(jsonObject.get("msg"));
                     if(responce.equals("1"))
                     {
-                        Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
                         JSONArray data=jsonObject.getJSONArray("data");
                         for(int i=0;i<data.length();i++)
                         {

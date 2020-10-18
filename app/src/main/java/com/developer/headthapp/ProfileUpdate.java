@@ -2,6 +2,7 @@ package com.developer.headthapp;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,26 +10,42 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.developer.headthapp.ApiMethods.*;
+import com.developer.headthapp.FragmentMains.DiseaseFragment;
+import com.developer.headthapp.Report.ReportView;
+import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static android.text.InputType.TYPE_NULL;
+import static java.sql.Types.NULL;
 
 public class ProfileUpdate extends AppCompatActivity {
     Button verify;
@@ -50,8 +67,33 @@ Calendar myCalendar;
         dob=(EditText)findViewById(R.id.dob);
         myCalendar=Calendar.getInstance();
         height=(EditText)findViewById(R.id.height);
+        height.setInputType(TYPE_NULL);
+        height.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                formHeight();
+                dialogShower("Choose Height",options);
+            }
+        });
         weight=(EditText)findViewById(R.id.weight);
+        weight.setInputType(NULL);
+        weight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                formWeight();
+                dialogShower("Your Weight Approx",options);
+            }
+        });
+
         blood=(EditText)findViewById(R.id.blood);
+        blood.setInputType(NULL);
+        blood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                formBlood();
+                dialogShower("Your Blood Group",options);
+            }
+        });
         verify=(Button)findViewById(R.id.verify);
         if(edit.equals("true"))
         {
@@ -108,6 +150,136 @@ Calendar myCalendar;
             }
         });
     }
+    public void formHeight()
+    {
+        options=new ArrayList<>();
+        for(int i=120;i<240;i++)
+        {
+            options.add(String.valueOf(i)+" cms");
+        }
+    }
+    public void formWeight()
+    {
+        options=new ArrayList<>();
+        for(int i=30;i<120;i++)
+        {
+            options.add(String.valueOf(i)+" kgs");
+        }
+    }
+    public void formBlood()
+    {
+        options=new ArrayList<>();
+        options.add("O+");
+        options.add("A+");
+        options.add("B+");
+        options.add("O-");
+        options.add("A-");
+        options.add("AB+");
+        options.add("AB-");
+        options.add("B-");
+    }
+    ArrayList<String> options;
+    Dialog dialog2;
+    public void dialogShower(String head,ArrayList<String> chose)
+    {
+        dialog2= new Dialog(ProfileUpdate.this, 0);
+        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog2.setCancelable(false);
+        dialog2.setContentView(R.layout.dialog_chooser);
+        ImageButton close_btn2=(ImageButton)dialog2.findViewById(R.id.close_but);
+        final TextView name=(TextView)dialog2.findViewById(R.id.option);
+        name.setText(head);
+        close_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog2.dismiss();
+            }
+        });
+        RecyclerView options=(RecyclerView)dialog2.findViewById(R.id.options);
+        dashmainadapter adapter=new dashmainadapter(chose,context) {
+            @NonNull
+            @Override
+            public viewholder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                return super.onCreateViewHolder(parent, viewType);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull viewholder1 holder, int position) {
+                super.onBindViewHolder(holder, position);
+                holder.name.setText(chose.get(position));
+                holder.layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(head.contains("Weight"))
+                        {
+                            weight.setText(chose.get(position).substring(0,3));
+                        }
+                        if(head.contains("Height"))
+                        {
+                            height.setText(chose.get(position).substring(0,3));
+                        }
+                        if(head.contains("Blood"))
+                        {
+                            blood.setText(chose.get(position));
+                        }
+                        dialog2.dismiss();
+                    }
+                });
+            }
+
+            @Override
+            public int getItemCount() {
+                return super.getItemCount();
+            }
+        };
+        options.setLayoutManager(new LinearLayoutManager(context));
+        options.setHasFixedSize(true);
+        options.setAdapter(adapter);
+        dialog2.show();
+    }
+    public abstract class dashmainadapter extends RecyclerView.Adapter<dashmainadapter.viewholder1>{
+        ArrayList<String> list;
+        Context context;
+        int cats[];
+        int anchor[];
+        int i=4;
+        public dashmainadapter(ArrayList<String> list, Context context)
+        {
+            this.list=list;
+            this.context=context;
+
+        }
+        @NonNull
+        @Override
+        public viewholder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            Context context=parent.getContext();
+            View inflator= LayoutInflater.from(context).inflate(R.layout.item_options, parent,
+                    false);
+            viewholder1 viewhold=new viewholder1(inflator);
+            return viewhold;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final viewholder1 holder, final int position) {
+            final String adapter=list.get(position);
+
+        }
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+        public  class viewholder1 extends RecyclerView.ViewHolder
+        {
+            TextView name;
+            LinearLayout layout;
+            public viewholder1(@NonNull View itemView) {
+                super(itemView);
+               layout=(LinearLayout)itemView.findViewById(R.id.layout);
+               name=(TextView)itemView.findViewById(R.id.name);
+            }
+        }
+    }
+
     private class AdminLogin extends AsyncTask<String,String,String>
     {
         @Override
@@ -125,7 +297,7 @@ Calendar myCalendar;
             JsonParser jsonParser=new JsonParser();
             String url="";
             if(edit.equals("false")) {
-                url = "http://192.168.1.3:5000/app1/newUser";
+                url = new networkData().url+new networkData().update;
             }
             else
             {

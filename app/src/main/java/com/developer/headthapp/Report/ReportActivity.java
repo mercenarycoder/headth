@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class ReportActivity extends AppCompatActivity {
@@ -41,7 +42,7 @@ ArrayList<reportClass> list;
 ArrayList<reportOf3> list3;
 RecyclerView previous_report;
 dateReportAdapter adapter;
-HashMap<String,reportClass> matcher;
+HashMap<String,ArrayList<reportClass>> matcher;
 Context context;
 ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
@@ -84,10 +85,7 @@ ImageButton filter;
         });
         context=ReportActivity.this;
         previous_report=(RecyclerView)findViewById(R.id.previous_reports);
-        previous_report.setLayoutManager(new LinearLayoutManager(context));
-        previous_report.setHasFixedSize(true);
-        adapter=new dateReportAdapter(list2,context);
-        previous_report.setAdapter(adapter);
+        new getReports().execute();
     }
     public void dialogShower()
     {
@@ -136,7 +134,7 @@ ImageButton filter;
         protected String doInBackground(String... strings) {
             new networkData();
             String base= networkData.url;
-            String method=networkData.gettopreport;
+            String method=networkData.getreport;
             String url=base+method;
             String number=mauth.getCurrentUser().getPhoneNumber();
             number=number.substring(3,number.length());
@@ -155,6 +153,7 @@ ImageButton filter;
                 {
                     list=new ArrayList<>();
                     JSONObject jsonObject = new JSONObject(result);
+                    matcher=new HashMap<>();
                     final String responce = String.valueOf(jsonObject.get("status"));
                     // final String responce2=String.valueOf(jsonObject.get("msg"));
                     if(responce.equals("1"))
@@ -171,8 +170,50 @@ ImageButton filter;
                             String type = object.getString("type");
                             String image=object.getString("link");
                             list.add(new reportClass(doctor,title,date,id,image,type));
+                            if(matcher.containsKey(date))
+                            {
+                                ArrayList<reportClass> ll=matcher.get(date);
+                                ll.add(new reportClass(doctor,title,date,id,image,type));
+                            }
+                            else
+                            {
+                                ArrayList<reportClass> ll=new ArrayList<>();
+                                ll.add(new reportClass(doctor,title,date,id,image,type));
+                                matcher.put(date,ll);
+                            }
                         }
-
+                        list2=new ArrayList<>();
+                        for(Map.Entry<String,ArrayList<reportClass>> entry:matcher.entrySet())
+                       {
+                        String main=entry.getKey();
+                        ArrayList<reportClass> ll=entry.getValue();
+                        list3=new ArrayList<>();
+                        for(int i=0;i<ll.size();i=i+3)
+                        {
+                                reportClass m1=ll.get(i);
+                                reportClass m2,m3;
+                                if(i+1<ll.size()) {
+                                    m2 = ll.get(i + 1);
+                                }
+                                else
+                                {
+                                m2 = new reportClass("null","null","","","","");
+                                }
+                            if(i+2<ll.size()) {
+                                m3 = ll.get(i + 1);
+                            }
+                            else
+                            {
+                                m3 = new reportClass("null","null","","","","");
+                            }
+                            list3.add(new reportOf3(m1,m2,m3));
+                        }
+                        list2.add(new bundleReport(main,list3));
+                       }
+                        previous_report.setLayoutManager(new LinearLayoutManager(context));
+                        previous_report.setHasFixedSize(true);
+                        adapter=new dateReportAdapter(list2,context);
+                        previous_report.setAdapter(adapter);
                     }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);

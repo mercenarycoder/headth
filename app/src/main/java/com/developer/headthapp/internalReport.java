@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Report.ReportView;
 import com.developer.headthapp.Report.reportOf3;
 
@@ -56,12 +57,25 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ReportView.class);
+                    intent.putExtra("doctor",item1.getName());
+                    intent.putExtra("url",new networkData().url_image+item1.getIcon());
+                    intent.putExtra("title",item1.getType());
+                    intent.putExtra("id",item1.getId());
+                    intent.putExtra("type",item1.getTypeD());
                     context.startActivity(intent);
                 }
             });
-            holder.name1.setText(item1.getName());
+            holder.name1.setText(item1.getType());
             holder.date1.setText(item1.getDate());
-            holder.type1.setText(item1.getType());
+            holder.type1.setText(item1.getName());
+            holder.icon1.getSettings().setJavaScriptEnabled(true);
+            String pdf = new networkData().url_image+item1.getIcon();
+            holder.icon1.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+
+        }
+        else
+        {
+            holder.reportitem1.setVisibility(View.INVISIBLE);
         }
         if(!item2.name.equals("null"))
         {
@@ -69,12 +83,25 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ReportView.class);
+                    intent.putExtra("doctor",item2.getName());
+                    intent.putExtra("url",new networkData().url_image+item2.getIcon());
+                    intent.putExtra("title",item2.getType());
+                    intent.putExtra("id",item2.getId());
+                    intent.putExtra("type",item2.getTypeD());
                     context.startActivity(intent);
                 }
             });
-            holder.name2.setText(item2.getName());
+
+            holder.name2.setText(item2.getType());
             holder.date2.setText(item2.getDate());
-            holder.type2.setText(item2.getType());
+            holder.type2.setText(item2.getName());
+            holder.icon2.getSettings().setJavaScriptEnabled(true);
+            String pdf = new networkData().url_image+item2.getIcon();
+            holder.icon2.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+        }
+        else
+        {
+            holder.reportitem2.setVisibility(View.INVISIBLE);
         }
         if(!item3.name.equals("null"))
         {
@@ -82,12 +109,24 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ReportView.class);
-                    context.startActivity(intent);
-                }
+                    intent.putExtra("doctor",item3.getName());
+                    intent.putExtra("url",new networkData().url_image+item3.getIcon());
+                    intent.putExtra("title",item3.getType());
+                    intent.putExtra("id",item3.getId());
+                    intent.putExtra("type",item3.getTypeD());
+                    context.startActivity(intent); }
             });
-            holder.name3.setText(item3.getName());
+
+            holder.name3.setText(item3.getType());
             holder.date3.setText(item3.getDate());
-            holder.type3.setText(item3.getType());
+            holder.type3.setText(item3.getName());
+            holder.icon3.getSettings().setJavaScriptEnabled(true);
+            String pdf = new networkData().url_image+item3.getIcon();
+            holder.icon3.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+        }
+        else
+        {
+            holder.reportitem3.setVisibility(View.INVISIBLE);
         }
     }
     @Override

@@ -45,6 +45,7 @@
             android:layout_marginRight="5dp"
             android:textSize="12sp"
             android:tint="#000"
+            android:id="@+id/setting"
             android:textColor="#000"
             android:src="@drawable/ic_setting_two"
             android:background="#fff"/>
@@ -56,10 +57,10 @@
         android:layout_marginTop="120dp"
         android:orientation="vertical">
         <TextView
-            android:layout_width="296dp"
-            android:layout_height="41dp"
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
             android:text="Rahul Ganjawala"
-            android:textSize="32sp"
+            android:textSize="30sp"
             android:gravity="center"
             android:id="@+id/name_main"
             android:textStyle="bold"

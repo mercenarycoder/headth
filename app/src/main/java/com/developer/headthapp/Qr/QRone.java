@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.developer.headthapp.Profile;
 import com.developer.headthapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.WriterException;
 
 import java.io.File;
@@ -39,6 +40,7 @@ String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode
 Bitmap bitmap;
 Context context;
 Uri for_share;
+FirebaseAuth mauth=FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +64,9 @@ Uri for_share;
             }
         });
         save=(Button)findViewById(R.id.save);
-        QRGEncoder qrgEncoder = new QRGEncoder("7389438159", null, QRGContents.Type.TEXT, 400);
+        String number=mauth.getCurrentUser().getPhoneNumber();
+        number=number.substring(3,number.length());
+        QRGEncoder qrgEncoder = new QRGEncoder(number, null, QRGContents.Type.TEXT, 400);
         try {
             // Getting QR-Code as Bitmap
             bitmap = qrgEncoder.encodeAsBitmap();
@@ -113,6 +117,16 @@ Uri for_share;
         intent.setType("image/png");
         startActivity(intent);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mauth.getCurrentUser()==null)
+        {
+            finish();
+        }
+    }
+
     private Uri saveImageExternal(Bitmap image) {
         //TODO - Should be processed in another thread
         Uri uri = null;

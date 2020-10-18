@@ -25,7 +25,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Qr.QrProfileDoctor"></activity>
+        <activity android:name=".Setting"></activity>
+        <activity android:name=".Qr.QrProfileDoctor" />
         <activity android:name=".Prescription.PrescriptionsView" />
         <activity android:name=".Report.ReportView" />
         <activity android:name=".Qr.QRprofile" />
@@ -48,7 +49,7 @@
         <activity android:name=".HealthCart" />
         <activity android:name=".Nominations" />
         <activity android:name=".ProfileUpdate" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".LoginUser" />
 
         <meta-data
