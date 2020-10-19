@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -65,13 +67,42 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                     context.startActivity(intent);
                 }
             });
+            holder.reportitem1.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    holder.visible1.setVisibility(View.VISIBLE);
+                    holder.check1.setVisibility(View.VISIBLE);
+                    return true;
+                }
+            });
+            holder.check1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(b)
+                    {
+                        holder.visible1.setVisibility(View.VISIBLE);
+                        holder.check1.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        holder.visible1.setVisibility(View.INVISIBLE);
+                        holder.check1.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
+
             holder.name1.setText(item1.getType());
             holder.date1.setText(item1.getDate());
             holder.type1.setText(item1.getName());
             holder.icon1.getSettings().setJavaScriptEnabled(true);
             String pdf = new networkData().url_image+item1.getIcon();
+            if(item1.getTypeD().contains(".pdf"))
             holder.icon1.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
-
+            else
+            {
+            holder.icon1.loadDataWithBaseURL(null,"<html><center><img src="+pdf+"></html>",
+                    "text/html","utf-8","");
+            }
         }
         else
         {
@@ -91,13 +122,42 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                     context.startActivity(intent);
                 }
             });
+            holder.reportitem2.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    holder.visible2.setVisibility(View.VISIBLE);
+                    holder.check2.setVisibility(View.VISIBLE);
+                    return true;
+                }
+            });
+            holder.check2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(b)
+                    {
+                        holder.visible2.setVisibility(View.VISIBLE);
+                        holder.check2.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        holder.visible2.setVisibility(View.INVISIBLE);
+                        holder.check2.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
 
             holder.name2.setText(item2.getType());
             holder.date2.setText(item2.getDate());
             holder.type2.setText(item2.getName());
             holder.icon2.getSettings().setJavaScriptEnabled(true);
             String pdf = new networkData().url_image+item2.getIcon();
-            holder.icon2.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+            if(item1.getTypeD().contains(".pdf"))
+                holder.icon2.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+            else
+            {
+                holder.icon2.loadDataWithBaseURL(null,"<html><center><img src="+pdf+"></html>",
+                        "text/html","utf-8","");
+            }
         }
         else
         {
@@ -116,13 +176,41 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                     intent.putExtra("type",item3.getTypeD());
                     context.startActivity(intent); }
             });
-
+            holder.reportitem3.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    holder.visible3.setVisibility(View.VISIBLE);
+                    holder.check3.setVisibility(View.VISIBLE);
+                    return true;
+                }
+            });
+            holder.check3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if(b)
+                    {
+                        holder.visible3.setVisibility(View.VISIBLE);
+                        holder.check3.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        holder.visible3.setVisibility(View.INVISIBLE);
+                        holder.check3.setVisibility(View.INVISIBLE);
+                    }
+                }
+            });
             holder.name3.setText(item3.getType());
             holder.date3.setText(item3.getDate());
             holder.type3.setText(item3.getName());
             holder.icon3.getSettings().setJavaScriptEnabled(true);
             String pdf = new networkData().url_image+item3.getIcon();
-            holder.icon3.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+            if(item1.getTypeD().contains(".pdf"))
+                holder.icon3.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+            else
+            {
+                holder.icon3.loadDataWithBaseURL(null,"<html><center><img src="+pdf+"></html>",
+                        "text/html","utf-8","");
+            }
         }
         else
         {
@@ -137,6 +225,8 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
     {
         TextView name1,date1,type1,name2,date2,type2,name3,date3,type3;
         WebView icon1,icon2,icon3;
+        CheckBox check1,check2,check3;
+        TextView visible1,visible2,visible3;
         LinearLayout reportitem1,reportitem2,reportitem3;
         public viewholder1(@NonNull View itemView) {
             super(itemView);
@@ -146,18 +236,24 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
             date1=(TextView)itemView.findViewById(R.id.date1);
             type1=(TextView)itemView.findViewById(R.id.type1);
             icon1=(WebView)itemView.findViewById(R.id.icon1);
+            check1=(CheckBox)itemView.findViewById(R.id.check1);
+            visible1=(TextView)itemView.findViewById(R.id.visibile1);
             //item 2
             reportitem2=(LinearLayout)itemView.findViewById(R.id.reportitem2);
             name2=(TextView)itemView.findViewById(R.id.name2);
             date2=(TextView)itemView.findViewById(R.id.date2);
             type2=(TextView)itemView.findViewById(R.id.type2);
             icon2=(WebView)itemView.findViewById(R.id.icon2);
+            check2=(CheckBox)itemView.findViewById(R.id.check2);
+            visible2=(TextView)itemView.findViewById(R.id.visibile2);
             //item 3
             reportitem3=(LinearLayout)itemView.findViewById(R.id.reportitem3);
             name3=(TextView)itemView.findViewById(R.id.name3);
             date3=(TextView)itemView.findViewById(R.id.date3);
             type3=(TextView)itemView.findViewById(R.id.type3);
             icon3=(WebView)itemView.findViewById(R.id.icon3);
+            check3=(CheckBox)itemView.findViewById(R.id.check3);
+            visible3=(TextView)itemView.findViewById(R.id.visibile3);
         }
     }
     public void setProgress()
