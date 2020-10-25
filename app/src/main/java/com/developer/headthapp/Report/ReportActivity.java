@@ -17,6 +17,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
@@ -45,6 +46,7 @@ RecyclerView previous_report;
 dateReportAdapter adapter;
 HashMap<String,ArrayList<reportClass>> matcher;
 Context context;
+TextView nop;
 ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 Button add_report,remove_report;
@@ -86,6 +88,8 @@ ImageButton filter;
         });
         context=ReportActivity.this;
         previous_report=(RecyclerView)findViewById(R.id.previous_reports);
+        nop=(TextView)findViewById(R.id.nop);
+        nop.setVisibility(View.INVISIBLE);
         new getReports().execute();
     }
     public void dialogShower()
@@ -162,6 +166,7 @@ public void transformList(String str)
     {
         String main=entry.getKey();
         ArrayList<reportClass> ll=entry.getValue();
+        boolean dateC=false;
         list3=new ArrayList<>();
         for(int i=0;i<ll.size();i=i+3)
         {
@@ -188,6 +193,7 @@ public void transformList(String str)
                 x++;
             }
             if(ff) {
+                dateC=true;
                 if(x==1) {
                     list3.add(new reportOf3(m1[0], m3, m3));
                 }
@@ -200,6 +206,7 @@ public void transformList(String str)
                 }
             }
         }
+        if(dateC)
         list2.add(new bundleReport(main,list3));
     }
     previous_report.setLayoutManager(new LinearLayoutManager(context));
@@ -208,11 +215,11 @@ public void transformList(String str)
     previous_report.setAdapter(adapter);
     if(list2.size()>0)
     {
-
+        nop.setVisibility(View.INVISIBLE);
     }
     else
     {
-
+        nop.setVisibility(View.VISIBLE);
     }
 }
     public class getReports extends AsyncTask<String,String,String>
@@ -311,6 +318,14 @@ public void transformList(String str)
                         previous_report.setHasFixedSize(true);
                         adapter=new dateReportAdapter(list2,context);
                         previous_report.setAdapter(adapter);
+                        if(list2.size()>0)
+                        {
+                         nop.setVisibility(View.INVISIBLE);
+                        }
+                        else
+                        {
+                        nop.setVisibility(View.VISIBLE);
+                        }
                     }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);

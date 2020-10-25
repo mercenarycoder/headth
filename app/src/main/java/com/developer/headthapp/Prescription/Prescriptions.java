@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
@@ -44,6 +45,7 @@ dashboard2 adapter;
 FirebaseAuth mauth;
 DeleteClass dd=new DeleteClass("fdfd");
 ProgressDialog progressDialog;
+TextView nop;
 Button add_prescription,remove_prescription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ Button add_prescription,remove_prescription;
             }
         });
         previous_pres=(RecyclerView)findViewById(R.id.previous_pres);
+        nop=(TextView)findViewById(R.id.nop);
         new getallPres().execute();
     }
     public void dialogShower()
@@ -211,6 +214,14 @@ Button add_prescription,remove_prescription;
                         previous_pres.setHasFixedSize(true);
                         previous_pres.setLayoutManager(new LinearLayoutManager(context));
                         previous_pres.setAdapter(adapter);
+                        if(list2.size()>0)
+                        {
+                            nop.setVisibility(View.INVISIBLE);
+                        }
+                        else
+                        {
+                            nop.setVisibility(View.VISIBLE);
+                        }
                      }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);

@@ -82,4 +82,14 @@
         android:layout_height="match_parent"
         android:layout_marginTop="170dp"
         android:id="@+id/previous_pres"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="No Items To show"
+        android:textSize="25sp"
+        android:textColor="@color/colorAccent"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:id="@+id/nop"/>
 </RelativeLayout>
