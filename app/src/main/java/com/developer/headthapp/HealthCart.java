@@ -391,7 +391,8 @@ public static void changeVisiblity()
                             String id = object.getString("id");
                             String type = object.getString("type");
                             String image = object.getString("link");
-                            list.add(new reportClass(doctor, title, date, id, image, type));
+                            String category=object.getString("category");
+                            list.add(new reportClass(doctor, title, date, id, image, type,category));
                         }
                         adapter = new dashmainadapter(list, context);
                         recycler_report.setHasFixedSize(true);

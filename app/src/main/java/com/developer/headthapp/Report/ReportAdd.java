@@ -19,10 +19,13 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,8 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.FragmentMains.DiseaseFragment;
 import com.developer.headthapp.R;
+import com.developer.headthapp.SpinnerAdapter2;
+import com.developer.headthapp.SpinnerClass;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
@@ -39,6 +44,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.UUID;
@@ -51,9 +57,12 @@ private static final int STORAGE_PERMISSION_CODE = 123;
 private static final int PICK_IMAGE_REQUEST = 1;
 Button choose,submit;
 Calendar myCalendar;
+Spinner type;
+SpinnerAdapter2 adapter;
+ArrayList<SpinnerClass> list;
 ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
-String titleF,observerF,dateF,detailF,typeF,base65;
+String titleF,observerF,dateF,detailF,typeF,base65,reportType=null;
 Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +76,22 @@ Context context;
         submit=(Button)findViewById(R.id.submit);
         title=(EditText)findViewById(R.id.title);
         pdf=(TextView)findViewById(R.id.pdf);
+        type=(Spinner)findViewById(R.id.type);
+        formList();
+        adapter=new SpinnerAdapter2(context,list);
+        type.setAdapter(adapter);
+        type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                SpinnerClass item=adapter.getItem(i);
+                reportType=item.getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         pdf.setText("No files choosen currently");
         observer=(EditText)findViewById(R.id.observer);
         detail=(EditText)findViewById(R.id.detail);
@@ -136,12 +161,29 @@ Context context;
                  Toast.makeText(context,"Document cannot be empty",Toast.LENGTH_SHORT).show();
                  return;
              }
+             else if(reportType.isEmpty())
+             {
+                 Toast.makeText(context,"Please Select your report type",Toast.LENGTH_SHORT).show();
+                 return;
+             }
              else
              {
                  new submitReport().execute();
              }
             }
         });
+    }
+    public void formList()
+    {
+        list=new ArrayList<>();
+        list.add(new SpinnerClass("others","Select Report Type"));
+        list.add(new SpinnerClass("blood","Blood Report"));
+        list.add(new SpinnerClass("eye","Eye Report"));
+        list.add(new SpinnerClass("dental","Dental Report"));
+        list.add(new SpinnerClass("ent","ENT Report"));
+        list.add(new SpinnerClass("x_ray","X-Ray Report"));
+        list.add(new SpinnerClass("others","Other"));
+        reportType="others";
     }
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -321,7 +363,7 @@ Context context;
             number=number.substring(3,number.length());
             String uploadId= UUID.randomUUID().toString();
 
-            String json=new JsonParser().addReport(url,number,titleF,base65,observerF,dateF,detailF,typeF,uploadId);
+            String json=new JsonParser().addReport(url,number,titleF,base65,observerF,dateF,detailF,typeF,uploadId,reportType);
             return json;
         }
 

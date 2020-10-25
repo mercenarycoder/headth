@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,6 +44,7 @@ import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Nominations;
 import com.developer.headthapp.ProfileUpdate;
 import com.developer.headthapp.R;
+import com.developer.headthapp.Report.ReportAdd;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -54,6 +56,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -73,7 +76,7 @@ public class PrescriptionAdd extends AppCompatActivity {
     Bitmap img=null;
     FirebaseAuth mauth;
     Calendar myCalendar;
-    String titleF,docF,observationF,dateF,imageF="";
+    String titleF,docF,observationF,dateF,imageF="",typeF;
     ProgressDialog progressDialog;
     String path="";
     private void initRetrofitClient() {
@@ -162,7 +165,7 @@ public class PrescriptionAdd extends AppCompatActivity {
         dialog=new Dialog(context, 0);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_choice2);
+        dialog.setContentView(R.layout.dialog_choice);
         ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
         TextView image=(TextView)dialog.findViewById(R.id.image);
         TextView pdf=(TextView)dialog.findViewById(R.id.pdf);
@@ -180,6 +183,13 @@ public class PrescriptionAdd extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+        pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openPdfChooser();
+                dialog.dismiss();
+            }
+        });
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -190,6 +200,21 @@ public class PrescriptionAdd extends AppCompatActivity {
         });
         dialog.show();
     }
+    private void openPdfChooser()
+    {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+
+        try {
+            startActivityForResult(Intent.createChooser(intent, "Select Your .pdf File"), STORAGE_PERMISSION_CODE);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(PrescriptionAdd.this, "Please Install a File Manager",Toast.LENGTH_SHORT).show();
+        }
+    }
     private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -199,22 +224,35 @@ public class PrescriptionAdd extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Toast.makeText(context, "here", Toast.LENGTH_SHORT).show();
+        if(resultCode==RESULT_OK&&requestCode==STORAGE_PERMISSION_CODE&&data!=null&&data.getData()!=null)
+        {
+            Toast.makeText(context, "reached here", Toast.LENGTH_SHORT).show();
+            Uri pdfUri = data.getData();
+            imageF=getStringPdf(pdfUri);
+            imageF="data:application/pdf;base64,"+imageF;
+            image.setImageResource(R.drawable.ic_pdf);
+            System.out.println("------------------"+imageF);
+            typeF=".pdf";
+        }
         if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK&&data!=null&&data.getData()!=null)
         {
-            imageuri=data.getData();
-            path=getPath(imageuri);
+            Uri imageuri=data.getData();
+            //path=getPath(imageuri);
             try
             {
+                Toast.makeText(context,"image choosed",Toast.LENGTH_SHORT).show();
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
-                image.setImageBitmap(bitmap);
-                img=bitmap;
                 //imageView_pic.setImageURI(imageuri);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                img.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 imageF= Base64.encodeToString(byteArray,Base64.NO_WRAP);
+                image.setImageBitmap(bitmap);
+                imageF="data:image/jpeg;base64,"+imageF;
+                typeF=".jpeg";
                 System.out.println("-------------------------------------"+imageF);
-               //                Log.d("image ", "doInBackground: "+convertImage);
+                //                Log.d("image ", "doInBackground: "+convertImage);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -228,13 +266,14 @@ public class PrescriptionAdd extends AppCompatActivity {
             {
                 Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
                 Bitmap bitmap=(Bitmap)data.getExtras().get("data");
-                image.setImageBitmap(bitmap);
                 //imageView_pic.setImageURI(imageuri);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 imageF= Base64.encodeToString(byteArray,Base64.NO_WRAP);
-
+                imageF="data:image/jpeg;base64,"+imageF;
+                typeF=".jpeg";
+               image.setImageBitmap(bitmap);
                 System.out.println("-------------------------------------"+imageF);
                 //                Log.d("image ", "doInBackground: "+convertImage);
 
@@ -243,6 +282,38 @@ public class PrescriptionAdd extends AppCompatActivity {
             }
         }
     }
+
+    public String getStringPdf (Uri filepath){
+        InputStream inputStream = null;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            inputStream =  getContentResolver().openInputStream(filepath);
+
+            byte[] buffer = new byte[1024];
+            byteArrayOutputStream = new ByteArrayOutputStream();
+
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        byte[] pdfByteArray = byteArrayOutputStream.toByteArray();
+        String base=Base64.encodeToString(pdfByteArray, Base64.NO_WRAP);
+        System.out.println("---------------------------------"+base);
+        return base;
+    }
+
     public void initiaLize()
     {
         title=(EditText)findViewById(R.id.title);
@@ -460,7 +531,7 @@ public class uploadPres extends AsyncTask<String,String,String>
         number=number.substring(3,number.length());
         String uploadId= UUID.randomUUID().toString();
 
-        String json=new JsonParser().saveCategory(url,number,titleF,dateF,imageF,docF,observationF,uploadId);
+        String json=new JsonParser().saveCategory(url,number,titleF,dateF,imageF,docF,observationF,uploadId,typeF);
         return json;
     }
 

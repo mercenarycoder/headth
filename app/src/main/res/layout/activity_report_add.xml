@@ -70,10 +70,16 @@
             android:textColor="#9A9A9A"
             android:textSize="13sp"
             android:id="@+id/title"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="15dp"
             android:paddingStart="5dp"
             android:hint="Enter the Title of Product"
             android:layout_marginTop="10dp"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/edit_text"
+            android:id="@+id/type"/>
         <TextView
             android:layout_width="171dp"
             android:layout_height="wrap_content"

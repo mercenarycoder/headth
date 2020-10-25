@@ -78,7 +78,7 @@ TextView next;
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(QrScanner.this,QRotp.class);
-                startActivity(intent);
+            //    startActivity(intent);
             }
         });
         new getAccessLevel().execute();

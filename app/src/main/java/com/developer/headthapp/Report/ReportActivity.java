@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
@@ -93,6 +94,54 @@ ImageButton filter;
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_filter);
+        LinearLayout eye=(LinearLayout)dialog.findViewById(R.id.eye);
+        LinearLayout ent=(LinearLayout)dialog.findViewById(R.id.ent);
+        LinearLayout blood=(LinearLayout)dialog.findViewById(R.id.blood);
+        LinearLayout dental =(LinearLayout)dialog.findViewById(R.id.dental);
+        LinearLayout xray=(LinearLayout)dialog.findViewById(R.id.xray);
+        LinearLayout all=(LinearLayout)dialog.findViewById(R.id.all);
+        eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transformList("eye");
+                dialog.dismiss();
+            }
+        });
+        ent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transformList("ent");
+                dialog.dismiss();
+            }
+        });
+        blood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transformList("blood");
+                dialog.dismiss();
+            }
+        });
+        dental.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transformList("dental");
+                dialog.dismiss();
+            }
+        });
+        xray.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transformList("xray");
+                dialog.dismiss();
+            }
+        });
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                transformList("");
+                dialog.dismiss();
+            }
+        });
         ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_dialog);
         close_btn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,21 +153,68 @@ ImageButton filter;
     }
     public void formList()
     {
-        list2=new ArrayList<>();
-        list=new ArrayList<>();
-        reportClass item=new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1","","");
-        list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1","",""));
-        list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1","",""));
-        list.add(new reportClass("Dr Manjeet Singh","Dna Report","23rd July","1","",""));
-        list3=new ArrayList<>();
-        list3.add(new reportOf3(item,item,item));
-        list3.add(new reportOf3(item,item,item));
-        list3.add(new reportOf3(item,item,item));
-        list2.add(new bundleReport("24/10/20",list3));
-        list2.add(new bundleReport("25/10/20",list3));
-        list2.add(new bundleReport("04/11/20",list3));
-    }
 
+    }
+public void transformList(String str)
+{
+    list2=new ArrayList<>();
+    for(Map.Entry<String,ArrayList<reportClass>> entry:matcher.entrySet())
+    {
+        String main=entry.getKey();
+        ArrayList<reportClass> ll=entry.getValue();
+        list3=new ArrayList<>();
+        for(int i=0;i<ll.size();i=i+3)
+        {
+            reportClass m1[] = new reportClass[3];
+            int x=0;
+            boolean ff=false;
+            if(ll.get(i).getCats().contains(str))
+            {
+                m1[x]=ll.get(i);
+                ff=true;
+                x++;
+            }
+
+            reportClass  m3 = new reportClass("null","null","","","","","");
+            if(i+1<ll.size()&&ll.get(i+1).getCats().contains(str)) {
+                m1[x] = ll.get(i + 1);
+                ff=true;
+                x++;
+            }
+
+            if(i+2<ll.size()&&ll.get(i).getCats().contains(str)) {
+                m1[x] = ll.get(i + 1);
+                ff=true;
+                x++;
+            }
+            if(ff) {
+                if(x==1) {
+                    list3.add(new reportOf3(m1[0], m3, m3));
+                }
+                if(x==2) {
+                    list3.add(new reportOf3(m1[0], m1[1], m3));
+                }
+                if(x==3)
+                {
+                    list3.add(new reportOf3(m1[0],m1[1],m1[2]));
+                }
+            }
+        }
+        list2.add(new bundleReport(main,list3));
+    }
+    previous_report.setLayoutManager(new LinearLayoutManager(context));
+    previous_report.setHasFixedSize(true);
+    adapter=new dateReportAdapter(list2,context);
+    previous_report.setAdapter(adapter);
+    if(list2.size()>0)
+    {
+
+    }
+    else
+    {
+
+    }
+}
     public class getReports extends AsyncTask<String,String,String>
     {
         @Override
@@ -169,16 +265,17 @@ ImageButton filter;
                             String id=object.getString("id");
                             String type = object.getString("type");
                             String image=object.getString("link");
-                            list.add(new reportClass(doctor,title,date,id,image,type));
+                            String category=object.getString("category");
+                            list.add(new reportClass(doctor,title,date,id,image,type,category));
                             if(matcher.containsKey(date))
                             {
                                 ArrayList<reportClass> ll=matcher.get(date);
-                                ll.add(new reportClass(doctor,title,date,id,image,type));
+                                ll.add(new reportClass(doctor,title,date,id,image,type,category));
                             }
                             else
                             {
                                 ArrayList<reportClass> ll=new ArrayList<>();
-                                ll.add(new reportClass(doctor,title,date,id,image,type));
+                                ll.add(new reportClass(doctor,title,date,id,image,type,category));
                                 matcher.put(date,ll);
                             }
                         }
@@ -197,14 +294,14 @@ ImageButton filter;
                                 }
                                 else
                                 {
-                                m2 = new reportClass("null","null","","","","");
+                                m2 = new reportClass("null","null","","","","","");
                                 }
                             if(i+2<ll.size()) {
                                 m3 = ll.get(i + 1);
                             }
                             else
                             {
-                                m3 = new reportClass("null","null","","","","");
+                                m3 = new reportClass("null","null","","","","","");
                             }
                             list3.add(new reportOf3(m1,m2,m3));
                         }

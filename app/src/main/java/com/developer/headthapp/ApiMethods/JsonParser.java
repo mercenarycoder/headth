@@ -31,7 +31,7 @@ public class JsonParser {
 
     }
     public String saveCategory(String url2, String mobile, String title, String date, String image,
-                               String doctor,String observation,String name)
+                               String doctor,String observation,String name,String typef)
     {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
@@ -52,6 +52,7 @@ public class JsonParser {
             loginData.put("doctor", doctor);
             loginData.put("observation", observation);
             loginData.put("name", name);
+            loginData.put("typef", typef);
             Log.d("LoginData", "---> " + loginData);
             DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
             wr.writeBytes(loginData.toString());
@@ -430,7 +431,7 @@ public class JsonParser {
         return null;
     }
  public String addReport(String url2,String mobile,String title,String data,String observer,String date
-         ,String detail,String type,String name)
+         ,String detail,String type,String name,String category)
  {
      HttpURLConnection connection = null;
      BufferedReader reader = null;
@@ -452,6 +453,7 @@ public class JsonParser {
          loginData.put("date",date);
          loginData.put("data",data);
          loginData.put("type",type);
+         loginData.put("category",category);
         // loginData.put("type",type);
          Log.d("LoginData", "---> " + loginData);
          DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
