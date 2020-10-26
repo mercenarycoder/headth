@@ -221,6 +221,7 @@ public class LoginUser extends AppCompatActivity {
                     else
                     {
                         Intent intent=new Intent(LoginUser.this, ProfileUpdate.class);
+                        intent.putExtra("edit","false");
                         startActivity(intent);
                         finish();
                     }
