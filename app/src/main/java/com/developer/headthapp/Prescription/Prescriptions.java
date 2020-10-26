@@ -124,7 +124,9 @@ Button add_prescription,remove_prescription;
                 arr.add(pair.getKey());
                 arr2.add(pair.getValue());
             }
-            String json=new JsonParser().deleteBigItems(url,arr,arr2);
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().deleteBigItems(url,arr,arr2,number);
             return json;
         }
 

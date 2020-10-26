@@ -319,7 +319,7 @@ public class JsonParser {
      }
      return null;
  }
- public String deleteItems(String url2, ArrayList<String> arr)
+ public String deleteItems(String url2, ArrayList<String> arr,String number)
  {
      HttpURLConnection connection = null;
      BufferedReader reader = null;
@@ -346,6 +346,7 @@ public class JsonParser {
             }
          }
          loginData.put("id", array);
+         loginData.put("mobile", number);
          Log.d("LoginData", "---> " + loginData);
          DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
          wr.writeBytes(loginData.toString());
@@ -372,7 +373,7 @@ public class JsonParser {
      }
      return null;
  }
-    public String deleteBigItems(String url2, ArrayList<String> arr,ArrayList<String> arr2)
+    public String deleteBigItems(String url2, ArrayList<String> arr,ArrayList<String> arr2,String number)
     {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
@@ -404,6 +405,7 @@ public class JsonParser {
             }
             loginData.put("id", array);
             loginData.put("path", array2);
+            loginData.put("mobile", number);
             Log.d("LoginData", "---> " + loginData);
             DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
             wr.writeBytes(loginData.toString());
@@ -610,7 +612,7 @@ public class JsonParser {
      }
      return null;
  }
- public String updateDieseas(String url2,String id,String name,String details)
+ public String updateDieseas(String url2,String id,String name,String details,String number)
  {
      HttpURLConnection connection = null;
      BufferedReader reader = null;
@@ -627,6 +629,7 @@ public class JsonParser {
          loginData.put("id", id);
          loginData.put("name",name);
          loginData.put("details",details);
+         loginData.put("mobile",number);
          Log.d("LoginData", "---> " + loginData);
          DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
          wr.writeBytes(loginData.toString());
@@ -696,7 +699,7 @@ public class JsonParser {
      }
      return null;
  }
- public String updateAllergy(String url2,String id,String allergy,String triggers)
+ public String updateAllergy(String url2,String id,String allergy,String triggers,String number)
  {
      HttpURLConnection connection = null;
      BufferedReader reader = null;
@@ -713,6 +716,7 @@ public class JsonParser {
          loginData.put("id", id);
          loginData.put("allergy",allergy);
          loginData.put("triggers",triggers);
+         loginData.put("mobile",number);
          Log.d("LoginData", "---> " + loginData);
          DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
          wr.writeBytes(loginData.toString());
@@ -782,7 +786,7 @@ public class JsonParser {
         }
         return null;
     }
-    public String updateHistory(String url2,String id,String title,String description)
+    public String updateHistory(String url2,String id,String title,String description,String number)
     {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
@@ -799,6 +803,7 @@ public class JsonParser {
             loginData.put("id", id);
             loginData.put("title",title);
             loginData.put("description",description);
+            loginData.put("mobile",number);
             Log.d("LoginData", "---> " + loginData);
             DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
             wr.writeBytes(loginData.toString());
@@ -870,7 +875,7 @@ public class JsonParser {
         }
         return null;
     }
-    public String updateMedicine(String url2,String id,String name,String purpose,String duration,String dosage)
+    public String updateMedicine(String url2,String id,String name,String purpose,String duration,String dosage,String number)
     {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
@@ -886,6 +891,7 @@ public class JsonParser {
             JSONObject loginData = new JSONObject();
             loginData.put("id", id);
             loginData.put("name",name);
+            loginData.put("mobile",number);
             loginData.put("purpose",purpose);
             loginData.put("duration",duration);
             loginData.put("dosage",dosage);

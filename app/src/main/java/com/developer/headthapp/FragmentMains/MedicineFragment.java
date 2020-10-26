@@ -167,7 +167,9 @@ new getDieseas().execute();
         protected String doInBackground(String... strings) {
             String url=new networkData().url+new networkData().deleteMedicine;
             ArrayList<String> arr= dd.listD2;
-            String json=new JsonParser().deleteItems(url,arr);
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().deleteItems(url,arr,number);
             return json;
         }
 

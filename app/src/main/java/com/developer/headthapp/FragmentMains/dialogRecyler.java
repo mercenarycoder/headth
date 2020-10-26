@@ -363,7 +363,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                     url=new networkData().url+new networkData().updateAllergy;
                     String number=mauth.getCurrentUser().getPhoneNumber();
                     number=number.substring(3,number.length());
-                    json=new JsonParser().updateAllergy(url,idF,allergiesF,triggersF);
+                    json=new JsonParser().updateAllergy(url,idF,allergiesF,triggersF,number);
                     break;
                 }
                 case 2:
@@ -371,7 +371,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                     url=new networkData().url+new networkData().updateHistory;
                     String number=mauth.getCurrentUser().getPhoneNumber();
                     number=number.substring(3,number.length());
-                    json=new JsonParser().updateHistory(url,idF,titleF,descriptionF);
+                    json=new JsonParser().updateHistory(url,idF,titleF,descriptionF,number);
                     break;
                 }
                 case 3:
@@ -379,7 +379,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                     url=new networkData().url+new networkData().updateDieseas;
                     String number=mauth.getCurrentUser().getPhoneNumber();
                     number=number.substring(3,number.length());
-                    json=new JsonParser().updateDieseas(url,idF,nameF,detailF);
+                    json=new JsonParser().updateDieseas(url,idF,nameF,detailF,number);
                     break;
                 }
                 case 4:
@@ -387,7 +387,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                     url=new networkData().url+new networkData().updateMedicine;
                     String number=mauth.getCurrentUser().getPhoneNumber();
                     number=number.substring(3,number.length());
-                    json=new JsonParser().updateMedicine(url,idF,nameF,purposeF,durationF,dosageF);
+                    json=new JsonParser().updateMedicine(url,idF,nameF,purposeF,durationF,dosageF,number);
                     break;
                 }
                 default:

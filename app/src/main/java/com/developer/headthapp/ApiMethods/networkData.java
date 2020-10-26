@@ -37,4 +37,5 @@ public class networkData {
     public static String deleteDieseas="/deleteDieseas";
     public static String deletePrescription="/deletePrescription";
     public static String deleteReport="/deleteReport";
+    public static String notification="/notification";
 }

@@ -46,9 +46,12 @@ public class adapterNotification extends RecyclerView.Adapter<adapterNotificatio
         holder.action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Report Page soon",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Layout unknown",Toast.LENGTH_SHORT).show();
             }
         });
+        holder.date.setText(adapter.getDate());
+        holder.decription.setText(adapter.getDecription());
+        holder.title.setText(adapter.getTitle());
     }
     @Override
     public int getItemCount() {
