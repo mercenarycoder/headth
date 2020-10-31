@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.DeleteClass;
+import com.developer.headthapp.Prescription.Prescriptions;
 import com.developer.headthapp.R;
 import com.developer.headthapp.bundleReport;
 import com.developer.headthapp.dashmainadapter;
@@ -34,6 +36,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -47,6 +50,7 @@ dateReportAdapter adapter;
 HashMap<String,ArrayList<reportClass>> matcher;
 Context context;
 TextView nop;
+DeleteClass dd=new DeleteClass("fbfd");
 ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 Button add_report,remove_report;
@@ -83,7 +87,7 @@ ImageButton filter;
         remove_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Remove Functionality will be here soon",Toast.LENGTH_SHORT).show();
+                new deleteItems().execute();
             }
         });
         context=ReportActivity.this;
@@ -158,6 +162,64 @@ ImageButton filter;
     public void formList()
     {
 
+    }
+    public class deleteItems extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().deleteReport;
+            ArrayList<String> arr= new ArrayList<>();
+            ArrayList<String> arr2= new ArrayList<>();
+            HashMap mapper=dd.listD;
+            Iterator<Map.Entry<String,String>> it=mapper.entrySet().iterator();
+            while(it.hasNext())
+            {
+                Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
+                System.out.println(pair.getKey() + " = " + pair.getValue());
+                arr.add(pair.getKey());
+                arr2.add(pair.getValue());
+            }
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().deleteBigItems(url,arr,arr2,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            if(s!=null)
+            {
+                try{
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    final String responce2=String.valueOf(jsonObject.get("msg"));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(responce2)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dd=new DeleteClass("fdd");
+                                    new getReports().execute();
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 public void transformList(String str)
 {

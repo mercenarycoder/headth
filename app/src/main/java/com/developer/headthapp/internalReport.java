@@ -4,6 +4,7 @@ package com.developer.headthapp;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.developer.headthapp.ApiMethods.networkData;
@@ -26,10 +28,7 @@ import com.developer.headthapp.Report.reportOf3;
 public class internalReport extends RecyclerView.Adapter<internalReport.viewholder1>{
     ArrayList<reportOf3> list;
     Context context;
-    int cats[];
-    int anchor[];
-
-    int i=4;
+   DeleteClass dd=new DeleteClass();
     public internalReport(ArrayList<reportOf3> list, Context context)
     {
         this.list=list;
@@ -73,21 +72,32 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                 public boolean onLongClick(View view) {
                     holder.visible1.setVisibility(View.VISIBLE);
                     holder.check1.setVisibility(View.VISIBLE);
+                    holder.check1.setChecked(true);
+                    if(!dd.listD.containsKey(item1.getId())) {
+                        dd.listD.put(item1.getId(),item1.getId());
+                    }
                     return true;
                 }
             });
             holder.check1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(b)
                     {
                         holder.visible1.setVisibility(View.VISIBLE);
                         holder.check1.setVisibility(View.VISIBLE);
+                        if(!dd.listD.containsKey(item1.getId())) {
+                            dd.listD.put(item1.getId(),item1.getId());
+                        }
                     }
                     else
                     {
                         holder.visible1.setVisibility(View.INVISIBLE);
                         holder.check1.setVisibility(View.INVISIBLE);
+                        if(dd.listD.containsKey(item1.getId())) {
+                            dd.listD.remove(item1.getId(),item1.getId());
+                        }
                     }
                 }
             });
@@ -128,21 +138,32 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                 public boolean onLongClick(View view) {
                     holder.visible2.setVisibility(View.VISIBLE);
                     holder.check2.setVisibility(View.VISIBLE);
+                    holder.check2.setChecked(true);
+                    if(!dd.listD.containsKey(item2.getId())) {
+                        dd.listD.put(item2.getId(),item2.getId());
+                    }
                     return true;
                 }
             });
             holder.check2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(b)
                     {
                         holder.visible2.setVisibility(View.VISIBLE);
                         holder.check2.setVisibility(View.VISIBLE);
+                        if(!dd.listD.containsKey(item2.getId())) {
+                            dd.listD.put(item2.getId(),item2.getId());
+                        }
                     }
                     else
                     {
                         holder.visible2.setVisibility(View.INVISIBLE);
                         holder.check2.setVisibility(View.INVISIBLE);
+                        if(dd.listD.containsKey(item2.getId())) {
+                            dd.listD.remove(item2.getId(),item2.getId());
+                        }
                     }
                 }
             });
@@ -182,21 +203,32 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                 public boolean onLongClick(View view) {
                     holder.visible3.setVisibility(View.VISIBLE);
                     holder.check3.setVisibility(View.VISIBLE);
+                    holder.check3.setChecked(true);
+                    if(!dd.listD.containsKey(item3.getId())) {
+                        dd.listD.put(item3.getId(),item3.getId());
+                    }
                     return true;
                 }
             });
             holder.check3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if(b)
                     {
                         holder.visible3.setVisibility(View.VISIBLE);
                         holder.check3.setVisibility(View.VISIBLE);
+                        if(!dd.listD.containsKey(item3.getId())) {
+                            dd.listD.put(item3.getId(),item3.getId());
+                        }
                     }
                     else
                     {
                         holder.visible3.setVisibility(View.INVISIBLE);
                         holder.check3.setVisibility(View.INVISIBLE);
+                        if(dd.listD.containsKey(item3.getId())) {
+                            dd.listD.remove(item3.getId(),item3.getId());
+                        }
                     }
                 }
             });
