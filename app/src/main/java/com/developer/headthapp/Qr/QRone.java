@@ -7,11 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,16 +24,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Profile;
 import com.developer.headthapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.WriterException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 public class QRone extends AppCompatActivity {
 ImageButton close_btn;
@@ -39,6 +51,8 @@ Button share ,save;
 String savePath = Environment.getExternalStorageDirectory().getPath() + "/QRCode/";
 Bitmap bitmap;
 Context context;
+TextView name,number;
+ProgressDialog dialog;
 Uri for_share;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
     @Override
@@ -48,6 +62,8 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
         setContentView(R.layout.activity_q_rone);
         qr_logo=(ImageView)findViewById(R.id.qr_logo);
         share=(Button)findViewById(R.id.share);
+        name=(TextView)findViewById(R.id.name);
+        number=(TextView)findViewById(R.id.number);
         open_profile=(Button)findViewById(R.id.open_profile);
         open_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +81,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
         });
         save=(Button)findViewById(R.id.save);
         String number=mauth.getCurrentUser().getPhoneNumber();
+        this.number.setText(number);
         number=number.substring(3,number.length());
         QRGEncoder qrgEncoder = new QRGEncoder(number, null, QRGContents.Type.TEXT, 400);
         try {
@@ -109,6 +126,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                 startActivity(intent);
             }
         });
+        new getProfile().execute();
     }
     private void shareImageUri(Uri uri){
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
@@ -167,6 +185,93 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
 
             Toast.makeText(context,"Permission Needed",Toast.LENGTH_SHORT).show();
             //resume tasks needing this permission
+        }
+    }
+    private class getProfile extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog=new ProgressDialog(QRone.this);
+            dialog.setMessage("Please wait");
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().getprofile;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String uploadId= UUID.randomUUID().toString();
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            dialog.dismiss();
+            if(result!=null)
+            {
+                try{
+                    JSONObject jsonObject = new JSONObject(result);
+                    final String responce = String.valueOf(jsonObject.get("status"));
+                    // final String responce2=String.valueOf(jsonObject.get("msg"));
+                    if(responce.equals("1"))
+                    {
+                        JSONArray data=jsonObject.getJSONArray("data");
+                        JSONObject obj=data.getJSONObject(0);
+                        String nameF=obj.getString("name");
+                        String mobileF = obj.getString("mobile");
+                        String heightF = obj.getString("height");
+                        String weightF = obj.getString("weight");
+                        String dobF = obj.getString("dob");
+                        String bloodF = obj.getString("blood");
+                        name.setText(nameF);
+                    }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage("Some Error in fetching info please swipe to refresh")
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        final String responce2=String.valueOf(jsonObject.get("msg"));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    catch (Exception e2)
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                Toast.makeText(context,"Some Networking error try again later",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

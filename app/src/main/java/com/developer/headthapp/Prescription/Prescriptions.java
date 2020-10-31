@@ -14,6 +14,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -39,10 +41,14 @@ import java.util.UUID;
 public class Prescriptions extends AppCompatActivity {
 RecyclerView previous_pres;
 ArrayList<presClass> list2;
+ArrayList<String> data_cont;
+ArrayList<Integer> counter;
 Context context;
 ImageButton back,filter;
 dashboard2 adapter;
 FirebaseAuth mauth;
+boolean adding=false;
+boolean searched=false;
 DeleteClass dd=new DeleteClass("fdfd");
 ProgressDialog progressDialog;
 TextView nop;
@@ -57,7 +63,10 @@ Button add_prescription,remove_prescription;
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(list2.size()>0)
                 dialogShower();
+                else
+                    Toast.makeText(context,"No Items to run this operation",Toast.LENGTH_LONG).show();
             }
 
         });
@@ -81,6 +90,7 @@ Button add_prescription,remove_prescription;
             public void onClick(View view) {
                 Intent intent=new Intent(Prescriptions.this, PrescriptionAdd.class);
                 startActivity(intent);
+                adding=true;
             }
         });
         previous_pres=(RecyclerView)findViewById(R.id.previous_pres);
@@ -92,7 +102,7 @@ Button add_prescription,remove_prescription;
         final Dialog dialog=new Dialog(context, 0);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_filter);
+        dialog.setContentView(R.layout.prescription_search);
         ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_dialog);
         close_btn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,8 +110,73 @@ Button add_prescription,remove_prescription;
                 dialog.dismiss();
             }
         });
+        AutoCompleteTextView search_key=(AutoCompleteTextView)dialog.findViewById(R.id.search_key);
+        ImageButton now_search=(ImageButton) dialog.findViewById(R.id.now_search);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (context, android.R.layout.select_dialog_item, data_cont);
+        search_key.setThreshold(1);
+        search_key.setAdapter(adapter);
+        now_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                String str=search_key.getText().toString();
+                filterRecycler(str);
+            }
+        });
         dialog.show();
     }
+    public void filterRecycler(String str)
+    {
+        searched=true;
+        ArrayList<presClass> listx = new ArrayList<>();
+        for(int i=0;i<list2.size();i++)
+        {
+            presClass item=list2.get(i);
+            if(item.getDiesease().contains(str)||item.getDoctor().contains(str)||item.getObservation().contains(str))
+            {
+                listx.add(item);
+            }
+            else
+            {
+                continue;
+            }
+        }
+        adapter=new dashboard2(listx,context);
+        previous_pres.setHasFixedSize(true);
+        previous_pres.setLayoutManager(new LinearLayoutManager(context));
+        previous_pres.setAdapter(adapter);
+        if(listx.size()>0)
+        {
+            nop.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            nop.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+       if(adding)
+       {
+           adding=false;
+           new getallPres().execute();
+       }
+           super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(searched)
+        {
+            searched=false;
+            new getallPres().execute();
+        }
+        else
+        super.onBackPressed();
+    }
+
     public class deleteItems extends AsyncTask<String,String,String>
     {
         @Override
@@ -195,6 +270,8 @@ Button add_prescription,remove_prescription;
                 try
                 {
                     list2=new ArrayList<>();
+                    data_cont=new ArrayList<>();
+                    counter=new ArrayList<>();
                     JSONObject jsonObject = new JSONObject(result);
                     final String responce = String.valueOf(jsonObject.get("status"));
                    // final String responce2=String.valueOf(jsonObject.get("msg"));
@@ -205,11 +282,16 @@ Button add_prescription,remove_prescription;
                     {
                         JSONObject object = data.getJSONObject(i);
                         String title=object.getString("title");
+                        data_cont.add(title);
                         String doctor=object.getString("doctor");
+                        data_cont.add(doctor);
                         String observation=object.getString("observation");
+                        data_cont.add(observation);
                         String date=object.getString("date");
+                        data_cont.add(date);
                         String id=object.getString("id");
                         String image=object.getString("image");
+                        counter.add(i);
                         list2.add(new presClass(title,date,doctor,image,id,observation));
                     }
                         adapter=new dashboard2(list2,context);

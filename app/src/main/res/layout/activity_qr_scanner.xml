@@ -45,6 +45,7 @@
             android:id="@+id/open_notification"
             android:layout_marginRight="5dp"
             android:layout_gravity="center"
+            android:visibility="invisible"
             android:src="@drawable/ic_eye"
             android:background="@drawable/dark_btn"/>
         <Button

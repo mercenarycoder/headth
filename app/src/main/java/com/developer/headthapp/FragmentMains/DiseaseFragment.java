@@ -179,6 +179,7 @@ ImageButton close_btn;
                          dis2.setLayoutManager(new LinearLayoutManager(context));
                          dis2.setHasFixedSize(true);
                          dis2.setAdapter(adapter);
+                         sabchanga.setVisibility(View.INVISIBLE);
                      }
                      else
                      {

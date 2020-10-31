@@ -297,6 +297,7 @@ new getDieseas().execute();
                             meds.setLayoutManager(new LinearLayoutManager(context));
                             meds.setHasFixedSize(true);
                             meds.setAdapter(adapter);
+                            sabchanga.setVisibility(View.INVISIBLE);
                         }
                         else
                         {

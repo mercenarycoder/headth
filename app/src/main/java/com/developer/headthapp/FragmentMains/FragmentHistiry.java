@@ -270,6 +270,7 @@ TextView sabchanga;
                             history.setLayoutManager(new LinearLayoutManager(context));
                             history.setHasFixedSize(true);
                             history.setAdapter(adapter);
+                            sabchanga.setVisibility(View.INVISIBLE);
                         }
                         else
                         {

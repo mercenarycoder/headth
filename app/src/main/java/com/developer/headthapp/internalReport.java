@@ -28,6 +28,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
     Context context;
     int cats[];
     int anchor[];
+
     int i=4;
     public internalReport(ArrayList<reportOf3> list, Context context)
     {
