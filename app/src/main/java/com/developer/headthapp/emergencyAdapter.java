@@ -22,9 +22,6 @@ import com.developer.headthapp.emergencyClass;
 public class emergencyAdapter extends RecyclerView.Adapter<emergencyAdapter.viewholder1>{
     ArrayList<emergencyClass> list;
     Context context;
-    int cats[];
-    int anchor[];
-    int i=4;
     public emergencyAdapter(ArrayList<emergencyClass> list, Context context)
     {
         this.list=list;

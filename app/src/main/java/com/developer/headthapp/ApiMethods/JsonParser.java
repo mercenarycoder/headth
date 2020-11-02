@@ -526,7 +526,7 @@ public class JsonParser {
      }
      return null;
  }
- public String updateHsnItem(String url2, String rec_id, String name, String phone)
+ public String updateHsnItem(String url2, String rec_id, String name, String phone,String number)
  {
      HttpURLConnection connection = null;
      BufferedReader reader = null;
@@ -543,6 +543,7 @@ public class JsonParser {
          loginData.put("rec_id", rec_id);
          loginData.put("name",name);
          loginData.put("phone",phone);
+         loginData.put("mobile",number);
          Log.d("LoginData", "---> " + loginData);
          DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
          wr.writeBytes(loginData.toString());

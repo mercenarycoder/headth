@@ -50,6 +50,7 @@ dateReportAdapter adapter;
 HashMap<String,ArrayList<reportClass>> matcher;
 Context context;
 TextView nop;
+boolean adding=false;
 DeleteClass dd=new DeleteClass("fbfd");
 ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
@@ -80,6 +81,7 @@ ImageButton filter;
         add_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                adding=true;
                 Intent intent=new Intent(ReportActivity.this, ReportAdd.class);
                 startActivity(intent);
             }
@@ -162,6 +164,15 @@ ImageButton filter;
     public void formList()
     {
 
+    }
+    @Override
+    protected void onResume() {
+        if(adding)
+        {
+            adding=false;
+            new getReports().execute();
+        }
+        super.onResume();
     }
     public class deleteItems extends AsyncTask<String,String,String>
     {

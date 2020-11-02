@@ -44,6 +44,10 @@ boolean hare=false;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=Nominations.this;
+        dialog=new ProgressDialog(context);
+        dialog.setMessage("Please wait");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCanceledOnTouchOutside(false);
         name=new String[5];
         phone=new String[5];
         Intent intent=getIntent();
@@ -75,18 +79,10 @@ boolean hare=false;
             public void onClick(View view) {
                 if(edit.equals("true"))
                 {
-                for(int i=0;i<5;i++)
-                {
-                    submitUpdate(i);
-                }
-                if(hare)
-                {
-                    finish();
-                }
-                else
-                {
-                    Toast.makeText(context,"Having atleast one emergency contact is necessary",Toast.LENGTH_SHORT).show();
-                }
+                    boolean done=false;
+                    submitUpdate(0);
+                    done=true;
+
                 }
                 else {
          name[0]=name1.getText().toString();
@@ -205,6 +201,7 @@ boolean hare=false;
                 if(!(i>=z)) {
                     emergencyClass obj = list.get(i);
                     rec_id = obj.getId();
+
                     if (!nameU.isEmpty() && phoneU.length()==10) {
                         hare=true;
                         new updateEmergency().execute();
@@ -354,10 +351,6 @@ boolean hare=false;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog=new ProgressDialog(context);
-            dialog.setMessage("Please wait");
-            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
 
@@ -393,8 +386,8 @@ boolean hare=false;
                             String name = obj.getString("name");
                             String phone = obj.getString("phone");
                             list.add(new emergencyClass(rec_id,name,phone));
-                            setTextPhone(i);
                             z++;
+                            setTextPhone(i);
                         }
                     }
                     else {
@@ -446,23 +439,47 @@ boolean hare=false;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.show();
+           // dialog.show();
         }
 
         @Override
         protected String doInBackground(String... strings) {
             String url=new networkData().url+new networkData().updateemergency;
-            String json=new JsonParser().updateHsnItem(url,rec_id,nameU,phoneU);
-            return null;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().updateHsnItem(url,rec_id,nameU,phoneU,number);
+            return json;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            dialog.dismiss();
+            //dialog.dismiss();
             if(s!=null)
             {
+            try{
+                JSONObject object=new JSONObject(s);
+                String status = object.getString("status");
+                String msg=object.getString("msg");
+                if(status.equals("1"))
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(msg)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
             }
         }
     }

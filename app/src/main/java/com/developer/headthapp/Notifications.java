@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 public class Notifications extends AppCompatActivity {
@@ -110,6 +112,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                      }
                      if(list.size()>0)
                      {
+                         Collections.reverse(list);
                          get_notification.setHasFixedSize(true);
                          get_notification.setLayoutManager(new LinearLayoutManager(context));
                          adapter=new adapterNotification(list,context);
