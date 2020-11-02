@@ -38,7 +38,7 @@ String edit="false";
 ProgressDialog dialog;
 FirebaseAuth mauth;
 Context context;
-int z=0;
+int z=0,j=1;
 boolean hare=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -334,6 +334,12 @@ boolean hare=false;
                     String status = obj.getString("status");
                     if(status.equals("1"))
                     {
+                        submitUpdate(j);
+                        j++;
+                        if(j==5)
+                        {
+                            finish();
+                        }
                         Toast.makeText(context,"Record Inserted",Toast.LENGTH_SHORT).show();
                     }
                     else
@@ -463,17 +469,12 @@ boolean hare=false;
                 String msg=object.getString("msg");
                 if(status.equals("1"))
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Update")
-                            .setMessage(msg)
-                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            });
-                    builder.create();
-                    builder.show();
+                 submitUpdate(j);
+                 j++;
+                 if(j==5)
+                 {
+                     finish();
+                 }
                 }
             }
             catch(Exception e)
