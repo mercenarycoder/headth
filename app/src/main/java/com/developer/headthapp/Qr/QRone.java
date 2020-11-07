@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,11 +15,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +44,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.UUID;
 
 public class QRone extends AppCompatActivity {
@@ -54,6 +59,7 @@ Context context;
 TextView name,number;
 ProgressDialog dialog;
 Uri for_share;
+String nameF;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +106,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                 String result;
                 try {
                    if(isStoragePermissionGranted()) {
-                       //save = QRGSaver.save(savePath, "sjkbfk", bitmap, QRGContents.ImageType.IMAGE_JPEG);
-                       for_share = saveImageExternal(bitmap);
-                       result=for_share.toString();
-                       Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                       saveImage(bitmap,nameF+"qr");
                    }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -145,20 +148,6 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
         }
     }
 
-    private Uri saveImageExternal(Bitmap image) {
-        //TODO - Should be processed in another thread
-        Uri uri = null;
-        try {
-            File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "to-share.png");
-            FileOutputStream stream = new FileOutputStream(file);
-            image.compress(Bitmap.CompressFormat.PNG, 90, stream);
-            stream.close();
-            uri = Uri.fromFile(file);
-        } catch (IOException e) {
-            Log.d("TAG", "IOException while trying to write file for sharing: " + e.getMessage());
-        }
-        return uri;
-    }
     public  boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -223,7 +212,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                     {
                         JSONArray data=jsonObject.getJSONArray("data");
                         JSONObject obj=data.getJSONObject(0);
-                        String nameF=obj.getString("name");
+                        nameF=obj.getString("name");
                         String mobileF = obj.getString("mobile");
                         String heightF = obj.getString("height");
                         String weightF = obj.getString("weight");
@@ -273,5 +262,10 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                 Toast.makeText(context,"Some Networking error try again later",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void saveImage(Bitmap finalBitmap, String image_name) {
+        MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),finalBitmap,image_name,"first save");
+        Toast.makeText(context,"Image Saved",Toast.LENGTH_SHORT).show();
     }
 }
