@@ -27,8 +27,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Qr.QRone;
 import com.developer.headthapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -44,11 +46,12 @@ import java.util.List;
 
 public class PrescriptionsView extends AppCompatActivity {
 ImageButton back;
-String titleF,doctorF,observationF,imageF,idF,dateF;
+String titleF,doctorF,observationF,imageF,idF,dateF,urlF;
 TextView title,doctor;
 ImageView report;
 WebView web;
 ProgressBar progress;
+FirebaseAuth mauth=FirebaseAuth.getInstance();
 Context context=PrescriptionsView.this;
 Button share,download;
     @Override
@@ -67,6 +70,7 @@ Button share,download;
         doctorF=intent.getStringExtra("doctor");
         imageF=intent.getStringExtra("image");
         idF=intent.getStringExtra("id");
+        urlF=intent.getStringExtra("url");
         report=(ImageView)findViewById(R.id.report);
         share=(Button)findViewById(R.id.share);
         download=(Button)findViewById(R.id.download);
@@ -110,7 +114,14 @@ Button share,download;
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String number=mauth.getCurrentUser().getPhoneNumber();
+                number=number.substring(3);
+                String base=new networkData().url+new networkData().checkShare+"?url="+urlF+"&mobile="+number;
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                i.putExtra(Intent.EXTRA_SUBJECT, "Sharing URL");
+                i.putExtra(Intent.EXTRA_TEXT, base);
+                startActivity(Intent.createChooser(i, "Share URL"));
             }
         });
         download.setOnClickListener(new View.OnClickListener() {

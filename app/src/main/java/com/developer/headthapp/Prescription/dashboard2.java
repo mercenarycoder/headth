@@ -94,6 +94,7 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
                 intent.putExtra("image",new networkData().url.substring(0
                         ,new networkData().url.length()-4)+adapter.getImg_url());
                 intent.putExtra("id",adapter.getId());
+                intent.putExtra("url",adapter.getImg_url());
                 intent.putExtra("date",adapter.getDate());
                 context.startActivity(intent);
                // Toast.makeText(context,"Report Page soon",Toast.LENGTH_SHORT).show();

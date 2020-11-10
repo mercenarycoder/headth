@@ -63,6 +63,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                     intent.putExtra("url",new networkData().url_image+item1.getIcon());
                     intent.putExtra("title",item1.getType());
                     intent.putExtra("id",item1.getId());
+                    intent.putExtra("share",item1.getIcon());
                     intent.putExtra("type",item1.getTypeD());
                     context.startActivity(intent);
                 }
@@ -129,6 +130,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                     intent.putExtra("url",new networkData().url_image+item2.getIcon());
                     intent.putExtra("title",item2.getType());
                     intent.putExtra("id",item2.getId());
+                    intent.putExtra("share",item2.getIcon());
                     intent.putExtra("type",item2.getTypeD());
                     context.startActivity(intent);
                 }
@@ -195,6 +197,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                     intent.putExtra("url",new networkData().url_image+item3.getIcon());
                     intent.putExtra("title",item3.getType());
                     intent.putExtra("id",item3.getId());
+                    intent.putExtra("share",item3.getIcon());
                     intent.putExtra("type",item3.getTypeD());
                     context.startActivity(intent); }
             });
