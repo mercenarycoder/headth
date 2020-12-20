@@ -3,6 +3,7 @@ package com.developer.headthapp.Report;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -53,6 +54,7 @@ TextView nop;
 boolean adding=false;
 DeleteClass dd=new DeleteClass("fbfd");
 ProgressDialog progressDialog;
+SwipeRefreshLayout refresh;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 Button add_report,remove_report;
 ImageButton filter;
@@ -62,6 +64,14 @@ ImageButton filter;
         setContentView(R.layout.activity_report);
         back=(ImageButton)findViewById(R.id.back);
         context=ReportActivity.this;
+        refresh=(SwipeRefreshLayout)findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh.setRefreshing(false);
+                new getReports().execute();
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

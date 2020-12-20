@@ -274,12 +274,17 @@
            android:layout_marginLeft="5dp"
            android:layout_marginRight="5dp"
            android:layout_marginTop="10dp">
-      <androidx.recyclerview.widget.RecyclerView
+           <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+               android:layout_width="match_parent"
+               android:id="@+id/refresh"
+               android:padding="5dp"
+               android:layout_height="140dp">
+           <androidx.recyclerview.widget.RecyclerView
           android:layout_width="match_parent"
           android:layout_height="140dp"
-          android:padding="5dp"
           android:id="@+id/recycler_report"
           />
+           </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
           <TextView
               android:layout_width="match_parent"
               android:layout_height="40dp"
@@ -343,12 +348,17 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             >
-        <androidx.recyclerview.widget.RecyclerView
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:id="@+id/refresh2"
+                android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
             android:id="@+id/recycler_pres"
             />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -369,14 +379,18 @@
                 android:visibility="invisible"/>
         </RelativeLayout>
     </LinearLayout>
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:background="#7E000000"
         android:visibility="invisible"
-        android:id="@+id/layout_changer"/>
-
+        android:id="@+id/layout_changer">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/disabler"/>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -459,7 +473,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Here you can add an and view your current health ailments"
+                        android:text="Here you can add and remove the diesease records of yours"
                         android:gravity="center"
                         android:textColor="#000"
                         android:textSize="12sp"
@@ -487,7 +501,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Here you can add an and view your current health ailments"
+                    android:text="Here you can add and remove the medicine records of yours"
                     android:gravity="center"
                     android:textColor="#000"
                     android:textSize="12sp"
@@ -515,7 +529,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Here you can add an and view your current health ailments"
+                    android:text="Here you can add and remove the Allergies records of yours"
                     android:gravity="center"
                     android:textColor="#000"
                     android:textSize="12sp"
@@ -637,7 +651,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Here you can add an and view your current health ailments"
+                android:text="Here you can access your Qr Code"
                 android:gravity="center"
                 android:textColor="#000"
                 android:textSize="12sp"
@@ -669,7 +683,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Here you can add an and view your current health ailments"
+                android:text="Here you can see your inapp notifications"
                 android:gravity="center"
                 android:textColor="#000"
                 android:textSize="12sp"
@@ -701,7 +715,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Here you can add an and view your current health ailments"
+                android:text="Here you can access your profile"
                 android:gravity="center"
                 android:textColor="#000"
                 android:textSize="12sp"
@@ -745,7 +759,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Here you can add an and view your current health ailments"
+                android:text="Here you can get a detail view on your reports"
                 android:gravity="center"
                 android:textColor="#000"
                 android:textSize="12sp"
@@ -789,7 +803,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Here you can add an and view your current health ailments"
+                android:text="Here you can get a detail view on your prescriptions"
                 android:gravity="center"
                 android:textColor="#000"
                 android:textSize="12sp"

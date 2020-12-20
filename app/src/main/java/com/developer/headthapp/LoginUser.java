@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,7 +45,9 @@ public class LoginUser extends AppCompatActivity {
     Context context;
     String codeSent;
     String phonenum;
+    boolean account=false;
     SharedPreferences preferences;
+    ProgressDialog progressDialog;
    // DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
     SharedPreferences.Editor editor;
     LinearLayout otp_layout,main_layout;
@@ -96,6 +99,7 @@ public class LoginUser extends AppCompatActivity {
                 {
                     numberP=str;
                     sendVerificationCode();
+                    new checkAccount().execute();
                 }
                 else
                 {
@@ -183,7 +187,19 @@ public class LoginUser extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // FirebaseUser user = task.getResult().getUser();
                             // waitingDialog.dismiss();
-                          new checkAccount().execute();
+//                          new checkAccount().execute();
+                            if(account)
+                            {
+                                Intent intent=new Intent(LoginUser.this, HealthCart.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else{
+                                Intent intent=new Intent(LoginUser.this, ProfileUpdate.class);
+                                intent.putExtra("edit","false");
+                                startActivity(intent);
+                                finish();
+                            }
                         }
                     }
                 });
@@ -192,21 +208,25 @@ public class LoginUser extends AppCompatActivity {
     {
         @Override
         protected void onPreExecute() {
+//            progressDialog=new ProgressDialog(context);
+//            progressDialog.setMessage("Sending information");
+//            progressDialog.setCanceledOnTouchOutside(false);
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.show();
             super.onPreExecute();
         }
 
         @Override
         protected String doInBackground(String... strings) {
             String url=new networkData().url+new networkData().getprofile;
-            String number=mAuth.getCurrentUser().getPhoneNumber();
-            number=number.substring(3,number.length());
-            String json=new JsonParser().viewOffer(url,number);
+            String json=new JsonParser().viewOffer(url,numberP);
             return json;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+//            progressDialog.dismiss();
             if(s!=null)
             {
                 try{
@@ -214,16 +234,18 @@ public class LoginUser extends AppCompatActivity {
                     JSONArray array=on.getJSONArray("data");
                     if(array.length()>0)
                     {
-                        Intent intent=new Intent(LoginUser.this, HealthCart.class);
-                        startActivity(intent);
-                        finish();
+//                        Intent intent=new Intent(LoginUser.this, HealthCart.class);
+//                        startActivity(intent);
+//                        finish();
+                        account=true;
                     }
                     else
                     {
-                        Intent intent=new Intent(LoginUser.this, ProfileUpdate.class);
-                        intent.putExtra("edit","false");
-                        startActivity(intent);
-                        finish();
+//                        Intent intent=new Intent(LoginUser.this, ProfileUpdate.class);
+//                        intent.putExtra("edit","false");
+//                        startActivity(intent);
+//                        finish();
+                        account=false;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

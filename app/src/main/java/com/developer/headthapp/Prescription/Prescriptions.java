@@ -3,6 +3,7 @@ package com.developer.headthapp.Prescription;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -47,6 +48,7 @@ Context context;
 ImageButton back,filter;
 dashboard2 adapter;
 FirebaseAuth mauth;
+SwipeRefreshLayout refresh;
 boolean adding=false;
 boolean searched=false;
 DeleteClass dd=new DeleteClass("fdfd");
@@ -59,6 +61,14 @@ Button add_prescription,remove_prescription;
         mauth=FirebaseAuth.getInstance();
         setContentView(R.layout.activity_prescriptions);
         context=Prescriptions.this;
+        refresh=(SwipeRefreshLayout)findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh.setRefreshing(false);
+                new getallPres().execute();
+            }
+        });
         filter=(ImageButton)findViewById(R.id.filter);
         filter.setOnClickListener(new View.OnClickListener() {
             @Override

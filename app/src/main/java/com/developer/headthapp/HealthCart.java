@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -59,7 +60,7 @@ Context context;
 Button open_profile;
 FirebaseAuth mauth;
 ProgressDialog progressDialog;
-static FrameLayout layout_changer;
+static RelativeLayout layout_changer;
 ImageButton open_notification,qr_act;
 LinearLayout disease,medicine,allergies,history,help_layout,disease_help,medicine_hep,allergies_help,history_help,qr_help;
 LinearLayout d_help,m_help,a_help,h_help,noti_help,profile_help,report_help2,pres_help2;
@@ -68,6 +69,7 @@ RelativeLayout help_layout2;
 ProgressBar progress,progress2;
 TextView no_report,no_pres;
 ImageButton disease_2,medicine_2,allergies_2,history_2,qr,noti;
+SwipeRefreshLayout refresh,refresh2;
 
 public static void changeVisiblity()
 {
@@ -275,6 +277,22 @@ public static void changeVisiblity()
                 startActivity(intent);
             }
         });
+        refresh=(SwipeRefreshLayout)findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh.setRefreshing(false);
+                new getReports().execute();
+            }
+        });
+        refresh2=(SwipeRefreshLayout)findViewById(R.id.refresh2);
+        refresh2.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh2.setRefreshing(false);
+                new getallPres().execute();
+            }
+        });
         new getallPres().execute();
         new getReports().execute();
     }
@@ -284,7 +302,7 @@ public static void changeVisiblity()
         view_pres=(Button)findViewById(R.id.view_pres);
         view_report=(Button)findViewById(R.id.view_report);
         recycler_report=(RecyclerView)findViewById(R.id.recycler_report);
-        layout_changer=(FrameLayout)findViewById(R.id.layout_changer);
+        layout_changer=(RelativeLayout) findViewById(R.id.layout_changer);
         //main buttons
         disease=(LinearLayout)findViewById(R.id.disease);
         medicine=(LinearLayout)findViewById(R.id.medicine);
@@ -398,10 +416,12 @@ public static void changeVisiblity()
                         recycler_report.setHasFixedSize(true);
                         recycler_report.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                         recycler_report.setAdapter(adapter);
+                        recycler_report.setVisibility(View.VISIBLE);
                         no_report.setVisibility(View.INVISIBLE);
                     }
                 else{
                     no_report.setVisibility(View.VISIBLE);
+                    recycler_report.setVisibility(View.INVISIBLE);
                     }
                 }
                 else {
@@ -503,10 +523,12 @@ public static void changeVisiblity()
                             recycler_pres.setHasFixedSize(true);
                             recycler_pres.setLayoutManager(new LinearLayoutManager(context));
                             recycler_pres.setAdapter(adapter2);
+                            recycler_pres.setVisibility(View.VISIBLE);
                             no_pres.setVisibility(View.INVISIBLE);
                         }
                         else
                         {
+                            recycler_pres.setVisibility(View.INVISIBLE);
                             no_pres.setVisibility(View.VISIBLE);
                         }
                     }
