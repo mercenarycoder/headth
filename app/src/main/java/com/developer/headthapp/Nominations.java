@@ -79,8 +79,10 @@ boolean hare=false;
             public void onClick(View view) {
                 if(edit.equals("true"))
                 {
+                    Toast.makeText(context,"In edit reaching here",Toast.LENGTH_SHORT).show();
                     boolean done=false;
                     submitUpdate(0);
+                    j++;
                     done=true;
 
                 }
@@ -318,7 +320,6 @@ boolean hare=false;
             String url=new networkData().url+new networkData().singleemergency;
             String number=mauth.getCurrentUser().getPhoneNumber();
             number=number.substring(3,number.length());
-            String uploadId= UUID.randomUUID().toString();
             String json=new JsonParser().addEmergency(url,number,nameU,phoneU);
             return json;
            // return null;
@@ -332,11 +333,12 @@ boolean hare=false;
                 try {
                     JSONObject obj=new JSONObject(s);
                     String status = obj.getString("status");
+                    System.out.println(status);
                     if(status.equals("1"))
                     {
                         submitUpdate(j);
                         j++;
-                        if(j==5)
+                        if(j==3)
                         {
                             finish();
                         }
@@ -445,7 +447,7 @@ boolean hare=false;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-           // dialog.show();
+//            dialog.show();
         }
 
         @Override
@@ -460,26 +462,36 @@ boolean hare=false;
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            //dialog.dismiss();
+//            dialog.dismiss();
             if(s!=null)
             {
             try{
                 JSONObject object=new JSONObject(s);
                 String status = object.getString("status");
+                System.out.println(status);
                 String msg=object.getString("msg");
                 if(status.equals("1"))
                 {
                  submitUpdate(j);
                  j++;
-                 if(j==5)
+                 if(j==3)
                  {
                      finish();
                  }
                 }
+                else
+                {
+                    submitUpdate(j);
+                    j++;
+                    if(j==3)
+                    {
+                        finish();
+                    }
+                }
             }
             catch(Exception e)
             {
-
+Toast.makeText(context,"Some error here",Toast.LENGTH_SHORT).show();
             }
             }
         }

@@ -70,6 +70,7 @@ ProgressBar progress,progress2;
 TextView no_report,no_pres;
 ImageButton disease_2,medicine_2,allergies_2,history_2,qr,noti;
 SwipeRefreshLayout refresh,refresh2;
+Boolean check=false;
 
 public static void changeVisiblity()
 {
@@ -266,6 +267,7 @@ public static void changeVisiblity()
         view_pres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                check=true;
                 Intent intent=new Intent(context, Prescriptions.class);
                 startActivity(intent);
             }
@@ -273,6 +275,7 @@ public static void changeVisiblity()
         view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                check=true;
                 Intent intent=new Intent(context, ReportActivity.class);
                 startActivity(intent);
             }
@@ -359,6 +362,12 @@ public static void changeVisiblity()
     if(mauth.getCurrentUser()==null)
     {
         finish();
+    }
+    if(check)
+    {
+        new getReports().execute();
+        new getallPres().execute();
+        check=false;
     }
     }
 

@@ -207,7 +207,7 @@ TextView sabchanga;
                     String status = jsonObject.getString("status");
                     final String responce2=String.valueOf(jsonObject.get("msg"));
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Update")
+                    builder.setTitle("History")
                             .setMessage(responce2)
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
@@ -270,10 +270,12 @@ TextView sabchanga;
                             history.setLayoutManager(new LinearLayoutManager(context));
                             history.setHasFixedSize(true);
                             history.setAdapter(adapter);
+                            history.setVisibility(View.VISIBLE);
                             sabchanga.setVisibility(View.INVISIBLE);
                         }
                         else
                         {
+                            history.setVisibility(View.INVISIBLE);
                             sabchanga.setVisibility(View.VISIBLE);
                         }
                     }

@@ -224,10 +224,12 @@ public class FragmentAllergies extends Fragment
                             alles.setLayoutManager(new LinearLayoutManager(context));
                             alles.setHasFixedSize(true);
                             alles.setAdapter(adapter);
+                            alles.setVisibility(View.VISIBLE);
                             sabchanga.setVisibility(View.INVISIBLE);
                         }
                         else
                         {
+                            alles.setVisibility(View.INVISIBLE);
                             sabchanga.setVisibility(View.VISIBLE);
                         }
                     }

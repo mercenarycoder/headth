@@ -179,10 +179,13 @@ ImageButton close_btn;
                          dis2.setLayoutManager(new LinearLayoutManager(context));
                          dis2.setHasFixedSize(true);
                          dis2.setAdapter(adapter);
+                         dis2.setVisibility(View.VISIBLE);
                          sabchanga.setVisibility(View.INVISIBLE);
                      }
                      else
                      {
+
+                         dis2.setVisibility(View.INVISIBLE);
                          sabchanga.setVisibility(View.VISIBLE);
                      }
                      }
@@ -278,7 +281,7 @@ ImageButton close_btn;
                     String status = jsonObject.getString("status");
                     final String responce2=String.valueOf(jsonObject.get("msg"));
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Update")
+                    builder.setTitle("Dieseas")
                             .setMessage(responce2)
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override

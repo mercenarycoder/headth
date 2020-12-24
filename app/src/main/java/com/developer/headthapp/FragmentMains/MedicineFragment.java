@@ -229,7 +229,7 @@ new getDieseas().execute();
                     String status = jsonObject.getString("status");
                     final String responce2=String.valueOf(jsonObject.get("msg"));
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Update")
+                    builder.setTitle("Medicine")
                             .setMessage(responce2)
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
@@ -297,10 +297,12 @@ new getDieseas().execute();
                             meds.setLayoutManager(new LinearLayoutManager(context));
                             meds.setHasFixedSize(true);
                             meds.setAdapter(adapter);
+                            meds.setVisibility(View.VISIBLE);
                             sabchanga.setVisibility(View.INVISIBLE);
                         }
                         else
                         {
+                            meds.setVisibility(View.INVISIBLE);
                             sabchanga.setVisibility(View.VISIBLE);
                         }
                     }
