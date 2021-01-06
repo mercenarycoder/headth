@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -46,7 +49,7 @@
             android:layout_weight="1"
             android:layout_marginBottom="30dp"
             android:paddingStart="5dp"
-            android:hint="Enter the Title of Product"
+            android:hint="Title of the Prescription"
             android:layout_marginTop="10dp"/>
         <TextView
             android:layout_width="match_parent"
@@ -78,7 +81,7 @@
             android:textSize="16sp"/>
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="192dp"
             android:id="@+id/image"
             android:background="@drawable/edit_text"
             android:layout_marginTop="10dp"/>
@@ -88,9 +91,9 @@
             android:layout_height="34dp"
             android:layout_marginTop="20dp"
             android:id="@+id/choose"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/shadow_btn"
-            android:text="Add Photo"
+            android:text="Add Record"
             android:textColor="@color/colorPrimary"
             android:textSize="10sp"/>
 
@@ -109,7 +112,7 @@
             android:id="@+id/doc_name"
             android:textSize="13sp"
             android:layout_marginBottom="10dp"
-            android:hint="Name of Reffering Doctor"
+            android:hint="Name of Referring Doctor"
             android:layout_marginTop="10dp"/>
 
         <EditText
@@ -120,7 +123,7 @@
             android:textSize="13sp"
             android:id="@+id/observation"
             android:paddingStart="5dp"
-            android:hint="Observation"
+            android:hint="Observation (If Any)"
             android:layout_marginTop="10dp"/>
         <Button
             android:layout_width="196dp"
@@ -134,3 +137,4 @@
             android:textSize="10sp"/>
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

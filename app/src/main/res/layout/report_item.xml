@@ -35,11 +35,13 @@
         android:layout_weight="1"
         android:textColor="#545454"
         android:gravity="center"/>
-    <WebView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_weight="1"
         android:layout_marginTop="5dp"
+        android:background="#fff"
         android:src="@drawable/ic_pdf"
+        android:padding="5dp"
        android:id="@+id/icon"/>
 </LinearLayout>

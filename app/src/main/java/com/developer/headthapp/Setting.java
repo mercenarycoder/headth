@@ -2,8 +2,11 @@ package com.developer.headthapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,6 +20,8 @@ public class Setting extends AppCompatActivity {
 LinearLayout logout,privacy,doctor,notification;
 ImageButton back;
 Context context=Setting.this;
+SharedPreferences preferences;
+SharedPreferences.Editor editor;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +41,26 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Setting.this,LoginUser.class);
-                mauth.signOut();
-                startActivity(intent);
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Update")
+                        .setMessage("Do you really want to Logout ?")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent=new Intent(Setting.this,LoginUser.class);
+                                mauth.signOut();
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                builder.create();
+                builder.show();
             }
         });
         privacy.setOnClickListener(new View.OnClickListener() {

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -100,17 +101,34 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
                // Toast.makeText(context,"Report Page soon",Toast.LENGTH_SHORT).show();
             }
         });
+        holder.arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,PrescriptionsView.class);
+                intent.putExtra("title",adapter.getDiesease());
+                intent.putExtra("doctor",adapter.getDoctor());
+                intent.putExtra("observation",adapter.getObservation());
+                intent.putExtra("image",new networkData().url.substring(0
+                        ,new networkData().url.length()-4)+adapter.getImg_url());
+                intent.putExtra("id",adapter.getId());
+                intent.putExtra("url",adapter.getImg_url());
+                intent.putExtra("date",adapter.getDate());
+                context.startActivity(intent);
+            }
+        });
         holder.diesease.setText(adapter.getDiesease());
         String url=new networkData().url.substring(0,new networkData().url.length()-4)+adapter.getImg_url();
         if(url.contains(".jpeg")) {
-            Picasso.with(context).load(url).placeholder(R.drawable.ic_pdf).into(holder.img);
+            holder.img.setImageResource(R.drawable.index);
+//            Picasso.with(context).load(url).placeholder(R.drawable.ic_pdf).into(holder.img);
         }
         else
         {
-            holder.img.setVisibility(View.INVISIBLE);
-            holder.web.setVisibility(View.VISIBLE);
-            holder.web.getSettings().setJavaScriptEnabled(true);
-            holder.web.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+//            holder.img.setVisibility(View.INVISIBLE);
+//            holder.web.setVisibility(View.VISIBLE);
+//            holder.web.getSettings().setJavaScriptEnabled(true);
+//            holder.web.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+        holder.img.setImageResource(R.drawable.ic_pdf);
         }
         holder.date.setText(adapter.getDate());
         holder.dr_name.setText(adapter.getDoctor());
@@ -127,6 +145,7 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
         LinearLayout prescribtion;
         WebView web;
         CheckBox check;
+        ImageButton arrow;
         TextView visible;
         public viewholder1(@NonNull View itemView) {
             super(itemView);
@@ -138,6 +157,7 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
             web=(WebView)itemView.findViewById(R.id.web);
             check=(CheckBox)itemView.findViewById(R.id.check);
             visible=(TextView)itemView.findViewById(R.id.visibile);
+            arrow=(ImageButton)itemView.findViewById(R.id.arrow);
         }
     }
     public void setProgress()

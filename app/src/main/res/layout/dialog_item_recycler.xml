@@ -85,7 +85,7 @@
         android:id="@+id/visibile"
         android:background="#A6FFFFFF"
         android:visibility="invisible"
-        android:layout_margin="4dp"/>
+        android:layout_margin="0dp"/>
     <CheckBox
         android:layout_width="170dp"
         android:layout_height="60dp"

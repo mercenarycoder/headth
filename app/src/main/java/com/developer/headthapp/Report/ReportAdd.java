@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -51,7 +52,8 @@ import java.util.UUID;
 
 public class ReportAdd extends AppCompatActivity {
 ImageButton back;
-TextView date,pdf;
+TextView date;
+ImageView pdf;
 EditText title,observer,detail;
 private static final int STORAGE_PERMISSION_CODE = 123;
 private static final int PICK_IMAGE_REQUEST = 1;
@@ -70,12 +72,10 @@ Context context;
         context=ReportAdd.this;
         setContentView(R.layout.activity_report_add);
         back=(ImageButton)findViewById(R.id.back);
-        date=(TextView)findViewById(R.id.date);
-        myCalendar=Calendar.getInstance();
         choose=(Button)findViewById(R.id.choose);
         submit=(Button)findViewById(R.id.submit);
         title=(EditText)findViewById(R.id.title);
-        pdf=(TextView)findViewById(R.id.pdf);
+        pdf=(ImageView)findViewById(R.id.pdf);
         type=(Spinner)findViewById(R.id.type);
         formList();
         adapter=new SpinnerAdapter2(context,list);
@@ -92,9 +92,10 @@ Context context;
 
             }
         });
-        pdf.setText("No files choosen currently");
         observer=(EditText)findViewById(R.id.observer);
         detail=(EditText)findViewById(R.id.detail);
+        date=(TextView)findViewById(R.id.date);
+        myCalendar=Calendar.getInstance();
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,14 +108,15 @@ Context context;
                         myCalendar.set(Calendar.YEAR, year);
                         myCalendar.set(Calendar.MONTH, monthOfYear);
                         myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String myFormat = "MM/dd/yy"; //In which you need put here
+                        String myFormat = "dd/MM/YYYY"; //In which you need put here
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
                         date.setText(sdf.format(myCalendar.getTime()));
                     }
                 };
-                new DatePickerDialog(ReportAdd.this,date2,myCalendar.get(Calendar.YEAR),
-                        myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                DatePickerDialog dialog=new DatePickerDialog(context,date2,myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dialog.show();
             }
         });
         choose.setOnClickListener(new View.OnClickListener() {
@@ -259,7 +261,7 @@ Context context;
             Uri pdfUri = data.getData();
             base65=getStringPdf(pdfUri);
             base65="data:application/pdf;base64,"+base65;
-            pdf.setText("A pdf File is choosen");
+            pdf.setImageResource(R.drawable.ic_pdf);
             System.out.println("------------------"+base65);
             typeF=".pdf";
         }
@@ -276,7 +278,7 @@ Context context;
                 bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
-                pdf.setText("A Image is choosen");
+                pdf.setImageBitmap(bitmap);
                 base65="data:image/jpeg;base64,"+base65;
                 typeF=".jpeg";
                 System.out.println("-------------------------------------"+base65);
@@ -301,7 +303,7 @@ Context context;
                 base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
                 base65="data:image/jpeg;base64,"+base65;
                 typeF=".jpeg";
-                pdf.setText("A Image is choosen");
+                pdf.setImageBitmap(bitmap);
                 System.out.println("-------------------------------------"+base65);
                 //                Log.d("image ", "doInBackground: "+convertImage);
 

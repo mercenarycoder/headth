@@ -89,7 +89,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
         String number=mauth.getCurrentUser().getPhoneNumber();
         this.number.setText(number);
         number=number.substring(3,number.length());
-        QRGEncoder qrgEncoder = new QRGEncoder(number, null, QRGContents.Type.TEXT, 400);
+        QRGEncoder qrgEncoder = new QRGEncoder(number, null, QRGContents.Type.TEXT, 700);
         try {
             // Getting QR-Code as Bitmap
             bitmap = qrgEncoder.encodeAsBitmap();

@@ -69,22 +69,13 @@
         android:baselineAligned="false"
         >
     <TextView
-        android:layout_width="196dp"
+        android:layout_width="wrap_content"
         android:layout_height="31dp"
         android:text="Your Health Card"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#000"
         />
-        <Button
-            android:layout_width="58dp"
-            android:layout_height="30dp"
-            android:text="Share"
-            android:layout_gravity="center"
-            android:layout_marginRight="5dp"
-            android:textSize="12sp"
-            android:textColor="#fff"
-            android:background="@drawable/btn2"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

@@ -70,7 +70,7 @@
         </LinearLayout>
         <ImageView
             android:layout_width="350dp"
-            android:layout_height="360dp"
+            android:layout_height="500dp"
             android:src="@drawable/ic_pdf"
             android:padding="15dp"
             android:id="@+id/report"
@@ -117,8 +117,8 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/progress"/>
     <WebView
-        android:layout_width="340dp"
-        android:layout_height="360dp"
+        android:layout_width="350dp"
+        android:layout_height="500dp"
         android:background="@color/black"
         android:src="@drawable/ic_pdf"
         android:padding="15dp"

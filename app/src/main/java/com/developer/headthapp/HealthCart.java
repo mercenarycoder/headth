@@ -6,11 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +33,7 @@ import com.developer.headthapp.FragmentMains.DiseaseFragment;
 import com.developer.headthapp.FragmentMains.FragmentAllergies;
 import com.developer.headthapp.FragmentMains.FragmentHistiry;
 import com.developer.headthapp.FragmentMains.MedicineFragment;
+import com.developer.headthapp.NotificationCode.FromNotificationclass;
 import com.developer.headthapp.Prescription.Prescriptions;
 import com.developer.headthapp.Prescription.dashboard2;
 import com.developer.headthapp.Prescription.presClass;
@@ -86,6 +91,24 @@ public static void changeVisiblity()
         formList();
        // formList2();
         initiaLize();
+        //these lines of code will enable notifications
+        ComponentName receiver = new ComponentName(context, FromNotificationclass.class);
+        PackageManager pm = context.getPackageManager();
+
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+        //this few lines are for running a notification service
+//        AlarmManager manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+//        Intent alarmIntent;
+//        alarmIntent = new Intent(HealthCart.this,FromNotificationclass.class);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+//                0, alarmIntent, 0);
+//        int interval = 60000;
+//        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+//                interval, pendingIntent);
+
+        //till here
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

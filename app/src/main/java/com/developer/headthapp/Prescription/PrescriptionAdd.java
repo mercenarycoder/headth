@@ -108,14 +108,15 @@ public class PrescriptionAdd extends AppCompatActivity {
                         myCalendar.set(Calendar.YEAR, year);
                         myCalendar.set(Calendar.MONTH, monthOfYear);
                         myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String myFormat = "MM/dd/yy"; //In which you need put here
+                        String myFormat = "dd/MM/YYYY"; //In which you need put here
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
                         date.setText(sdf.format(myCalendar.getTime()));
                     }
                 };
-                new DatePickerDialog(PrescriptionAdd.this,date2,myCalendar.get(Calendar.YEAR),
-                        myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                DatePickerDialog dialog=new DatePickerDialog(context,date2,myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dialog.show();
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -144,14 +145,17 @@ public class PrescriptionAdd extends AppCompatActivity {
                }
                else
                {
-                   if(titleF.isEmpty()||dateF.isEmpty()||docF.isEmpty()||observationF.isEmpty())
+                   if(titleF.isEmpty()||dateF.isEmpty()||docF.isEmpty())
                    {
                        Toast.makeText(context,"Please fill all the fields",Toast.LENGTH_SHORT).show();
                        return;
                    }
                    else
                    {
-
+                    if(observationF.isEmpty())
+                    {
+                        observationF="Its a prescription";
+                    }
                        //multipartImageUpload();
                        new uploadPres().execute();
                    }
@@ -227,7 +231,7 @@ public class PrescriptionAdd extends AppCompatActivity {
         //Toast.makeText(context, "here", Toast.LENGTH_SHORT).show();
         if(resultCode==RESULT_OK&&requestCode==STORAGE_PERMISSION_CODE&&data!=null&&data.getData()!=null)
         {
-            Toast.makeText(context, "reached here", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Uploaded Document", Toast.LENGTH_SHORT).show();
             Uri pdfUri = data.getData();
             imageF=getStringPdf(pdfUri);
             imageF="data:application/pdf;base64,"+imageF;

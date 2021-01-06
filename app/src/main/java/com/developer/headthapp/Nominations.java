@@ -3,6 +3,7 @@ package com.developer.headthapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -44,10 +45,22 @@ boolean hare=false;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=Nominations.this;
+        setContentView(R.layout.activity_nominations);
         dialog=new ProgressDialog(context);
         dialog.setMessage("Please wait");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCanceledOnTouchOutside(false);
+        name1=(EditText)findViewById(R.id.name1);
+        name2=(EditText)findViewById(R.id.name21);
+        name3=(EditText)findViewById(R.id.name3);
+        name4=(EditText)findViewById(R.id.name4);
+        name5=(EditText)findViewById(R.id.name5);
+        phone1=(EditText)findViewById(R.id.number1);
+        phone2=(EditText)findViewById(R.id.number21);
+        phone3=(EditText)findViewById(R.id.number3);
+        phone4=(EditText)findViewById(R.id.number4);
+        phone5=(EditText)findViewById(R.id.number5);
+        verify=(Button)findViewById(R.id.verify);
         name=new String[5];
         phone=new String[5];
         Intent intent=getIntent();
@@ -61,51 +74,103 @@ boolean hare=false;
 
         }
         mauth=FirebaseAuth.getInstance();
-        setContentView(R.layout.activity_nominations);
-        name1=(EditText)findViewById(R.id.name1);
-        name2=(EditText)findViewById(R.id.name21);
-        name3=(EditText)findViewById(R.id.name3);
-        name4=(EditText)findViewById(R.id.name4);
-        name5=(EditText)findViewById(R.id.name5);
-        phone1=(EditText)findViewById(R.id.number1);
-        phone2=(EditText)findViewById(R.id.number21);
-        phone3=(EditText)findViewById(R.id.number3);
-        phone4=(EditText)findViewById(R.id.number4);
-        phone5=(EditText)findViewById(R.id.number5);
-
-        verify=(Button)findViewById(R.id.verify);
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(edit.equals("true"))
                 {
-                    Toast.makeText(context,"In edit reaching here",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"In edit reaching here",Toast.LENGTH_SHORT).show();
                     boolean done=false;
-                    submitUpdate(0);
+                    //submitUpdate(0);
+                    name[0]=name1.getText().toString();
+                    name[1]=name2.getText().toString();
+                    name[2]=name3.getText().toString();
+                    name[3]=name4.getText().toString();
+                    name[4]=name5.getText().toString();
+                    phone[0]=phone1.getText().toString();
+                    phone[1]=phone2.getText().toString();
+                    phone[2]=phone3.getText().toString();
+                    phone[3]=phone4.getText().toString();
+                    phone[4]=phone5.getText().toString();
+                    hare=true;
+                    String msg="";
+                    for(int i=0;i<5;i++) {
+                        for (int j = 0; j < 5; j++) {
+                            if (i != j) {
+                                if (name[i].equals(name[j])) {
+                                    hare = false;
+                                    msg="Duplicate name is not allowed";
+                                    Toast.makeText(context, "Duplicate name is not allowed", Toast.LENGTH_SHORT).show();
+                                    break;
+                                } else if (phone[i].equals(phone[j])) {
+                                    hare = false;
+                                    msg="Duplicate numbers not allowed";
+                                    Toast.makeText(context, "Duplicate numbers not allowed", Toast.LENGTH_SHORT).show();
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if(hare) {
+                        new checkAndSubmit().execute();
+                    }
+                    else{
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage("Duplicate Contacts Detected as "+msg)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+Toast.makeText(context,"Check the supplied data correctly and then click on verify again",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
                     j++;
                     done=true;
-
                 }
                 else {
-         name[0]=name1.getText().toString();
-         name[1]=name2.getText().toString();
-         name[2]=name3.getText().toString();
-         name[3]=name4.getText().toString();
-         name[4]=name5.getText().toString();
-         phone[0]=phone1.getText().toString();
-         phone[1]=phone2.getText().toString();
-         phone[2]=phone3.getText().toString();
-         phone[3]=phone4.getText().toString();
-         phone[4]=phone5.getText().toString();
+         name[0]=name1.getText().toString().trim();
+         name[1]=name2.getText().toString().trim();
+         name[2]=name3.getText().toString().trim();
+         name[3]=name4.getText().toString().trim();
+         name[4]=name5.getText().toString().trim();
+         phone[0]=phone1.getText().toString().trim();
+         phone[1]=phone2.getText().toString().trim();
+         phone[2]=phone3.getText().toString().trim();
+         phone[3]=phone4.getText().toString().trim();
+         phone[4]=phone5.getText().toString().trim();
          nameF="";
          phoneF="";
          for(int i=0;i<5;i++)
          {
              if(checkName(name[i])&&checkPhone(phone[i]))
              {
-                 hare=true;
-                 phoneF+=phone[i]+",";
-                 nameF+=name[i]+",";
+                 for(int j=0;j<5;j++)
+                 {
+                     if(i!=j)
+                     {
+                         if(name[i].equals(name[j]))
+                         {
+                             hare=false;
+                             Toast.makeText(context,"Duplicate name is not allowed",Toast.LENGTH_SHORT).show();
+                             break;
+                         }
+                         else if(phone[i].equals(phone[j]))
+                         {
+                             hare=false;
+                             Toast.makeText(context,"Duplicate numbers not allowed",Toast.LENGTH_SHORT).show();
+                             break;
+                         }
+                         else
+                         {
+                             hare=true;
+                             phoneF+=phone[i]+",";
+                             nameF+=name[i]+",";
+                         }
+                     }
+                 }
              }
          }
          if(nameF.endsWith(","))
@@ -124,11 +189,58 @@ boolean hare=false;
          }
          else
          {
-             Toast.makeText(context,"Please fill atleast one emergency contact",Toast.LENGTH_SHORT).show();
+             Toast.makeText(context,"Please fill atleast one emergency contact or check for duplicate contacts",Toast.LENGTH_SHORT).show();
          }
             }
         }
     });
+    }
+    public class checkAndSubmit extends AsyncTask<String,String,String>
+    {
+        @SuppressLint("WrongThread")
+        @Override
+        protected String doInBackground(String... strings) {
+            for(int i=0;i<5;i++)
+            {
+                if(i<list.size())
+                {
+                    emergencyClass obj=list.get(i);
+                    if(name[i].equals(obj.getName())&&phone[i].equals(obj.getPhone()))
+                    {
+                 System.out.println("----------------AS it is in this contact");
+                        continue;
+                    }
+
+                    else
+                    {
+                 System.out.println("----------------Yeah Change");
+                     nameU=name[i];
+                     rec_id=obj.getId();
+                     phoneU=phone[i];
+                     new updateEmergency().execute();
+                    }
+                }
+                else
+                {
+                    nameU=name[i];
+                    phoneU=phone[i];
+                    new addEmergency().execute();
+                }
+            }
+            return "done with this task";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s!=null)
+            {
+                finish();
+            }
+        }
+    }
+    public void initiaLize()
+    {
     }
     public boolean checkName(String str)
     {
@@ -178,7 +290,7 @@ boolean hare=false;
              phone4.setText(obj.getPhone());
              break;
          }
-         case 5:
+         case 4:
          {
              emergencyClass obj=list.get(i);
              name5.setText(obj.getName());
@@ -187,7 +299,7 @@ boolean hare=false;
          }
          default:
          {
-           Toast.makeText(context,"Not here",Toast.LENGTH_SHORT).show();
+           Toast.makeText(context,"Not here "+i,Toast.LENGTH_SHORT).show();
          }
      }
     }
@@ -470,24 +582,6 @@ boolean hare=false;
                 String status = object.getString("status");
                 System.out.println(status);
                 String msg=object.getString("msg");
-                if(status.equals("1"))
-                {
-                 submitUpdate(j);
-                 j++;
-                 if(j==3)
-                 {
-                     finish();
-                 }
-                }
-                else
-                {
-                    submitUpdate(j);
-                    j++;
-                    if(j==3)
-                    {
-                        finish();
-                    }
-                }
             }
             catch(Exception e)
             {

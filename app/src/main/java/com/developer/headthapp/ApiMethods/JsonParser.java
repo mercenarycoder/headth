@@ -922,4 +922,60 @@ public class JsonParser {
         }
         return null;
     }
+
+    public String notifications(String url, String staff_id) {
+        HttpURLConnection httpURLConnection = null;
+        try
+        {
+
+            URL url2 = new URL(url);
+
+            httpURLConnection=(HttpURLConnection)url2.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+
+
+            OutputStream os=httpURLConnection.getOutputStream();
+            BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(os,"UTF-8"));
+            HashMap<String,String> params = new HashMap<>();
+            System.out.println(staff_id);
+            params.put("staff_id",staff_id);
+            StringBuilder builder=new StringBuilder();
+            boolean first=true;
+            for(Map.Entry<String,String> entry:params.entrySet())
+            {
+                if(first)
+                    first=false;
+                else
+                    builder.append("&");
+                builder.append(URLEncoder.encode(entry.getKey(),"UTF-8"));
+                builder.append("=");
+                builder.append(URLEncoder.encode(entry.getValue(),"UTF-8"));
+            }
+            String flow=builder.toString();
+            bufferedWriter.write(flow);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+            os.close();
+
+            String current="";
+            InputStream ir=httpURLConnection.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(ir);
+            int data = inputStreamReader.read();
+            while (data != -1) {
+                current += (char) data;
+                data = inputStreamReader.read();
+                System.out.print(current);
+            }
+            return current;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            if(httpURLConnection!=null)
+            {
+                httpURLConnection.disconnect();
+            }
+        }
+        return null;
+    }
 }

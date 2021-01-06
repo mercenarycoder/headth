@@ -66,9 +66,20 @@ public class dashmainadapter extends RecyclerView.Adapter<dashmainadapter.viewho
         holder.name.setText(adapter.getType());
         holder.date.setText(adapter.getDate());
         holder.type.setText(adapter.getName());
-        holder.icon.getSettings().setJavaScriptEnabled(true);
+//        holder.icon.getSettings().setJavaScriptEnabled(true);
         String pdf = new networkData().url_image+adapter.getIcon();
-        holder.icon.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+        if(adapter.getIcon().contains(".pdf"))
+        {
+            holder.icon.setImageResource(R.drawable.ic_pdf);
+//            holder.icon1.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
+        }
+        else
+        {
+            holder.icon.setImageResource(R.drawable.index);
+//            holder.icon1.loadDataWithBaseURL(null,"<html><center><img src="+pdf+"></html>",
+//                    "text/html","utf-8","");
+        }
+//        holder.icon.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + pdf);
     }
     @Override
     public int getItemCount() {
@@ -77,7 +88,7 @@ public class dashmainadapter extends RecyclerView.Adapter<dashmainadapter.viewho
     public static class viewholder1 extends RecyclerView.ViewHolder
     {
         TextView name,date,type;
-        WebView icon;
+        ImageView icon;
         LinearLayout reportitem;
         public viewholder1(@NonNull View itemView) {
             super(itemView);
@@ -85,7 +96,7 @@ public class dashmainadapter extends RecyclerView.Adapter<dashmainadapter.viewho
         name=(TextView)itemView.findViewById(R.id.name);
         date=(TextView)itemView.findViewById(R.id.date);
         type=(TextView)itemView.findViewById(R.id.type);
-        icon=(WebView)itemView.findViewById(R.id.icon);
+        icon=(ImageView)itemView.findViewById(R.id.icon);
         }
     }
     public void setProgress()
