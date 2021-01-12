@@ -17,18 +17,20 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/app"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/app"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Setting"></activity>
+        <activity android:name=".WiproId"></activity>
+        <activity android:name=".Setting" />
         <activity android:name=".Qr.QrProfileDoctor" />
         <activity android:name=".Prescription.PrescriptionsView" />
         <activity android:name=".Report.ReportView" />
@@ -79,7 +81,6 @@
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

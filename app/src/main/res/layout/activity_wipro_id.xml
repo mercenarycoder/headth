@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="330dp"
+    android:background="@drawable/id_wipro"
+    android:padding="10dp"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content"
+    tools:context=".WiproId">
+    <ImageButton
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/wipro_button"
+        android:layout_marginTop="120dp"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <ImageView
+        android:layout_width="230dp"
+        android:layout_height="100dp"
+
+        android:layout_gravity="right"
+        android:src="@drawable/wipro"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="65dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Manjeet \n Singh"
+            android:textSize="24sp"
+            android:layout_gravity="center|left"
+            android:gravity="center|left"
+            android:paddingStart="40dp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="(20170334)"
+            android:gravity="center|left"
+            android:paddingStart="30dp"
+            android:textSize="26sp"
+            android:layout_marginTop="10dp"
+            android:textColor="#fff"
+            />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/mypic"
+        android:scaleType="fitXY"
+        android:layout_gravity="right"
+        />
+</LinearLayout>
+</RelativeLayout>
+</RelativeLayout>

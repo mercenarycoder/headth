@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="330dp"
+        android:background="@drawable/id_wipro"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:layout_height="510dp"
+        tools:context=".WiproId">
+     <TextView
+         android:layout_width="240dp"
+         android:layout_height="wrap_content"
+         android:text="If found Emergency Please Contect
+Wipro Helpdesk:\n
+Global Security Group\n
++91-9533740211,+91-8971164898\n
+Toll Free : 18002002341"
+         android:gravity="center"
+         android:layout_marginLeft="40dp"
+         android:layout_marginTop="30dp"
+         android:textColor="#000"/>
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="4=763735 33201015346-1"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="30dp"
+            android:textStyle="bold"
+            android:textColor="#000"/>
+    </RelativeLayout>
+</RelativeLayout>

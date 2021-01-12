@@ -156,13 +156,13 @@ public class LoginUser extends AppCompatActivity {
                 code+=edit1.getText().toString();
             case 1:
                 code+=edit2.getText().toString();
-            case 3:
+            case 2:
                 code+=edit3.getText().toString();
-            case 4:
+            case 3:
                 code+=edit4.getText().toString();
-            case 5:
+            case 4:
                 code+=edit5.getText().toString();
-            case 6:
+            case 5:
                 code+=edit6.getText().toString();
                 break;
         }
@@ -175,6 +175,12 @@ public class LoginUser extends AppCompatActivity {
             //waitingDialog.dismiss();
         }
         else {
+            edit1.setText(code.charAt(0));
+            edit2.setText(code.charAt(1));
+            edit3.setText(code.charAt(2));
+            edit4.setText(code.charAt(3));
+            edit5.setText(code.charAt(4));
+            edit6.setText(code.charAt(5));
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeSent, code);
             signInWithPhoneAuthCredential(credential);
         }
