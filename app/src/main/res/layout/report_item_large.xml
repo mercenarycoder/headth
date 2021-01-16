@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="24/10/20"
+        android:fontFamily="@font/dm_font"
         android:id="@+id/date_date"
         android:textStyle="bold"
         android:textColor="#EA496f"

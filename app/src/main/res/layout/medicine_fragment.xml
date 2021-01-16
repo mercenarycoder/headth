@@ -31,6 +31,7 @@
         android:layout_weight="1"
         android:text="Medicine"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/dm_font"
         android:textSize="36sp"
         android:textStyle="bold"
         android:gravity="center"/>
@@ -107,7 +108,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="120dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="36sp"
+            android:textSize="32sp"
+            android:fontFamily="@font/dm_font"
             android:visibility="invisible"
             android:id="@+id/sabchanga"
             android:textStyle="bold"

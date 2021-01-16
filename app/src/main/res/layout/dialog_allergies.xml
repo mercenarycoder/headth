@@ -12,6 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:text="Allergies"
             android:textColor="#000"
             android:textSize="24sp"
@@ -41,6 +42,7 @@
             android:layout_width="311dp"
             android:layout_height="38dp"
             android:height="0dp"
+            android:fontFamily="@font/dm_font"
             android:inputType="text"
             android:textColorLink="#6C6B6B"
             android:textCursorDrawable="@color/graycolor"
@@ -68,6 +70,7 @@
             android:layout_height="38dp"
             android:height="0dp"
             android:inputType="text"
+            android:fontFamily="@font/dm_font"
             android:textColorLink="#6C6B6B"
             android:textCursorDrawable="@color/graycolor"
             android:layout_marginTop="0dp"
@@ -89,6 +92,7 @@
         android:id="@+id/add"
         android:layout_gravity="center"
         android:textSize="12sp"
+        android:fontFamily="@font/dm_font"
         android:layout_marginTop="10dp"
         android:textColor="#41b5c1"/>
 </LinearLayout>

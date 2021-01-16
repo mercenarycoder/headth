@@ -52,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="S"
+            android:fontFamily="@font/dm_font"
             android:layout_weight="1"
             android:textColor="#fff"
             android:id="@+id/open_profile"
@@ -70,10 +71,10 @@
         android:layout_height="31dp"
         android:text="Code Scanner"
         android:textSize="24sp"
+        android:fontFamily="@font/dm_font"
         android:layout_marginBottom="19dp"
         android:gravity="center"
         android:id="@+id/scanner"
-        android:textStyle="bold"
         android:textColor="#fff"
         />
         <SurfaceView
@@ -90,9 +91,10 @@
             android:text="Scan QR to download health records "
             android:textSize="24sp"
             android:gravity="center"
+            android:fontFamily="@font/dm_font"
             android:id="@+id/next"
             android:layout_marginTop="10dp"
-            android:textStyle="bold"
+
             android:textColor="#fff"
             />
     </LinearLayout>

@@ -10,6 +10,7 @@
     android:text="Status"
     android:id="@+id/spinner_item_name"
     android:textSize="13sp"
+    android:fontFamily="@font/dm_font"
     android:background="#007C7979"
     android:textColor="#7C7979"
     android:gravity="center|left"

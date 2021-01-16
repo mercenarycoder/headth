@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="#545454"
+            android:fontFamily="@font/dm_font"
             android:id="@+id/name1"
             android:text="Dr Lal Path Lab"
             android:textSize="12sp"
@@ -33,6 +34,7 @@
             android:layout_weight="1"
             android:text="Blood Report"
             android:textColor="#089BAB"
+            android:fontFamily="@font/dm_font"
             android:id="@+id/type1"
             android:textSize="12sp"
             android:gravity="center"/>
@@ -42,6 +44,7 @@
             android:layout_weight="1"
             android:text="24 th June"
             android:textSize="12sp"
+            android:fontFamily="@font/dm_font"
             android:id="@+id/date1"
             android:textColor="#545454"
             android:gravity="center"/>
@@ -56,6 +59,7 @@
         android:layout_width="120dp"
         android:layout_height="110dp"
         android:id="@+id/visibile1"
+        android:fontFamily="@font/dm_font"
         android:background="#A6FFFFFF"
         android:visibility="invisible"
         android:layout_margin="4dp"/>
@@ -66,6 +70,7 @@
         android:layout_centerVertical="true"
         android:text="Remove Item"
         android:textSize="16sp"
+        android:fontFamily="@font/dm_font"
         android:visibility="invisible"
         android:id="@+id/check1"/>
 </RelativeLayout>
@@ -86,6 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:textColor="#545454"
             android:id="@+id/name2"
             android:text="Dr Lal Path Lab"
@@ -97,6 +103,7 @@
             android:layout_weight="1"
             android:text="Blood Report"
             android:textColor="#089BAB"
+            android:fontFamily="@font/dm_font"
             android:id="@+id/type2"
             android:textSize="12sp"
             android:gravity="center"/>
@@ -107,6 +114,7 @@
             android:text="24 th June"
             android:textSize="12sp"
             android:id="@+id/date2"
+            android:fontFamily="@font/dm_font"
             android:textColor="#545454"
             android:gravity="center"/>
         <ImageView
@@ -121,6 +129,7 @@
             android:layout_height="110dp"
             android:id="@+id/visibile2"
             android:background="#A6FFFFFF"
+            android:fontFamily="@font/dm_font"
             android:visibility="invisible"
             android:layout_margin="4dp"/>
         <CheckBox
@@ -130,6 +139,7 @@
             android:layout_centerVertical="true"
             android:text="Remove Item"
             android:textSize="16sp"
+            android:fontFamily="@font/dm_font"
             android:visibility="invisible"
             android:id="@+id/check2"/>
     </RelativeLayout>
@@ -150,6 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:textColor="#545454"
             android:id="@+id/name3"
             android:text="Dr Lal Path Lab"
@@ -159,6 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:text="Blood Report"
             android:textColor="#089BAB"
             android:id="@+id/type3"
@@ -171,6 +183,7 @@
             android:text="24 th June"
             android:textSize="12sp"
             android:id="@+id/date3"
+            android:fontFamily="@font/dm_font"
             android:textColor="#545454"
             android:gravity="center"/>
         <ImageView
@@ -186,6 +199,7 @@
             android:id="@+id/visibile3"
             android:background="#A6FFFFFF"
             android:visibility="invisible"
+            android:fontFamily="@font/dm_font"
             android:layout_margin="4dp"/>
         <CheckBox
             android:layout_width="120dp"
@@ -194,6 +208,7 @@
             android:layout_centerVertical="true"
             android:text="Remove Item"
             android:textSize="16sp"
+            android:fontFamily="@font/dm_font"
             android:visibility="invisible"
             android:id="@+id/check3"/>
     </RelativeLayout>

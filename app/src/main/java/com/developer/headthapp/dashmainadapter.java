@@ -54,13 +54,17 @@ public class dashmainadapter extends RecyclerView.Adapter<dashmainadapter.viewho
             @Override
             public void onClick(View view) {
                // Toast.makeText(context,"Report Page soon",Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(context, ReportView.class);
-                intent.putExtra("doctor",adapter.getName());
-                intent.putExtra("url",new networkData().url_image+adapter.getIcon());
-                intent.putExtra("title",adapter.getType());
-                intent.putExtra("id",adapter.getId());
-                intent.putExtra("type",adapter.getTypeD());
-                context.startActivity(intent);
+                new GlobalVariables();
+                if(GlobalVariables.Helper) {
+                    Intent intent = new Intent(context, ReportView.class);
+                    intent.putExtra("doctor", adapter.getName());
+                    intent.putExtra("url", new networkData().url_image + adapter.getIcon());
+                    intent.putExtra("title", adapter.getType());
+                    intent.putExtra("id", adapter.getId());
+                    intent.putExtra("type", adapter.getTypeD());
+                    context.startActivity(intent);
+                }
+
             }
         });
         holder.name.setText(adapter.getType());

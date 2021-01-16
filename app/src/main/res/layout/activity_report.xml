@@ -23,6 +23,7 @@
             android:layout_height="match_parent"
             android:text="Reports"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:textColor="#000"
             android:gravity="center|left"
             android:textSize="24sp"/>
@@ -38,6 +39,7 @@
          android:layout_width="150dp"
          android:layout_height="40dp"
          android:background="@drawable/bootstrap_primary"
+         android:fontFamily="@font/dm_font"
          android:text="Add Report"
          android:textSize="12sp"
          android:id="@+id/add_report"
@@ -48,6 +50,7 @@
             android:layout_height="40dp"
             android:background="@drawable/bootstrap_primary"
             android:text="Remove Report"
+            android:fontFamily="@font/dm_font"
             android:id="@+id/remove_report"
             android:textSize="12sp"
             android:textColor="#41b5c1"/>
@@ -66,6 +69,7 @@
             android:text="Previous Reports"
             android:layout_weight="1"
             android:textColor="#000"
+            android:fontFamily="@font/dm_font"
             android:gravity="center|left"
             android:textSize="24sp"/>
         <ImageButton

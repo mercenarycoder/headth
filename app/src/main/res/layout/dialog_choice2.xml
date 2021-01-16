@@ -12,6 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:text="Choose the Document"
             android:textColor="#000"
             android:textSize="20sp"
@@ -33,6 +34,7 @@
         android:textSize="18sp"
         android:layout_marginTop="10dp"
         android:gravity="center"
+        android:fontFamily="@font/dm_font"
         android:textColor="@color/colorPrimary"
         android:text="Image format (jpeg ,png)"
         android:id="@+id/image"/>
@@ -41,6 +43,7 @@
         android:layout_height="40dp"
         android:textSize="18sp"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/dm_font"
         android:gravity="center"
         android:text="Capture Image using camera"
         android:id="@+id/camera"/>

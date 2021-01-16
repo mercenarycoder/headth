@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.DeleteClass;
+import com.developer.headthapp.GlobalVariables;
 import com.developer.headthapp.R;
 import com.squareup.picasso.Picasso;
 
@@ -88,32 +89,38 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
         holder.prescribtion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,PrescriptionsView.class);
-                intent.putExtra("title",adapter.getDiesease());
-                intent.putExtra("doctor",adapter.getDoctor());
-                intent.putExtra("observation",adapter.getObservation());
-                intent.putExtra("image",new networkData().url.substring(0
-                        ,new networkData().url.length()-4)+adapter.getImg_url());
-                intent.putExtra("id",adapter.getId());
-                intent.putExtra("url",adapter.getImg_url());
-                intent.putExtra("date",adapter.getDate());
-                context.startActivity(intent);
-               // Toast.makeText(context,"Report Page soon",Toast.LENGTH_SHORT).show();
+                new GlobalVariables();
+                if(GlobalVariables.Helper) {
+                    Intent intent = new Intent(context, PrescriptionsView.class);
+                    intent.putExtra("title", adapter.getDiesease());
+                    intent.putExtra("doctor", adapter.getDoctor());
+                    intent.putExtra("observation", adapter.getObservation());
+                    intent.putExtra("image", new networkData().url.substring(0
+                            , new networkData().url.length() - 4) + adapter.getImg_url());
+                    intent.putExtra("id", adapter.getId());
+                    intent.putExtra("url", adapter.getImg_url());
+                    intent.putExtra("date", adapter.getDate());
+                    context.startActivity(intent);
+                }
+                // Toast.makeText(context,"Report Page soon",Toast.LENGTH_SHORT).show();
             }
         });
         holder.arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,PrescriptionsView.class);
-                intent.putExtra("title",adapter.getDiesease());
-                intent.putExtra("doctor",adapter.getDoctor());
-                intent.putExtra("observation",adapter.getObservation());
-                intent.putExtra("image",new networkData().url.substring(0
-                        ,new networkData().url.length()-4)+adapter.getImg_url());
-                intent.putExtra("id",adapter.getId());
-                intent.putExtra("url",adapter.getImg_url());
-                intent.putExtra("date",adapter.getDate());
-                context.startActivity(intent);
+                new GlobalVariables();
+                if(GlobalVariables.Helper) {
+                    Intent intent = new Intent(context, PrescriptionsView.class);
+                    intent.putExtra("title", adapter.getDiesease());
+                    intent.putExtra("doctor", adapter.getDoctor());
+                    intent.putExtra("observation", adapter.getObservation());
+                    intent.putExtra("image", new networkData().url.substring(0
+                            , new networkData().url.length() - 4) + adapter.getImg_url());
+                    intent.putExtra("id", adapter.getId());
+                    intent.putExtra("url", adapter.getImg_url());
+                    intent.putExtra("date", adapter.getDate());
+                    context.startActivity(intent);
+                }
             }
         });
         holder.diesease.setText(adapter.getDiesease());

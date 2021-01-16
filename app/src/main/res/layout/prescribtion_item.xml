@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:id="@+id/prescribtion"
-    android:layout_margin="4dp"
+    android:layout_margin="2dp"
     android:background="@drawable/edit2"
     android:baselineAligned="false"
     android:layout_height="70dp">
@@ -39,17 +39,19 @@
             android:id="@+id/diesease"
             android:textColor="#089BAB"
             android:text="Malaria Test"
+            android:fontFamily="@font/dm_font"
             android:layout_weight="0.7"
             android:gravity="left"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="24/06/20"
+            android:fontFamily="@font/dm_font"
             android:gravity="right"
             android:id="@+id/date"
             android:layout_weight="1"
             android:layout_marginRight="5dp"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:textColor="#F40B5B"
           />
     </LinearLayout>
@@ -69,6 +71,7 @@
             android:textColor="#545454"
             android:text=" Diagnosed by: Dr. S Meena"
             android:layout_weight="0.3"
+            android:fontFamily="@font/dm_font"
             android:gravity="left"/>
         <ImageButton
             android:layout_width="match_parent"
@@ -89,9 +92,10 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:id="@+id/visibile"
+        android:fontFamily="@font/dm_font"
         android:background="#A6FFFFFF"
         android:visibility="invisible"
-        android:layout_margin="4dp"/>
+        android:layout_margin="2dp"/>
   <CheckBox
       android:layout_width="170dp"
       android:layout_height="60dp"
@@ -99,6 +103,7 @@
       android:layout_centerVertical="true"
       android:text="Remove Item"
       android:textSize="20sp"
+      android:fontFamily="@font/dm_font"
       android:visibility="invisible"
       android:id="@+id/check"/>
     <WebView

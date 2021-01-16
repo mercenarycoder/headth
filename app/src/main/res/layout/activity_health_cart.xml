@@ -25,6 +25,7 @@
             android:background="@drawable/main_base_btn"/>
         <TextView
             android:layout_width="match_parent"
+            android:fontFamily="@font/dm_font"
             android:layout_height="match_parent"
             android:layout_weight="0.7"/>
         <ImageButton
@@ -74,6 +75,7 @@
         android:text="Your Health Card"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:fontFamily="@font/dm_font"
         android:textColor="#000"
         />
     </LinearLayout>
@@ -119,6 +121,7 @@
                     android:layout_width="60dp"
                     android:layout_height="20dp"
                     android:text="Disease"
+                    android:fontFamily="@font/dm_font"
                     android:textColor="#000"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -149,6 +152,7 @@
                     android:layout_height="20dp"
                     android:text="Medicine"
                     android:textColor="#000"
+                    android:fontFamily="@font/dm_font"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -177,6 +181,7 @@
                     android:layout_width="60dp"
                     android:layout_height="20dp"
                     android:text="Allergies"
+                    android:fontFamily="@font/dm_font"
                     android:textColor="#000"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -209,6 +214,7 @@
                     android:text="History"
                     android:textColor="#000"
                     android:textSize="12sp"
+                    android:fontFamily="@font/dm_font"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:layout_gravity="center"/>
@@ -244,6 +250,7 @@
            android:textSize="20sp"
            android:textColor="#545454"
            android:text="Reports"
+           android:fontFamily="@font/dm_font"
            android:layout_weight="0.3"
            android:textStyle="bold"
            android:gravity="left"/>
@@ -282,6 +289,7 @@
               android:text="No Items"
               android:textColor="@color/graycolor"
               android:id="@+id/no_report"
+              android:fontFamily="@font/dm_font"
               android:layout_centerHorizontal="true"
               android:layout_centerVertical="true"
               android:visibility="invisible"
@@ -318,6 +326,7 @@
                 android:textSize="20sp"
                 android:textColor="#545454"
                 android:text="Prescriptions"
+                android:fontFamily="@font/dm_font"
                 android:layout_weight="0.3"
                 android:textStyle="bold"
                 android:gravity="left"/>
@@ -355,6 +364,7 @@
                 android:layout_height="40dp"
                 android:text="No Items"
                 android:textColor="@color/graycolor"
+                android:fontFamily="@font/dm_font"
                 android:id="@+id/no_pres"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
@@ -380,6 +390,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fontFamily="@font/dm_font"
             android:id="@+id/disabler"/>
     </RelativeLayout>
     <LinearLayout
@@ -466,6 +477,7 @@
                         android:layout_height="match_parent"
                         android:text="Here you can add and remove the diesease records of yours"
                         android:gravity="center"
+                        android:fontFamily="@font/dm_font"
                         android:textColor="#000"
                         android:textSize="12sp"
                         android:layout_weight="1"/>
@@ -494,6 +506,7 @@
                     android:layout_height="match_parent"
                     android:text="Here you can add and remove the medicine records of yours"
                     android:gravity="center"
+                    android:fontFamily="@font/dm_font"
                     android:textColor="#000"
                     android:textSize="12sp"
                     android:layout_weight="1"/>
@@ -523,6 +536,7 @@
                     android:text="Here you can add and remove the Allergies records of yours"
                     android:gravity="center"
                     android:textColor="#000"
+                    android:fontFamily="@font/dm_font"
                     android:textSize="12sp"
                     android:layout_weight="1"/>
                 <Button
@@ -551,6 +565,7 @@
                     android:text="Here you can add an and view your current health ailments"
                     android:gravity="center"
                     android:textColor="#000"
+                    android:fontFamily="@font/dm_font"
                     android:textSize="12sp"
                     android:layout_weight="1"/>
                 <Button
@@ -598,6 +613,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:fontFamily="@font/dm_font"
                 android:layout_weight="0.7"/>
             <ImageButton
                 android:layout_width="match_parent"
@@ -645,6 +661,7 @@
                 android:text="Here you can access your Qr Code"
                 android:gravity="center"
                 android:textColor="#000"
+                android:fontFamily="@font/dm_font"
                 android:textSize="12sp"
                 android:layout_weight="1"/>
             <Button
@@ -678,6 +695,7 @@
                 android:gravity="center"
                 android:textColor="#000"
                 android:textSize="12sp"
+                android:fontFamily="@font/dm_font"
                 android:layout_weight="1"/>
             <Button
                 android:layout_width="60dp"
@@ -708,6 +726,7 @@
                 android:layout_height="match_parent"
                 android:text="Here you can access your profile"
                 android:gravity="center"
+                android:fontFamily="@font/dm_font"
                 android:textColor="#000"
                 android:textSize="12sp"
                 android:layout_weight="1"/>
@@ -752,6 +771,7 @@
                 android:layout_height="match_parent"
                 android:text="Here you can get a detail view on your reports"
                 android:gravity="center"
+                android:fontFamily="@font/dm_font"
                 android:textColor="#000"
                 android:textSize="12sp"
                 android:layout_weight="1"/>
@@ -797,6 +817,7 @@
                 android:text="Here you can get a detail view on your prescriptions"
                 android:gravity="center"
                 android:textColor="#000"
+                android:fontFamily="@font/dm_font"
                 android:textSize="12sp"
                 android:layout_weight="1"/>
             <Button

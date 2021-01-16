@@ -27,6 +27,7 @@
             android:layout_height="match_parent"
             android:text="Add Prescription"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:textColor="#000"
             android:gravity="center|left"
             android:textSize="24sp"/>
@@ -45,6 +46,7 @@
             android:textColor="#9A9A9A"
             android:textSize="13sp"
             android:id="@+id/title"
+            android:fontFamily="@font/dm_font"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:layout_marginBottom="30dp"
@@ -57,6 +59,7 @@
             android:textSize="13sp"
             android:text="Date"
             android:paddingStart="5dp"
+            android:fontFamily="@font/dm_font"
             android:id="@+id/date"
             android:layout_weight="1.8"
             android:layout_marginBottom="10dp"
@@ -77,6 +80,7 @@
             android:layout_width="121dp"
             android:layout_height="wrap_content"
             android:text="Upload Image"
+            android:fontFamily="@font/dm_font"
             android:textColor="#EA496F"
             android:textSize="16sp"/>
         <ImageView
@@ -92,6 +96,7 @@
             android:layout_marginTop="20dp"
             android:id="@+id/choose"
             android:layout_marginBottom="5dp"
+            android:fontFamily="@font/dm_font"
             android:background="@drawable/shadow_btn"
             android:text="Add Record"
             android:textColor="@color/colorPrimary"
@@ -102,6 +107,7 @@
             android:layout_height="wrap_content"
             android:text="Observation Details"
             android:textColor="#EA496F"
+            android:fontFamily="@font/dm_font"
             android:textSize="16sp"/>
         <EditText
             android:layout_width="match_parent"
@@ -110,6 +116,7 @@
             android:background="@drawable/edit_text"
             android:textColor="#9A9A9A"
             android:id="@+id/doc_name"
+            android:fontFamily="@font/dm_font"
             android:textSize="13sp"
             android:layout_marginBottom="10dp"
             android:hint="Name of Referring Doctor"
@@ -123,6 +130,7 @@
             android:textSize="13sp"
             android:id="@+id/observation"
             android:paddingStart="5dp"
+            android:fontFamily="@font/dm_font"
             android:hint="Observation (If Any)"
             android:layout_marginTop="10dp"/>
         <Button
@@ -132,6 +140,7 @@
             android:background="@drawable/shadow_btn"
             android:text="Submit"
             android:id="@+id/upload"
+            android:fontFamily="@font/dm_font"
             android:layout_marginTop="25dp"
             android:textColor="@color/colorPrimary"
             android:textSize="10sp"/>

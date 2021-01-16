@@ -15,6 +15,7 @@
             android:textColor="#000"
             android:textSize="24sp"
             android:id="@+id/option"
+            android:fontFamily="@font/dm_font"
             android:textStyle="bold"
             android:paddingStart="17dp"
             android:gravity="center|left"/>

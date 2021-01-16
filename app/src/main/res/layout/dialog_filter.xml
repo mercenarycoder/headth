@@ -15,14 +15,16 @@
         android:id="@+id/close_dialog"
         android:background="@drawable/main_base_btn"
         android:layout_weight="5.7"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:fontFamily="@font/dm_font"
+        android:gravity="center|left"
         android:text="Filter"
         android:textColor="@color/colorPrimary"
-        android:layout_weight="1"
-        android:textSize="20sp"
-        android:gravity="center|left"/>
+        android:textSize="20sp" />
 </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -30,6 +32,7 @@
         android:text="Category"
         android:layout_marginBottom="15dp"
         android:textSize="14sp"
+        android:fontFamily="@font/dm_font"
         android:textColor="#000"
         android:gravity="center"/>
 <LinearLayout
@@ -56,6 +59,7 @@
             android:layout_height="match_parent"
             android:text="All"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:gravity="center"
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"/>
@@ -80,6 +84,7 @@
             android:text="Eye"
             android:layout_weight="1"
             android:gravity="center"
+            android:fontFamily="@font/dm_font"
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"/>
     </LinearLayout>
@@ -109,6 +114,7 @@
             android:layout_height="match_parent"
             android:text="Dental"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:gravity="center"
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"/>
@@ -132,6 +138,7 @@
             android:layout_height="match_parent"
             android:text="ENT"
             android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
             android:gravity="center"
             android:textSize="12sp"
             android:textColor="@color/colorPrimary"/>
@@ -165,6 +172,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Blood"
+                android:fontFamily="@font/dm_font"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -190,6 +198,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="X-Ray"
+                android:fontFamily="@font/dm_font"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -201,6 +210,7 @@
         android:layout_marginTop="15dp"
         android:textSize="14sp"
         android:textColor="#000"
+        android:fontFamily="@font/dm_font"
         android:gravity="center"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -211,6 +221,7 @@
             android:layout_height="wrap_content"
             android:text="Latest to Oldest"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/dm_font"
             android:textSize="13sp"
             android:textColor="#000"
             android:gravity="center"/>
@@ -219,6 +230,7 @@
             android:layout_height="wrap_content"
             android:text="Oldest to Latest"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/dm_font"
             android:textSize="13sp"
             android:textColor="#000"
             android:gravity="center"/>
@@ -228,6 +240,7 @@
             android:text="Added By Me"
             android:layout_marginTop="10dp"
             android:textSize="13sp"
+            android:fontFamily="@font/dm_font"
             android:textColor="#000"
             android:gravity="center"/>
         <TextView
@@ -237,6 +250,7 @@
             android:layout_marginTop="10dp"
             android:textSize="13sp"
             android:textColor="#000"
+            android:fontFamily="@font/dm_font"
             android:gravity="center"/>
     </LinearLayout>
     <Button
@@ -245,6 +259,7 @@
         android:background="@drawable/main_base_btn"
         android:layout_gravity="center"
         android:text="Apply"
+        android:fontFamily="@font/dm_font"
         android:layout_marginTop="15dp"
         android:textColor="@color/colorPrimary"
         android:id="@+id/apply"/>

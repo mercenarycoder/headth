@@ -12,6 +12,7 @@
     android:textSize="20sp"
     android:gravity="center|left"
     android:paddingStart="10dp"
+    android:fontFamily="@font/dm_font"
     android:textColor="@color/black"
     android:id="@+id/item"/>
 </LinearLayout>

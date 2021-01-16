@@ -163,6 +163,7 @@ Button add_prescription,remove_prescription;
         else
         {
             nop.setVisibility(View.VISIBLE);
+            nop.setText("Your search results for '"+str+"'");
         }
     }
 
@@ -315,6 +316,7 @@ Button add_prescription,remove_prescription;
                         else
                         {
                             nop.setVisibility(View.VISIBLE);
+                            nop.setText("No Items found");
                         }
                      }
                     else {

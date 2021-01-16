@@ -66,6 +66,7 @@ Button open_profile;
 FirebaseAuth mauth;
 ProgressDialog progressDialog;
 static RelativeLayout layout_changer;
+
 ImageButton open_notification,qr_act;
 LinearLayout disease,medicine,allergies,history,help_layout,disease_help,medicine_hep,allergies_help,history_help,qr_help;
 LinearLayout d_help,m_help,a_help,h_help,noti_help,profile_help,report_help2,pres_help2;
@@ -88,6 +89,7 @@ public static void changeVisiblity()
         context=HealthCart.this;
         mauth=FirebaseAuth.getInstance();
         setContentView(R.layout.activity_health_cart);
+        new GlobalVariables("fdfkd");
         formList();
        // formList2();
         initiaLize();
@@ -115,6 +117,24 @@ public static void changeVisiblity()
            help_layout2.setVisibility(View.VISIBLE);
            qr.setVisibility(View.VISIBLE);
            qr_help.setVisibility(View.VISIBLE);
+           //disease_2,medicine_2,allergies_2,history_2,qr,noti
+                disease_2.setEnabled(false);
+                medicine_2.setEnabled(false);
+                allergies_2.setEnabled(false);
+                history_2.setEnabled(false);
+                qr.setEnabled(false);
+                noti.setEnabled(false);
+                medicine.setEnabled(false);
+                disease.setEnabled(false);
+                allergies.setEnabled(false);
+                history.setEnabled(false);
+                view_pres.setEnabled(false);
+                view_report.setEnabled(false);
+                help.setEnabled(false);
+                open_profile.setEnabled(false);
+                open_notification.setEnabled(false);
+                new GlobalVariables();
+                GlobalVariables.Helper =false;
             }
         });
         next_qr.setOnClickListener(new View.OnClickListener() {
@@ -199,6 +219,23 @@ public static void changeVisiblity()
                 pres_help.setVisibility(View.INVISIBLE);
                 pres_help2.setVisibility(View.INVISIBLE);
                 help_layout2.setVisibility(View.INVISIBLE);
+                disease_2.setEnabled(true);
+                medicine_2.setEnabled(true);
+                allergies_2.setEnabled(true);
+                history_2.setEnabled(true);
+                qr.setEnabled(true);
+                noti.setEnabled(true);
+                medicine.setEnabled(true);
+                disease.setEnabled(true);
+                allergies.setEnabled(true);
+                history.setEnabled(true);
+                view_pres.setEnabled(true);
+                view_report.setEnabled(true);
+                help.setEnabled(true);
+                open_notification.setEnabled(true);
+                open_profile.setEnabled(true);
+                new GlobalVariables();
+                GlobalVariables.Helper=true;
             }
         });
         context=HealthCart.this;
@@ -393,7 +430,33 @@ public static void changeVisiblity()
         check=false;
     }
     }
+public class getGeneral extends AsyncTask<String,String,String>
+{
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
 
+    @Override
+    protected String doInBackground(String... strings) {
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+        if(s!=null)
+        {
+            try{
+                JSONObject object=new JSONObject(s);
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+    }
+}
     public class getReports extends AsyncTask<String,String,String>
 {
     @Override

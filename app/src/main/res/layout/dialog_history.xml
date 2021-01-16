@@ -13,6 +13,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="History"
+            android:fontFamily="@font/dm_font"
             android:textColor="#000"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -41,6 +42,7 @@
             android:layout_height="38dp"
             android:height="0dp"
             android:inputType="text"
+            android:fontFamily="@font/dm_font"
             android:textColorLink="#6C6B6B"
             android:textCursorDrawable="@color/graycolor"
             android:layout_marginTop="0dp"
@@ -69,6 +71,7 @@
             android:height="0dp"
             android:inputType="text"
             android:textColorLink="#6C6B6B"
+            android:fontFamily="@font/dm_font"
             android:textCursorDrawable="@color/graycolor"
             android:layout_marginTop="0dp"
             android:textColorHint="#6C6B6B"
@@ -89,6 +92,7 @@
         android:layout_gravity="center"
         android:textSize="12sp"
         android:id="@+id/add"
+        android:fontFamily="@font/dm_font"
         android:layout_marginTop="10dp"
         android:textColor="#41b5c1"/>
 </LinearLayout>
