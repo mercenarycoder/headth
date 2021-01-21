@@ -1,10 +1,10 @@
 package com.developer.headthapp.ApiMethods;
 //http://ec2-3-18-103-176.us-east-2.compute.amazonaws.com:5000/app1
 //mysore ip address
-//http://192.168.1.101:5000/app1
+//http://192.168.29.225:5000/app1
 public class networkData {
-    public static String url="http://ec2-3-18-103-176.us-east-2.compute.amazonaws.com:5000/app1";
-    public static String url_image="http://ec2-3-18-103-176.us-east-2.compute.amazonaws.com:5000/";
+    public static String url="http://192.168.1.4:5000/app1";
+    public static String url_image="http://192.168.1.4:5000/";
     public static String update="/newUser";
     public static String profileUpdate="/updateUser";
     public static String emergency="/emergency";
@@ -40,4 +40,5 @@ public class networkData {
     public static String deleteReport="/deleteReport";
     public static String notification="/notification";
     public static String checkShare="/checkShare";
+    public static String deleteEmergency="/deleteEmergency";
 }

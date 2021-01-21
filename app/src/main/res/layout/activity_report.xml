@@ -35,24 +35,27 @@
         android:layout_marginTop="60dp"
         android:orientation="horizontal"
         android:baselineAligned="false">
-     <Button
-         android:layout_width="150dp"
+
+        <Button
+         android:layout_width="180dp"
          android:layout_height="40dp"
          android:background="@drawable/bootstrap_primary"
          android:fontFamily="@font/dm_font"
-         android:text="Add Report"
-         android:textSize="12sp"
+         android:text="Add"
+         android:layout_marginRight="10dp"
+         android:textSize="14sp"
+            android:textStyle="bold"
          android:id="@+id/add_report"
-         android:layout_marginRight="50dp"
          android:textColor="#41b5c1"/>
         <Button
-            android:layout_width="150dp"
+            android:layout_width="180dp"
             android:layout_height="40dp"
             android:background="@drawable/bootstrap_primary"
             android:text="Remove Report"
             android:fontFamily="@font/dm_font"
             android:id="@+id/remove_report"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            android:textStyle="bold"
             android:textColor="#41b5c1"/>
     </LinearLayout>
     <LinearLayout
@@ -61,7 +64,7 @@
         android:layout_marginTop="120dp"
         android:orientation="horizontal"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="10dp"
         android:baselineAligned="false">
         <TextView
             android:layout_width="match_parent"
@@ -80,11 +83,14 @@
             android:background="@drawable/main_base_btn"
             android:id="@+id/filter"
             android:layout_weight="4.9"/>
+
     </LinearLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_marginTop="170dp"
         android:id="@+id/refresh"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_height="match_parent">
 <androidx.recyclerview.widget.RecyclerView
     android:layout_width="match_parent"
@@ -93,9 +99,11 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 <TextView
     android:layout_width="match_parent"
-    android:layout_height="45dp"
+    android:layout_height="wrap_content"
     android:text="No Items To show"
     android:textSize="25sp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:textColor="@color/colorAccent"
     android:layout_centerVertical="true"
     android:gravity="center"

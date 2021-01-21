@@ -51,6 +51,7 @@ boolean hare=false;
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setCanceledOnTouchOutside(false);
         name1=(EditText)findViewById(R.id.name1);
+        name1.setEnabled(false);
         name2=(EditText)findViewById(R.id.name21);
         name3=(EditText)findViewById(R.id.name3);
         name4=(EditText)findViewById(R.id.name4);
@@ -93,31 +94,30 @@ boolean hare=false;
                     phone[3]=phone4.getText().toString();
                     phone[4]=phone5.getText().toString();
                     hare=true;
-                    String msg="";
+                    boolean oneCheck=false;
+                    String msg="At least one emergency contact is required";
                     for(int i=0;i<5;i++) {
-                        for (int j = 0; j < 5; j++) {
-                            if (i != j) {
-                                if (name[i].equals(name[j])) {
-                                    hare = false;
-                                    msg="Duplicate name is not allowed";
-                                    Toast.makeText(context, "Duplicate name is not allowed", Toast.LENGTH_SHORT).show();
-                                    break;
-                                } else if (phone[i].equals(phone[j])) {
-                                    hare = false;
-                                    msg="Duplicate numbers not allowed";
-                                    Toast.makeText(context, "Duplicate numbers not allowed", Toast.LENGTH_SHORT).show();
-                                    break;
+                        if(phone[i].length()==10) {
+                         oneCheck=true;
+                            for (int j = 0; j < 5; j++) {
+                                if (i != j) {
+                                    if (phone[i].equals(phone[j]) && phone[i].length() > 0 && phone[j].length() > 0) {
+                                        hare = false;
+                                        msg = "Duplicate numbers not allowed";
+                                        Toast.makeText(context, "Duplicate numbers not allowed", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
-                    if(hare) {
+                    if(hare&&oneCheck) {
                         new checkAndSubmit().execute();
                     }
                     else{
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Update")
-                                .setMessage("Duplicate Contacts Detected as "+msg)
+                                .setMessage(msg)
                                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -151,13 +151,7 @@ Toast.makeText(context,"Check the supplied data correctly and then click on veri
                  {
                      if(i!=j)
                      {
-                         if(name[i].equals(name[j]))
-                         {
-                             hare=false;
-                             Toast.makeText(context,"Duplicate name is not allowed",Toast.LENGTH_SHORT).show();
-                             break;
-                         }
-                         else if(phone[i].equals(phone[j]))
+                          if(phone[i].equals(phone[j]))
                          {
                              hare=false;
                              Toast.makeText(context,"Duplicate numbers not allowed",Toast.LENGTH_SHORT).show();
@@ -668,6 +662,48 @@ Toast.makeText(context,"Some error here",Toast.LENGTH_SHORT).show();
             else
             {
                 Toast.makeText(context,"Please Check the details and try again",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    public class deleteEmergency extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().deleteEmergency;
+            String res=new JsonParser().deleteEmergency(url,rec_id);
+            return res;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s!=null)
+            {
+                try{
+                    JSONObject object = new JSONObject(s);
+                    String status=String.valueOf(object.get("status"));
+                    String msg = object.getString("msg");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(msg)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                catch (Exception e)
+                {
+
+                }
             }
         }
     }

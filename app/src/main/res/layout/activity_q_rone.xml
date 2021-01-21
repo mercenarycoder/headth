@@ -8,7 +8,7 @@
     tools:context=".Qr.QRone">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="60dp"
         android:background="#fff"
         android:id="@+id/layer1"
         android:layout_centerHorizontal="true"
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="S"
-            android:layout_weight="0.97"
+            android:layout_weight="1.0"
             android:textColor="#fff"
             android:fontFamily="@font/dm_font"
             android:id="@+id/open_profile"
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Dr Manjeet Singh Pal"
+            android:text=""
             android:textSize="26sp"
             android:id="@+id/name"
             android:fontFamily="@font/dm_font"
@@ -118,7 +118,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+91 7389438159"
+            android:text=""
             android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="@font/dm_font"

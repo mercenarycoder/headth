@@ -275,7 +275,7 @@
            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                android:layout_width="match_parent"
                android:id="@+id/refresh"
-               android:padding="5dp"
+               android:padding="2dp"
                android:layout_height="140dp">
            <androidx.recyclerview.widget.RecyclerView
           android:layout_width="match_parent"
@@ -309,7 +309,7 @@
             android:background="#000"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="20dp"
             android:layout_gravity="center"
             tools:ignore="Suspicious0dp" />
         <LinearLayout
@@ -347,10 +347,11 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             >
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:layout_width="match_parent"
-                android:padding="5dp"
+                android:padding="2dp"
                 android:id="@+id/refresh2"
                 android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
@@ -493,7 +494,7 @@
                         android:textColor="#fff"
                         android:background="@drawable/dark_btn"/>
                 </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="95dp"
                 android:padding="10dp"
@@ -510,6 +511,282 @@
                     android:textColor="#000"
                     android:textSize="12sp"
                     android:layout_weight="1"/>
+
+                <RelativeLayout
+                    android:id="@+id/help_layout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#7E000000"
+                    android:visibility="invisible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/sam"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <ImageButton
+                                android:id="@+id/qr"
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/helpedit"
+                                android:visibility="invisible" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_weight="0.7"
+                            android:fontFamily="@font/dm_font" />
+
+                        <ImageButton
+                            android:id="@+id/noti"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/helpedit"
+                            android:visibility="invisible" />
+
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/helpedit"
+                            android:textSize="12sp"
+                            android:visibility="invisible" />
+
+                        <Button
+                            android:id="@+id/profile_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/helpedit"
+                            android:textColor="#fff"
+                            android:textSize="20sp"
+                            android:visibility="invisible" />
+                    </LinearLayout>
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/qr_help"
+                        android:layout_width="95dp"
+                        android:layout_height="120dp"
+                        android:layout_marginTop="65dp"
+                        android:background="@drawable/edit2"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="invisible"
+                        tools:ignore="NotSibling">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/dm_font"
+                            android:gravity="center"
+                            android:text="Here you can access your Qr Code"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/next_qr"
+                            android:layout_width="60dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/dark_btn"
+                            android:text="Next"
+                            android:textColor="#fff"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/noti_help"
+                        android:layout_width="95dp"
+                        android:layout_height="120dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="65dp"
+                        android:layout_marginRight="120dp"
+                        android:background="@drawable/edit2"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="invisible"
+                        tools:ignore="NotSibling">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/dm_font"
+                            android:gravity="center"
+                            android:text="Here you can see your inapp notifications"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/next_n"
+                            android:layout_width="60dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/dark_btn"
+                            android:text="Next"
+                            android:textColor="#fff"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/profile_help"
+                        android:layout_width="95dp"
+                        android:layout_height="120dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="65dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/edit2"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="invisible"
+                        tools:ignore="NotSibling">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/dm_font"
+                            android:gravity="center"
+                            android:text="Here you can access your profile"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/next_p"
+                            android:layout_width="60dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/dark_btn"
+                            android:text="Next"
+                            android:textColor="#fff"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/report_help"
+                        android:layout_width="90dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="345dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/helpedit"
+                        android:textColor="#fff"
+                        android:textSize="20sp"
+                        android:visibility="invisible" />
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/report_help2"
+                        android:layout_width="95dp"
+                        android:layout_height="120dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="415dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@drawable/edit2"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="invisible"
+                        tools:ignore="NotSibling">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/dm_font"
+                            android:gravity="center"
+                            android:text="Here you can get a detail view on your reports"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/next_r"
+                            android:layout_width="60dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/dark_btn"
+                            android:text="Next"
+                            android:textColor="#fff"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/pres_help"
+                        android:layout_width="90dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="576dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/helpedit"
+                        android:textColor="#fff"
+                        android:textSize="20sp"
+                        android:visibility="invisible" />
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/pres_help2"
+                        android:layout_width="95dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="645dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@drawable/edit2"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="invisible"
+                        tools:ignore="NotSibling">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/dm_font"
+                            android:gravity="center"
+                            android:text="Here you can get a detail view on your prescriptions"
+                            android:textColor="#000"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/next_pres"
+                            android:layout_width="60dp"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/dark_btn"
+                            android:text="Done"
+                            android:textColor="#fff"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
                 <Button
                     android:layout_width="60dp"
                     android:layout_height="35dp"
@@ -583,254 +860,5 @@
 
         </LinearLayout>
     </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#7E000000"
-        android:visibility="invisible"
-        android:id="@+id/help_layout2">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/sam"
-                android:layout_weight="1">
-                <ImageButton
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:id="@+id/qr"
-                    android:visibility="invisible"
-                    android:background="@drawable/helpedit"/>
 
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:fontFamily="@font/dm_font"
-                android:layout_weight="0.7"/>
-            <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:layout_marginRight="5dp"
-                android:layout_gravity="center"
-                android:id="@+id/noti"
-                android:visibility="invisible"
-                android:background="@drawable/helpedit"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:visibility="invisible"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:textSize="12sp"
-                android:background="@drawable/helpedit"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:textColor="#fff"
-                android:visibility="invisible"
-                android:id="@+id/profile_2"
-                android:layout_marginTop="3dp"
-                android:textSize="20sp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/helpedit"/>
-        </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="95dp"
-            android:padding="10dp"
-            android:visibility="invisible"
-            android:id="@+id/qr_help"
-            android:layout_marginTop="65dp"
-            android:background="@drawable/edit2"
-            android:layout_height="120dp"
-            tools:ignore="NotSibling">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Here you can access your Qr Code"
-                android:gravity="center"
-                android:textColor="#000"
-                android:fontFamily="@font/dm_font"
-                android:textSize="12sp"
-                android:layout_weight="1"/>
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="35dp"
-                android:text="Next"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:textSize="11sp"
-                android:id="@+id/next_qr"
-                android:textColor="#fff"
-                android:background="@drawable/dark_btn"/>
-        </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="95dp"
-            android:padding="10dp"
-            android:visibility="invisible"
-            android:id="@+id/noti_help"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="120dp"
-            android:layout_marginTop="65dp"
-            android:background="@drawable/edit2"
-            android:layout_height="120dp"
-            tools:ignore="NotSibling">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Here you can see your inapp notifications"
-                android:gravity="center"
-                android:textColor="#000"
-                android:textSize="12sp"
-                android:fontFamily="@font/dm_font"
-                android:layout_weight="1"/>
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="35dp"
-                android:text="Next"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:textSize="11sp"
-                android:id="@+id/next_n"
-                android:textColor="#fff"
-                android:background="@drawable/dark_btn"/>
-        </LinearLayout>
-         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="95dp"
-            android:padding="10dp"
-            android:visibility="invisible"
-            android:id="@+id/profile_help"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="65dp"
-            android:background="@drawable/edit2"
-            android:layout_height="120dp"
-            tools:ignore="NotSibling">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Here you can access your profile"
-                android:gravity="center"
-                android:fontFamily="@font/dm_font"
-                android:textColor="#000"
-                android:textSize="12sp"
-                android:layout_weight="1"/>
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="35dp"
-                android:text="Next"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:textSize="11sp"
-                android:id="@+id/next_p"
-                android:textColor="#fff"
-                android:background="@drawable/dark_btn"/>
-        </LinearLayout>
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:textColor="#fff"
-            android:visibility="invisible"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/report_help"
-            android:layout_marginTop="345dp"
-            android:textSize="20sp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/helpedit"/>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="95dp"
-            android:padding="10dp"
-            android:visibility="invisible"
-            android:id="@+id/report_help2"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="415dp"
-            android:background="@drawable/edit2"
-            android:layout_height="120dp"
-            tools:ignore="NotSibling">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Here you can get a detail view on your reports"
-                android:gravity="center"
-                android:fontFamily="@font/dm_font"
-                android:textColor="#000"
-                android:textSize="12sp"
-                android:layout_weight="1"/>
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="35dp"
-                android:text="Next"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:textSize="11sp"
-                android:id="@+id/next_r"
-                android:textColor="#fff"
-                android:background="@drawable/dark_btn"/>
-        </LinearLayout>
-        <Button
-            android:layout_width="90dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:textColor="#fff"
-            android:visibility="invisible"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/pres_help"
-            android:layout_marginTop="576dp"
-            android:textSize="20sp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/helpedit"/>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="95dp"
-            android:padding="10dp"
-            android:visibility="invisible"
-            android:id="@+id/pres_help2"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="645dp"
-            android:background="@drawable/edit2"
-            android:layout_height="70dp"
-            tools:ignore="NotSibling">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Here you can get a detail view on your prescriptions"
-                android:gravity="center"
-                android:textColor="#000"
-                android:fontFamily="@font/dm_font"
-                android:textSize="12sp"
-                android:layout_weight="1"/>
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="35dp"
-                android:text="Done"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:textSize="11sp"
-                android:id="@+id/next_pres"
-                android:textColor="#fff"
-                android:background="@drawable/dark_btn"/>
-        </LinearLayout>
-    </RelativeLayout>
 </RelativeLayout>

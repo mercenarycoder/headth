@@ -7,14 +7,14 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:id="@+id/prescribtion"
-    android:layout_margin="2dp"
+    android:layout_margin="0dp"
     android:background="@drawable/edit2"
     android:baselineAligned="false"
     android:layout_height="70dp">
 <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="2.7"
+    android:layout_weight="5"
     android:padding="10dp"
     android:src="@drawable/ic_pdf"
     android:id="@+id/img"/>
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="3dp"
         android:orientation="horizontal"
         android:baselineAligned="false"
         >
@@ -50,7 +50,7 @@
             android:gravity="right"
             android:id="@+id/date"
             android:layout_weight="1"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="16dp"
             android:textSize="13sp"
             android:textColor="#F40B5B"
           />
@@ -78,7 +78,7 @@
             android:layout_height="25dp"
             android:src="@drawable/ic_arrow"
             android:layout_weight="1"
-            android:layout_gravity="center"
+            android:layout_gravity="center|right"
             android:layout_marginRight="5dp"
             android:textSize="12sp"
             android:id="@+id/arrow"

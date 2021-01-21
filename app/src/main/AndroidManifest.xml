@@ -3,13 +3,14 @@
     package="com.developer.headthapp">
 
     <uses-feature
-        android:name="android.hardware.camera"
+        android:name="android.hardware.camera.any"
         android:required="true" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
 
-    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.camera.autofocus"
+        android:required="false"/>
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -54,6 +55,7 @@
         <activity android:name=".HealthCart" />
         <activity android:name=".Nominations" />
         <activity android:name=".ProfileUpdate" />
+        <activity android:name=".EmergencyContacts"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginUser" />
 

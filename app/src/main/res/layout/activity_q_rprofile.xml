@@ -214,8 +214,7 @@
             <Button
                 android:layout_width="110dp"
                 android:layout_height="70dp"
-                android:text="Call
-Ambulance"
+                android:text="Call Ambulance"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
@@ -223,12 +222,13 @@ Ambulance"
                 android:id="@+id/ambulance"
                 android:background="@drawable/btn_new"
                 android:textColor="#fff"
-                android:textSize="15sp"
+                android:padding="4dp"
+                android:textSize="12sp"
                 />
             <Button
                 android:layout_width="110dp"
                 android:layout_height="70dp"
-                android:text="Call       Police"
+                android:text="Call Police"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
@@ -236,12 +236,13 @@ Ambulance"
                 android:textColor="#fff"
                 android:fontFamily="@font/dm_font"
                 android:id="@+id/police"
-                android:textSize="15sp"
+                android:padding="4dp"
+                android:textSize="12sp"
                 />
             <Button
                 android:layout_width="110dp"
                 android:layout_height="70dp"
-                android:text="Call     Family"
+                android:text="Call Family"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
@@ -249,7 +250,8 @@ Ambulance"
                 android:fontFamily="@font/dm_font"
                 android:textColor="#fff"
                 android:id="@+id/family"
-                android:textSize="15sp"
+                android:padding="4dp"
+                android:textSize="12sp"
                 />
         </LinearLayout>
 </LinearLayout>

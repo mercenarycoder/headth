@@ -51,7 +51,7 @@ public class ProfileUpdate extends AppCompatActivity {
     Button verify;
     Context context;
     ProgressDialog dialog;
-    EditText name,dob,height,weight,blood;
+    TextView name,dob,height,weight,blood;
     FirebaseAuth mauth;
     String nameS,dobS,heightS,weightS,bloodS,edit="false";
 Calendar myCalendar;
@@ -63,10 +63,10 @@ Calendar myCalendar;
         Intent intent=getIntent();
         edit=intent.getStringExtra("edit");
         setContentView(R.layout.activity_profile_update);
-        name=(EditText)findViewById(R.id.name);
-        dob=(EditText)findViewById(R.id.dob);
+        name=(TextView) findViewById(R.id.name);
+        dob=(TextView) findViewById(R.id.dob);
         myCalendar=Calendar.getInstance();
-        height=(EditText)findViewById(R.id.height);
+        height=(TextView) findViewById(R.id.height);
         height.setInputType(TYPE_NULL);
         height.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,8 +75,8 @@ Calendar myCalendar;
                 dialogShower("Choose Height",options);
             }
         });
-        weight=(EditText)findViewById(R.id.weight);
-        weight.setInputType(NULL);
+        weight=(TextView) findViewById(R.id.weight);
+//        weight.setInputType(NULL);
         weight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,8 +85,8 @@ Calendar myCalendar;
             }
         });
 
-        blood=(EditText)findViewById(R.id.blood);
-        blood.setInputType(NULL);
+        blood=(TextView) findViewById(R.id.blood);
+//        blood.setInputType(NULL);
         blood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -325,7 +325,7 @@ Calendar myCalendar;
                     final String responce2=String.valueOf(jsonObject.get("msg"));
                     if(responce.equals("1"))
                     {
-                        Intent intent=new Intent(ProfileUpdate.this, Nominations.class);
+                        Intent intent=new Intent(ProfileUpdate.this, EmergencyContacts.class);
                         if(edit.equals("true"))
                         {
                             intent.putExtra("edit","true");
