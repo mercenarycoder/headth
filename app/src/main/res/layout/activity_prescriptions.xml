@@ -109,4 +109,23 @@
         android:gravity="center"
         android:visibility="invisible"
         android:id="@+id/nop"/>
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:text="Back To Previous Results"
+        android:layout_alignParentBottom="true"
+        android:textSize="14sp"
+        android:paddingStart="15dp"
+        android:gravity="center"
+        android:paddingEnd="10dp"
+        android:id="@+id/previous"
+        android:visibility="invisible"
+        android:enabled="false"
+        android:fontFamily="@font/dm_font"
+        android:layout_centerHorizontal="true"
+        android:textColor="#41b5c1"
+        android:background="@drawable/bootstrap_primary"
+        android:layout_marginBottom="190dp"
+        android:drawableLeft="@drawable/ic_back"
+        android:textAllCaps="false"/>
 </RelativeLayout>

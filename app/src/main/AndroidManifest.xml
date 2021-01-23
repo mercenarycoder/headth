@@ -7,10 +7,10 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-<!--    <uses-permission android:name="android.permission.CAMERA" />-->
-
-    <uses-feature android:name="android.hardware.camera.autofocus"
-        android:required="false"/>
+     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -30,7 +30,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".WiproId"></activity>
+        <activity android:name=".NotificationsDir.NotificationLayout"></activity>
+        <activity android:name=".WiproId" />
         <activity android:name=".Setting" />
         <activity android:name=".Qr.QrProfileDoctor" />
         <activity android:name=".Prescription.PrescriptionsView" />
@@ -51,11 +52,11 @@
         <activity android:name=".Prescription.Prescriptions" />
         <activity android:name=".Report.ReportActivity" />
         <activity android:name=".Profile" />
-        <activity android:name=".Notifications" />
+        <activity android:name=".NotificationsDir.Notifications" />
         <activity android:name=".HealthCart" />
         <activity android:name=".Nominations" />
         <activity android:name=".ProfileUpdate" />
-        <activity android:name=".EmergencyContacts"/>
+        <activity android:name=".EmergencyContacts" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginUser" />
 

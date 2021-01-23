@@ -138,7 +138,6 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
         intent.setType("image/png");
         startActivity(intent);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -219,6 +218,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                         String dobF = obj.getString("dob");
                         String bloodF = obj.getString("blood");
                         name.setText(nameF);
+                        open_profile.setText(nameF.substring(0,1).toUpperCase());
                     }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);

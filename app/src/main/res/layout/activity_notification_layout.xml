@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Notifications">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_back"
+                android:background="@drawable/main_base_btn"
+                android:id="@+id/back"
+                android:layout_weight="4.9"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/dm_font"
+                android:text="Notifications"
+                android:layout_weight="1"
+                android:textColor="#000"
+                android:gravity="center|left"
+                android:textSize="24sp"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Previous Reports"
+            android:textColor="#000"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/dm_font"
+            android:gravity="center"
+            android:id="@+id/title"
+            android:textSize="24sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Previous Reports"
+            android:textColor="#000"
+            android:id="@+id/date"
+            android:fontFamily="@font/dm_font"
+            android:gravity="center"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:text="Previous Reports"
+            android:textColor="#000"
+            android:id="@+id/content"
+            android:fontFamily="@font/dm_font"
+            android:gravity="center"
+            android:textSize="24sp"/>
+    </LinearLayout>
+    <ProgressBar
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:id="@+id/progress"
+        android:visibility="invisible"
+        />
+
+</RelativeLayout>

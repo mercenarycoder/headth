@@ -43,6 +43,7 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Nominations;
 import com.developer.headthapp.ProfileUpdate;
+import com.developer.headthapp.Prescription.PrescriptionAdd;
 import com.developer.headthapp.R;
 import com.developer.headthapp.Report.ReportAdd;
 import com.google.firebase.auth.FirebaseAuth;
@@ -197,9 +198,17 @@ public class PrescriptionAdd extends AppCompatActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cam,9);
                 dialog.dismiss();
+                if (ActivityCompat.checkSelfPermission(PrescriptionAdd.this, Manifest.permission.CAMERA) ==
+                        PackageManager.PERMISSION_GRANTED) {
+                     Intent cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                     startActivityForResult(cam,9);
+                } else {
+                    ActivityCompat.requestPermissions(PrescriptionAdd.this, new
+                            String[]{Manifest.permission.CAMERA}, 34);
+                    Toast.makeText(PrescriptionAdd.this, "Click on allow and then choose the camera option again", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         dialog.show();

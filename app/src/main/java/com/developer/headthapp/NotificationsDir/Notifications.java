@@ -1,4 +1,4 @@
-package com.developer.headthapp;
+package com.developer.headthapp.NotificationsDir;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,13 +17,13 @@ import android.widget.TextView;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -108,7 +108,8 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                          String content=object1.getString("content");
                          String date=object1.getString("date");
                          String title=object1.getString("title");
-                         list.add(new notiClass(id,title,date,content));
+                         String statusN=object1.getString("status");
+                         list.add(new notiClass(id,title,date,content,statusN));
                      }
                      if(list.size()>0)
                      {

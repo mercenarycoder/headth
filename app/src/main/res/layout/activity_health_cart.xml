@@ -170,7 +170,7 @@
                     android:layout_height="50dp"
                     android:text="S"
                     android:textColor="#fff"
-                    android:src="@drawable/ic_medicine"
+                    android:src="@drawable/ic_antibacterial"
                     android:layout_marginTop="2dp"
                     android:textSize="20sp"
                     android:gravity="center"

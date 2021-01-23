@@ -41,4 +41,6 @@ public class networkData {
     public static String notification="/notification";
     public static String checkShare="/checkShare";
     public static String deleteEmergency="/deleteEmergency";
+    public static String deleteNotification="/deleteNotification";
+    public static String updateNotification="/updateNotification";
 }

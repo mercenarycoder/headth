@@ -54,7 +54,7 @@ boolean searched=false;
 DeleteClass dd=new DeleteClass("fdfd");
 ProgressDialog progressDialog;
 TextView nop;
-Button add_prescription,remove_prescription;
+Button add_prescription,remove_prescription,previous;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +62,17 @@ Button add_prescription,remove_prescription;
         setContentView(R.layout.activity_prescriptions);
         context=Prescriptions.this;
         refresh=(SwipeRefreshLayout)findViewById(R.id.refresh);
+        previous=(Button)findViewById(R.id.previous);
+        previous.setVisibility(View.INVISIBLE);
+        previous.setEnabled(false);
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new getallPres().execute();
+                previous.setVisibility(View.INVISIBLE);
+                previous.setEnabled(false);
+            }
+        });
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -159,11 +170,16 @@ Button add_prescription,remove_prescription;
         if(listx.size()>0)
         {
             nop.setVisibility(View.INVISIBLE);
+            previous.setVisibility(View.INVISIBLE);
+            previous.setEnabled(false);
         }
         else
         {
             nop.setVisibility(View.VISIBLE);
             nop.setText("Your search results for '"+str+"'");
+            previous.setVisibility(View.VISIBLE);
+            previous.setEnabled(true);
+
         }
     }
 

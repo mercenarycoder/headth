@@ -31,7 +31,7 @@
             android:padding="10dp"
             android:id="@+id/call"
             android:tint="#409C44"
-            android:src="@drawable/ic_telephone"
+            android:src="@drawable/phone_call"
             />
     </LinearLayout>
 </LinearLayout>

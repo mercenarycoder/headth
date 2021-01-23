@@ -31,6 +31,8 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -82,6 +84,78 @@ TextView next;
             }
         });
         new getAccessLevel().execute();
+        new getProfile().execute();
+    }
+    private class getProfile extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().getprofile;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String uploadId= UUID.randomUUID().toString();
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+//            dialog.dismiss();
+            if(result!=null)
+            {
+                try{
+                    JSONObject jsonObject = new JSONObject(result);
+                    final String responce = String.valueOf(jsonObject.get("status"));
+                    // final String responce2=String.valueOf(jsonObject.get("msg"));
+                    if(responce.equals("1"))
+                    {
+                        JSONArray data=jsonObject.getJSONArray("data");
+                        JSONObject obj=data.getJSONObject(0);
+                        String nameF=obj.getString("name");
+                        String mobileF = obj.getString("mobile");
+                        String heightF = obj.getString("height");
+                        String weightF = obj.getString("weight");
+                        String dobF = obj.getString("dob");
+                        String bloodF = obj.getString("blood");
+                        open_profile.setText(nameF.substring(0,1).toUpperCase());
+                    }
+
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        final String responce2=String.valueOf(jsonObject.get("msg"));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    catch (Exception e2)
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                Toast.makeText(context,"Some Networking error try again later",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     private void initialiseDetectorsAndSources() {
         Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();

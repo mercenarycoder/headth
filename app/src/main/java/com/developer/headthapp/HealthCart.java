@@ -1,14 +1,11 @@
 package com.developer.headthapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -19,7 +16,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -34,17 +30,13 @@ import com.developer.headthapp.FragmentMains.FragmentAllergies;
 import com.developer.headthapp.FragmentMains.FragmentHistiry;
 import com.developer.headthapp.FragmentMains.MedicineFragment;
 import com.developer.headthapp.NotificationCode.FromNotificationclass;
+import com.developer.headthapp.NotificationsDir.Notifications;
 import com.developer.headthapp.Prescription.Prescriptions;
 import com.developer.headthapp.Prescription.dashboard2;
 import com.developer.headthapp.Prescription.presClass;
 import com.developer.headthapp.Qr.QRone;
 import com.developer.headthapp.Report.ReportActivity;
-import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
-import com.skydoves.balloon.ArrowOrientation;
-import com.skydoves.balloon.Balloon;
-import com.skydoves.balloon.BalloonAnimation;
-import com.skydoves.balloon.OnBalloonClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -320,7 +312,7 @@ public static void changeVisiblity()
         open_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context,Notifications.class);
+                Intent intent=new Intent(context, Notifications.class);
                 startActivity(intent);
             }
         });
@@ -357,6 +349,7 @@ public static void changeVisiblity()
             }
         });
         new getallPres().execute();
+        new getProfile().execute();
         new getReports().execute();
     }
     public void initiaLize()
@@ -430,33 +423,77 @@ public static void changeVisiblity()
         check=false;
     }
     }
-public class getGeneral extends AsyncTask<String,String,String>
-{
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
+    private class getProfile extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
-    @Override
-    protected String doInBackground(String... strings) {
-        return null;
-    }
+        }
 
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        if(s!=null)
-        {
-            try{
-                JSONObject object=new JSONObject(s);
-            }
-            catch (Exception e)
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().getprofile;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String uploadId= UUID.randomUUID().toString();
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+//            dialog.dismiss();
+            if(result!=null)
             {
+                try{
+                    JSONObject jsonObject = new JSONObject(result);
+                    final String responce = String.valueOf(jsonObject.get("status"));
+                    // final String responce2=String.valueOf(jsonObject.get("msg"));
+                    if(responce.equals("1"))
+                    {
+                        JSONArray data=jsonObject.getJSONArray("data");
+                        JSONObject obj=data.getJSONObject(0);
+                        String nameF=obj.getString("name");
+                        String mobileF = obj.getString("mobile");
+                        String heightF = obj.getString("height");
+                        String weightF = obj.getString("weight");
+                        String dobF = obj.getString("dob");
+                        String bloodF = obj.getString("blood");
+                        open_profile.setText(nameF.substring(0,1).toUpperCase());
+                    }
 
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        final String responce2=String.valueOf(jsonObject.get("msg"));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    catch (Exception e2)
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                Toast.makeText(context,"Some Networking error try again later",Toast.LENGTH_SHORT).show();
             }
         }
     }
-}
     public class getReports extends AsyncTask<String,String,String>
 {
     @Override
