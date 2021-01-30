@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:padding="5dp"
+    android:orientation="vertical"
+    android:layout_height="200dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Confirm Delete"
+            android:fontFamily="@font/dm_font"
+            android:textColor="#000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:paddingStart="17dp"
+            android:gravity="center|left"/>
+
+        <ImageButton
+            android:id="@+id/close_btn2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2.9"
+            android:background="#fff"
+            android:src="@drawable/ic_close" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Are you sure you want to delete this file ?"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/msg"
+        android:fontFamily="@font/dm_font"
+        android:textColor="@color/basecolor"
+        android:textSize="17sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_dialog"
+            android:text="NO"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/no"/>
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_dialog"
+            android:text="Yes"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:id="@+id/yes"/>
+    </LinearLayout>
+</LinearLayout>

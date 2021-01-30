@@ -6,7 +6,11 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,20 +22,29 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.Qr.QRone;
 import com.developer.headthapp.R;
+import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,26 +55,41 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class PrescriptionsView extends AppCompatActivity {
 ImageButton back;
 String titleF,doctorF,observationF,imageF,idF,dateF,urlF;
-TextView title,doctor;
-ImageView report;
+TextView title,doctor,edit,delete;
+LinearLayout options;
+ImageView report,menu;
 WebView web;
 ProgressBar progress;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 Context context=PrescriptionsView.this;
 Button share,download;
+ProgressDialog progressDialog;
+String optionF="edit";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_prescriptions_view);
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage("Sending information");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        progressDialog.show();
         back=(ImageButton)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new Prescriptions();
+                Prescriptions.adding =true;
                 finish();
             }
         });
@@ -71,6 +99,41 @@ Button share,download;
         imageF=intent.getStringExtra("image");
         idF=intent.getStringExtra("id");
         urlF=intent.getStringExtra("url");
+        //layout code for the edit and delete dialog in the activity
+        delete=(TextView)findViewById(R.id.delete);
+        edit=(TextView)findViewById(R.id.edit);
+        options=(LinearLayout)findViewById(R.id.options);
+        menu=(ImageButton)findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(options.getVisibility()==View.VISIBLE)
+                {
+                    options.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    options.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              optionF="edit";
+              options.setVisibility(View.INVISIBLE);
+              dialogShower();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              optionF="delete";
+              dialogShower();
+              options.setVisibility(View.INVISIBLE);
+            }
+        });
+        //the dialog code was till here
         report=(ImageView)findViewById(R.id.report);
         share=(Button)findViewById(R.id.share);
         download=(Button)findViewById(R.id.download);
@@ -86,7 +149,8 @@ Button share,download;
             }
         }
         if(imageF.contains(".jpeg")) {
-            Picasso.with(PrescriptionsView.this).load(imageF).placeholder(R.drawable.ic_pdf).into(report);
+            Picasso.with(PrescriptionsView.this).load( new networkData().url.substring(0
+                    , new networkData().url.length() - 4) +imageF).placeholder(R.drawable.ic_pdf).into(report);
         }
         else
         {
@@ -107,7 +171,8 @@ Button share,download;
                 }
             });
             web.getSettings().setJavaScriptEnabled(true);
-            web.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url="+imageF);
+            web.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url="+ new networkData().url.substring(0
+                    , new networkData().url.length() - 4) +imageF);
         }
         title.setText(titleF);
         doctor.setText(doctorF);
@@ -151,6 +216,96 @@ Button share,download;
             }
         });
 
+    }
+    public void dialogShower()
+    {
+        final Dialog dialog=new Dialog(context, 0);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_delete);
+        ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
+        close_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        Button no=(Button)dialog.findViewById(R.id.no);
+        Button yes=(Button)dialog.findViewById(R.id.yes);
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Prescriptions();
+                Prescriptions.adding =true;
+                if(optionF.equals("delete"))
+                {
+                    new deleteItems().execute();
+                }
+                else
+                {
+                    Toast.makeText(context,"From here edit option will gt enavled",Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    public class deleteItems extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().deletePrescription;
+            ArrayList<String> arr= new ArrayList<>();
+            ArrayList<String> arr2= new ArrayList<>();
+            arr.add(idF);
+            arr2.add(imageF);
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().deleteBigItems(url,arr,arr2,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            if(s!=null)
+            {
+                try{
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    final String responce2=String.valueOf(jsonObject.get("msg"));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(responce2)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    dd=new DeleteClass("fdd");
+                                    finish();
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public  boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

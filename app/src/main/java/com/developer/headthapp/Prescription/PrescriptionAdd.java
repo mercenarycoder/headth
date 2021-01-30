@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.Manifest;
@@ -41,11 +43,14 @@ import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+//import com.developer.headthapp.ImageRecyclerAdapter;
+import com.developer.headthapp.ImageRecylerAdapter;
 import com.developer.headthapp.Nominations;
 import com.developer.headthapp.ProfileUpdate;
 import com.developer.headthapp.Prescription.PrescriptionAdd;
 import com.developer.headthapp.R;
 import com.developer.headthapp.Report.ReportAdd;
+import com.developer.headthapp.imageRecyclerClass;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -59,27 +64,34 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
+import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
+
 public class PrescriptionAdd extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int STORAGE_PERMISSION_CODE = 2;
     ImageButton back;
-    ImageView image;
     EditText title,doc_name,observation;
     Button choose,upload;
     TextView date;
-    Uri imageuri;
     Context context;
     Bitmap img=null;
     FirebaseAuth mauth;
     Calendar myCalendar;
     String titleF,docF,observationF,dateF,imageF="",typeF;
     ProgressDialog progressDialog;
+    //new multiple image adder code from here
+    RecyclerView recycler;
+    ArrayList<imageRecyclerClass> list=new ArrayList<>();
+    ImageRecylerAdapter adapter;
     String path="";
+    boolean pdfChecker=false,imgCheck=false;
+    public static String imagePaths="";
     private void initRetrofitClient() {
 
         new networkData();
@@ -89,13 +101,24 @@ public class PrescriptionAdd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prescription_add);
+        context=PrescriptionAdd.this;
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage("Sending information");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         initiaLize();
         requestStoragePermission();
         mauth=FirebaseAuth.getInstance();
-        context=PrescriptionAdd.this;
         back=(ImageButton)findViewById(R.id.back);
         initRetrofitClient();
         date=(TextView)findViewById(R.id.date);
+        recycler=(RecyclerView)findViewById(R.id.recycler);
+        //keep this much code to make it dynamic
+        adapter=new ImageRecylerAdapter(list,context);
+        recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
+        recycler.setHasFixedSize(true);
+        recycler.setAdapter(adapter);
+        //till here
         myCalendar=Calendar.getInstance();
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,9 +162,9 @@ public class PrescriptionAdd extends AppCompatActivity {
                dateF=date.getText().toString();
                docF=doc_name.getText().toString();
                observationF=observation.getText().toString();
-               if(imageF.equals(""))
+               if(imagePaths.equals(""))
                {
-                   Toast.makeText(context,"Choose a image and try again",Toast.LENGTH_SHORT).show();
+                   Toast.makeText(context,"Choose atleast a image and try again",Toast.LENGTH_SHORT).show();
                    return;
                }
                else
@@ -184,31 +207,48 @@ public class PrescriptionAdd extends AppCompatActivity {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openFileChooser();
                 dialog.dismiss();
+                if(!pdfChecker) {
+                    openFileChooser();
+                }
+                else
+                {
+
+                }
             }
         });
         pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openPdfChooser();
                 dialog.dismiss();
+                if(!imgCheck) {
+                    openPdfChooser();
+                }
+                else
+                {
+
+                }
             }
         });
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                if (ActivityCompat.checkSelfPermission(PrescriptionAdd.this, Manifest.permission.CAMERA) ==
-                        PackageManager.PERMISSION_GRANTED) {
-                     Intent cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                     startActivityForResult(cam,9);
-                } else {
-                    ActivityCompat.requestPermissions(PrescriptionAdd.this, new
-                            String[]{Manifest.permission.CAMERA}, 34);
-                    Toast.makeText(PrescriptionAdd.this, "Click on allow and then choose the camera option again", Toast.LENGTH_SHORT).show();
-                }
-
+               if(!pdfChecker) {
+                   if (ActivityCompat.checkSelfPermission(PrescriptionAdd.this, Manifest.permission.CAMERA) ==
+                           PackageManager.PERMISSION_GRANTED) {
+                       Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                       startActivityForResult(cam, 9);
+                   } else {
+                       ActivityCompat.requestPermissions(PrescriptionAdd.this, new
+                               String[]{Manifest.permission.CAMERA}, 34);
+                       Toast.makeText(PrescriptionAdd.this, "Click on allow and then choose the camera option again", Toast.LENGTH_SHORT).show();
+                   }
+               }
+               else
+               {
+                   
+               }
             }
         });
         dialog.show();
@@ -234,6 +274,7 @@ public class PrescriptionAdd extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
+    String nameF;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -242,11 +283,23 @@ public class PrescriptionAdd extends AppCompatActivity {
         {
             Toast.makeText(context, "Uploaded Document", Toast.LENGTH_SHORT).show();
             Uri pdfUri = data.getData();
+            Bitmap bitmap=null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), pdfUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             imageF=getStringPdf(pdfUri);
             imageF="data:application/pdf;base64,"+imageF;
-            image.setImageResource(R.drawable.ic_pdf);
+//            image.setImageResource(R.drawable.ic_pdf);
             System.out.println("------------------"+imageF);
             typeF=".pdf";
+            //keep this much code to make it dynamic
+            String uploadId= UUID.randomUUID().toString();
+            nameF=uploadId;
+            new uploadData().execute();
+            //till here
+
         }
         if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK&&data!=null&&data.getData()!=null)
         {
@@ -261,10 +314,15 @@ public class PrescriptionAdd extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 imageF= Base64.encodeToString(byteArray,Base64.NO_WRAP);
-                image.setImageBitmap(bitmap);
                 imageF="data:image/jpeg;base64,"+imageF;
                 typeF=".jpeg";
                 System.out.println("-------------------------------------"+imageF);
+                //keep this much code to make it dynamic
+                String uploadId= UUID.randomUUID().toString();
+                nameF=uploadId;
+                new uploadData().execute();
+
+                //till here
                 //                Log.d("image ", "doInBackground: "+convertImage);
 
             } catch (IOException e) {
@@ -286,7 +344,12 @@ public class PrescriptionAdd extends AppCompatActivity {
                 imageF= Base64.encodeToString(byteArray,Base64.NO_WRAP);
                 imageF="data:image/jpeg;base64,"+imageF;
                 typeF=".jpeg";
-               image.setImageBitmap(bitmap);
+               //keep this much code to make it dynamic
+                String uploadId= UUID.randomUUID().toString();
+                nameF=uploadId;
+                new uploadData().execute();
+
+                //till here
                 System.out.println("-------------------------------------"+imageF);
                 //                Log.d("image ", "doInBackground: "+convertImage);
 
@@ -295,7 +358,55 @@ public class PrescriptionAdd extends AppCompatActivity {
             }
         }
     }
+    public class uploadData extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.show();
+        }
 
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().addImage64;
+            String data=new JsonParser().addImage(url,imageF,nameF,typeF);
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            if(s!=null)
+            {
+                try{
+                    JSONObject obj=new JSONObject(s);
+                    String status=String.valueOf(obj.get("status"));
+                    if (status.equals("1"))
+                    {
+                        String fileName=String.valueOf(obj.get("name"));
+                        String msg=String.valueOf(obj.get("msg"));
+                        imagePaths+=fileName+";";
+                        list.add(new imageRecyclerClass(imageF,fileName,typeF));
+                        adapter=new ImageRecylerAdapter(list,context);
+                        recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
+                        recycler.setHasFixedSize(true);
+                        recycler.setAdapter(adapter);
+                        Toast.makeText(context,"Image Inserted",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Image Not Inserted",Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     public String getStringPdf (Uri filepath){
         InputStream inputStream = null;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -334,22 +445,7 @@ public class PrescriptionAdd extends AppCompatActivity {
         doc_name=(EditText)findViewById(R.id.doc_name);
         choose=(Button)findViewById(R.id.choose);
         upload=(Button)findViewById(R.id.upload);
-        image=(ImageView)findViewById(R.id.image);
-    }
-    public String getPath(Uri uri) {
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        String document_id = cursor.getString(0);
-        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
-        cursor.close();
-
-        cursor = getContentResolver().query(
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
-        cursor.moveToFirst();
-        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-        cursor.close();
-        return path;
+//        image=(ImageView)findViewById(R.id.image);
     }
 
     private void openCameraIntent() {
@@ -388,22 +484,6 @@ public class PrescriptionAdd extends AppCompatActivity {
 
         imageFilePath = image.getAbsolutePath();
         return image;
-    }
-    public  String getPath2(Uri uri ) {
-        String result = null;
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.getContentResolver( ).query( uri, proj, null, null, null );
-        if(cursor != null){
-            if ( cursor.moveToFirst( ) ) {
-                int column_index = cursor.getColumnIndexOrThrow( proj[0] );
-                result = cursor.getString( column_index );
-            }
-            cursor.close( );
-        }
-        if(result == null) {
-            result = "Not found";
-        }
-        return result;
     }
     private void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
@@ -527,10 +607,7 @@ public class uploadPres extends AsyncTask<String,String,String>
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressDialog=new ProgressDialog(context);
-        progressDialog.setMessage("Sending information");
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         progressDialog.show();
     }
 
@@ -544,7 +621,7 @@ public class uploadPres extends AsyncTask<String,String,String>
         number=number.substring(3,number.length());
         String uploadId= UUID.randomUUID().toString();
 
-        String json=new JsonParser().saveCategory(url,number,titleF,dateF,imageF,docF,observationF,uploadId,typeF);
+        String json=new JsonParser().saveCategory(url,number,titleF,dateF,imagePaths,docF,observationF);
         return json;
     }
 

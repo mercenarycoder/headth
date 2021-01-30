@@ -95,8 +95,7 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
                     intent.putExtra("title", adapter.getDiesease());
                     intent.putExtra("doctor", adapter.getDoctor());
                     intent.putExtra("observation", adapter.getObservation());
-                    intent.putExtra("image", new networkData().url.substring(0
-                            , new networkData().url.length() - 4) + adapter.getImg_url());
+                    intent.putExtra("image", adapter.getImg_url());
                     intent.putExtra("id", adapter.getId());
                     intent.putExtra("url", adapter.getImg_url());
                     intent.putExtra("date", adapter.getDate());

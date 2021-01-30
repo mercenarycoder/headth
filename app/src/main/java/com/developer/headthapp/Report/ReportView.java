@@ -9,6 +9,7 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,16 +26,21 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.DeleteClass;
+import com.developer.headthapp.Prescription.Prescriptions;
 import com.developer.headthapp.Prescription.PrescriptionsView;
 import com.developer.headthapp.Report.ReportView;
 import com.developer.headthapp.R;
@@ -48,11 +54,19 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import android.app.ProgressDialog;
 
+import org.json.JSONObject;
+
 public class ReportView extends AppCompatActivity {
-ImageButton back;
-TextView title,dr_name;
+ImageButton back,menu;
+TextView title,dr_name,edit,delete;
+LinearLayout options;
 WebView webview;
 Button share,download;
 ImageView if_image;
@@ -60,6 +74,7 @@ Context context;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 ProgressBar progress;
 String drF,titF,urlF,idF,typeF,shareF;
+String optionF="edit";
     private static final String TAG = "Download Task";
 
     private String downloadUrl = "", downloadFileName = "";
@@ -93,6 +108,41 @@ String drF,titF,urlF,idF,typeF,shareF;
         webview=(WebView)findViewById(R.id.webview);
         if_image=(ImageView)findViewById(R.id.if_image);
         if_image.setVisibility(View.INVISIBLE);
+        //layout code for the edit and delete dialog in the activity
+        delete=(TextView)findViewById(R.id.delete);
+        edit=(TextView)findViewById(R.id.edit);
+        options=(LinearLayout)findViewById(R.id.options);
+        menu=(ImageButton)findViewById(R.id.menu);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(options.getVisibility()==View.VISIBLE)
+                {
+                    options.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    options.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                optionF="edit";
+                options.setVisibility(View.INVISIBLE);
+                dialogShower();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                optionF="delete";
+                dialogShower();
+                options.setVisibility(View.INVISIBLE);
+            }
+        });
+        //the dialog code was till here
         progress=(ProgressBar)findViewById(R.id.progress);
         share=(Button)findViewById(R.id.share);
         share.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +171,7 @@ String drF,titF,urlF,idF,typeF,shareF;
                         else
                         {
 //                            new DownloadFile().execute(urlF,"manjeet_bestrong.pdf");
-                            downloadUrl=urlF;
+                            downloadUrl=new networkData().url_image+urlF;
                             downloadFileName="mummyMiss.pdf";
                             new DownloadingTask().execute();
                             Toast.makeText(context,"Pdf downloader testing",Toast.LENGTH_SHORT).show();
@@ -142,10 +192,12 @@ String drF,titF,urlF,idF,typeF,shareF;
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new ReportActivity();
+                ReportActivity.adding =true;
                 finish();
             }
         });
-        String webviewurl = urlF;
+        String webviewurl = new networkData().url_image+urlF;
         System.out.println("----------------"+webviewurl);
         webview.setWebViewClient(new WebViewClient() {
             @Override
@@ -176,6 +228,99 @@ String drF,titF,urlF,idF,typeF,shareF;
 
         dr_name.setText(drF);
         title.setText(titF);
+    }
+    public void dialogShower()
+    {
+        final Dialog dialog=new Dialog(context, 0);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_delete);
+        ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
+        close_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        Button no=(Button)dialog.findViewById(R.id.no);
+        Button yes=(Button)dialog.findViewById(R.id.yes);
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new ReportActivity();
+                ReportActivity.adding =true;
+                if(optionF.equals("delete"))
+                {
+                    new deleteItems().execute();
+                }
+                else
+                {
+                    Toast.makeText(context,"From here edit option will gt enavled",Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+    public class deleteItems extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            progressDialog=new ProgressDialog(context);
+            progressDialog.setMessage("Sending information");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().deleteReport;
+            ArrayList<String> arr= new ArrayList<>();
+            ArrayList<String> arr2= new ArrayList<>();
+            arr.add(idF);
+            arr2.add(urlF);
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String json=new JsonParser().deleteBigItems(url,arr,arr2,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            if(s!=null)
+            {
+                try{
+                    JSONObject jsonObject = new JSONObject(s);
+                    String status = jsonObject.getString("status");
+                    final String responce2=String.valueOf(jsonObject.get("msg"));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(responce2)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public  boolean isStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -381,7 +526,7 @@ String drF,titF,urlF,idF,typeF,shareF;
         @Override
         protected Bitmap doInBackground(String... strings) {
             try{
-                URL url1=new URL(urlF);
+                URL url1=new URL(new networkData().url_image+urlF);
                 // HttpURLConnection conn=(HttpURLConnection)url1.openConnection();
                 InputStream input=url1.openStream();
                 Bitmap bitmap= BitmapFactory.decodeStream(input);

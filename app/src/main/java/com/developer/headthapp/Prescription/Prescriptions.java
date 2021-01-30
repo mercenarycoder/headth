@@ -49,7 +49,7 @@ ImageButton back,filter;
 dashboard2 adapter;
 FirebaseAuth mauth;
 SwipeRefreshLayout refresh;
-boolean adding=false;
+static boolean adding=false;
 boolean searched=false;
 DeleteClass dd=new DeleteClass("fdfd");
 ProgressDialog progressDialog;

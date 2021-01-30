@@ -51,7 +51,7 @@ dateReportAdapter adapter;
 HashMap<String,ArrayList<reportClass>> matcher;
 Context context;
 TextView nop;
-boolean adding=false;
+static boolean adding=false;
 DeleteClass dd=new DeleteClass("fbfd");
 ProgressDialog progressDialog;
 SwipeRefreshLayout refresh;

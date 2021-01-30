@@ -60,7 +60,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ReportView.class);
                     intent.putExtra("doctor",item1.getName());
-                    intent.putExtra("url",new networkData().url_image+item1.getIcon());
+                    intent.putExtra("url",item1.getIcon());
                     intent.putExtra("title",item1.getType());
                     intent.putExtra("id",item1.getId());
                     intent.putExtra("share",item1.getIcon());
@@ -107,7 +107,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
             holder.date1.setText(item1.getDate());
             holder.type1.setText(item1.getName());
 //            holder.icon1.getSettings().setJavaScriptEnabled(true);
-            String pdf = new networkData().url_image+item1.getIcon();
+            String pdf = item1.getIcon();
             if(item1.getTypeD().contains(".pdf"))
             {
             holder.icon1.setImageResource(R.drawable.ic_pdf);
@@ -131,7 +131,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ReportView.class);
                     intent.putExtra("doctor",item2.getName());
-                    intent.putExtra("url",new networkData().url_image+item2.getIcon());
+                    intent.putExtra("url",item2.getIcon());
                     intent.putExtra("title",item2.getType());
                     intent.putExtra("id",item2.getId());
                     intent.putExtra("share",item2.getIcon());
@@ -178,7 +178,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
             holder.date2.setText(item2.getDate());
             holder.type2.setText(item2.getName());
 //            holder.icon2.getSettings().setJavaScriptEnabled(true);
-            String pdf = new networkData().url_image+item2.getIcon();
+            String pdf = item2.getIcon();
             if(item2.getTypeD().contains(".pdf"))
             {
             holder.icon2.setImageResource(R.drawable.ic_pdf);
@@ -202,7 +202,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                 public void onClick(View view) {
                     Intent intent=new Intent(context, ReportView.class);
                     intent.putExtra("doctor",item3.getName());
-                    intent.putExtra("url",new networkData().url_image+item3.getIcon());
+                    intent.putExtra("url",item3.getIcon());
                     intent.putExtra("title",item3.getType());
                     intent.putExtra("id",item3.getId());
                     intent.putExtra("share",item3.getIcon());
@@ -247,7 +247,7 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
             holder.date3.setText(item3.getDate());
             holder.type3.setText(item3.getName());
 //            holder.icon3.getSettings().setJavaScriptEnabled(true);
-            String pdf = new networkData().url_image+item3.getIcon();
+            String pdf = item3.getIcon();
             if(item3.getTypeD().contains(".pdf"))
             {
                 holder.icon3.setImageResource(R.drawable.ic_pdf);

@@ -1,7 +1,7 @@
 package com.developer.headthapp.ApiMethods;
 //http://ec2-3-18-103-176.us-east-2.compute.amazonaws.com:5000/app1
-//mysore ip address
-//http://192.168.29.225:5000/app1
+//Bhopal ip address
+//http://192.168.1.4:5000/app1
 public class networkData {
     public static String url="http://192.168.1.4:5000/app1";
     public static String url_image="http://192.168.1.4:5000/";
@@ -43,4 +43,6 @@ public class networkData {
     public static String deleteEmergency="/deleteEmergency";
     public static String deleteNotification="/deleteNotification";
     public static String updateNotification="/updateNotification";
+    public static String deleteData="/deleteData";
+    public static String addImage64="/addImage64";
 }
