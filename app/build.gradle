@@ -52,4 +52,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:20.1.2'
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     implementation "com.github.skydoves:balloon:1.1.5"
+    implementation 'cat.ereza:customactivityoncrash:2.3.0'
 }

@@ -162,13 +162,20 @@ public class PrescriptionAdd extends AppCompatActivity {
                dateF=date.getText().toString();
                docF=doc_name.getText().toString();
                observationF=observation.getText().toString();
-               if(imagePaths.equals(""))
+               if(list.size()<=0)
                {
                    Toast.makeText(context,"Choose atleast a image and try again",Toast.LENGTH_SHORT).show();
                    return;
                }
                else
                {
+                   imagePaths="";
+                   for(int i=0;i<list.size();i++)
+                   {
+                       imageRecyclerClass item=list.get(i);
+                       imagePaths+=item.getId()+";";
+                   }
+                   Toast.makeText(context,imagePaths,Toast.LENGTH_SHORT).show();
                    if(titleF.isEmpty()||dateF.isEmpty()||docF.isEmpty())
                    {
                        Toast.makeText(context,"Please fill all the fields",Toast.LENGTH_SHORT).show();
@@ -247,7 +254,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                }
                else
                {
-                   
+
                }
             }
         });
@@ -297,6 +304,7 @@ public class PrescriptionAdd extends AppCompatActivity {
             //keep this much code to make it dynamic
             String uploadId= UUID.randomUUID().toString();
             nameF=uploadId;
+            pdfChecker=true;
             new uploadData().execute();
             //till here
 
@@ -320,6 +328,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                 //keep this much code to make it dynamic
                 String uploadId= UUID.randomUUID().toString();
                 nameF=uploadId;
+                imgCheck=true;
                 new uploadData().execute();
 
                 //till here
@@ -607,7 +616,6 @@ public class uploadPres extends AsyncTask<String,String,String>
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
         progressDialog.show();
     }
 

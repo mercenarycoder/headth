@@ -127,8 +127,9 @@ public class ImageRecylerAdapter extends RecyclerView.Adapter<ImageRecylerAdapte
                         String data=new PrescriptionAdd().imagePaths;
                         if(data.contains(Name))
                         {
-                            data.replace(Name,"-");
+                            data.replace(Name+";","");
                         }
+                        new PrescriptionAdd().imagePaths=data;
                         Toast.makeText(context,"Image Deleted",Toast.LENGTH_SHORT).show();
                     }
                 }

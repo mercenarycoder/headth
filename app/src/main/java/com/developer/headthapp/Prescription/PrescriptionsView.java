@@ -3,6 +3,8 @@ package com.developer.headthapp.Prescription;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -66,7 +68,10 @@ ImageButton back;
 String titleF,doctorF,observationF,imageF,idF,dateF,urlF;
 TextView title,doctor,edit,delete;
 LinearLayout options;
-ImageView report,menu;
+ImageView menu;
+RecyclerView multiRecycler;
+ArrayList<presImageClass> list;
+prescriptionAdapterView adapter;
 WebView web;
 ProgressBar progress;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
@@ -134,13 +139,17 @@ String optionF="edit";
             }
         });
         //the dialog code was till here
-        report=(ImageView)findViewById(R.id.report);
+//        report=(ImageView)findViewById(R.id.report);
         share=(Button)findViewById(R.id.share);
         download=(Button)findViewById(R.id.download);
         title=(TextView)findViewById(R.id.title);
         web=(WebView)findViewById(R.id.web);
         progress=(ProgressBar)findViewById(R.id.progress);
         doctor=(TextView)findViewById(R.id.doctor);
+        //from here multiple images code is starting
+        multiRecycler=(RecyclerView)findViewById(R.id.multirecyler);
+        list=new ArrayList<>();
+        multiRecycler.setVisibility(View.INVISIBLE);
         if(Build.VERSION.SDK_INT>=23) {
             if (checkPermission()) {
 
@@ -149,13 +158,21 @@ String optionF="edit";
             }
         }
         if(imageF.contains(".jpeg")) {
-            Picasso.with(PrescriptionsView.this).load( new networkData().url.substring(0
-                    , new networkData().url.length() - 4) +imageF).placeholder(R.drawable.ic_pdf).into(report);
+             String images[]=imageF.split(";");
+             for(int i=0;i<images.length;i++)
+             {
+                 list.add(new presImageClass(i,new networkData().url_image+images[i]));
+             }
+             adapter=new prescriptionAdapterView(list,context);
+             multiRecycler.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+             multiRecycler.setAdapter(adapter);
+             multiRecycler.setHasFixedSize(true);
+             multiRecycler.setVisibility(View.VISIBLE);
         }
         else
         {
             //Toast.makeText(PrescriptionsView.this,"Pdf file",Toast.LENGTH_LONG).show();
-            report.setVisibility(View.INVISIBLE);
+            multiRecycler.setVisibility(View.INVISIBLE);
             web.setVisibility(View.VISIBLE);
             web.setWebViewClient(new WebViewClient() {
                 @Override
@@ -195,6 +212,7 @@ String optionF="edit";
                 try {
                     if(isStoragePermissionGranted()) {
                         if(imageF.contains(".jpeg")) {
+
                             new getBitmapClass().execute();
                             Toast.makeText(context, "Getting bitmap", Toast.LENGTH_SHORT).show();
                         }
