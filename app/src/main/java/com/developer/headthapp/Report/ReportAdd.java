@@ -2,6 +2,8 @@ package com.developer.headthapp.Report;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -33,9 +35,11 @@ import android.widget.Toast;
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.FragmentMains.DiseaseFragment;
+import com.developer.headthapp.ImageRecylerAdapter;
 import com.developer.headthapp.R;
 import com.developer.headthapp.SpinnerAdapter2;
 import com.developer.headthapp.SpinnerClass;
+import com.developer.headthapp.imageRecyclerClass;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
@@ -50,10 +54,12 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.UUID;
 
+import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
+
 public class ReportAdd extends AppCompatActivity {
 ImageButton back;
 TextView date;
-ImageView pdf;
+//ImageView pdf;
 EditText title,observer,detail;
 private static final int STORAGE_PERMISSION_CODE = 123;
 private static final int PICK_IMAGE_REQUEST = 1;
@@ -62,21 +68,38 @@ Calendar myCalendar;
 Spinner type;
 SpinnerAdapter2 adapter;
 ArrayList<SpinnerClass> list;
+//new multiple image adder code from here
+RecyclerView recycler;
+ArrayList<imageRecyclerClass> list2=new ArrayList<>();
+ImageRecylerAdapter adapter2;
+
 ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 String titleF,observerF,dateF,detailF,typeF,base65,reportType=null;
 Context context;
+    public static String imagePaths;
+    public String nameF;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=ReportAdd.this;
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage("Sending information");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         setContentView(R.layout.activity_report_add);
         back=(ImageButton)findViewById(R.id.back);
         choose=(Button)findViewById(R.id.choose);
         submit=(Button)findViewById(R.id.submit);
         title=(EditText)findViewById(R.id.title);
-        pdf=(ImageView)findViewById(R.id.pdf);
         type=(Spinner)findViewById(R.id.type);
+        recycler=(RecyclerView)findViewById(R.id.recycler);
+        //keep this much code to make it dynamic
+        adapter2=new ImageRecylerAdapter(list2,context);
+        recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
+        recycler.setHasFixedSize(true);
+        recycler.setAdapter(adapter2);
+        //till here
         formList();
         adapter=new SpinnerAdapter2(context,list);
         type.setAdapter(adapter);
@@ -158,7 +181,7 @@ Context context;
                  Toast.makeText(context,"Date cannot be empty",Toast.LENGTH_SHORT).show();
                  return;
              }
-             else if(base65.isEmpty())
+             else if(list2.size()<=0)
              {
                  Toast.makeText(context,"Document cannot be empty",Toast.LENGTH_SHORT).show();
                  return;
@@ -170,6 +193,13 @@ Context context;
              }
              else
              {
+                 imagePaths="";
+                 for(int i=0;i<list2.size();i++)
+                 {
+                     imageRecyclerClass item=list2.get(i);
+                     imagePaths+=item.getId()+";";
+                 }
+                 Toast.makeText(context,imagePaths,Toast.LENGTH_SHORT).show();
                  new submitReport().execute();
              }
             }
@@ -261,9 +291,12 @@ Context context;
             Uri pdfUri = data.getData();
             base65=getStringPdf(pdfUri);
             base65="data:application/pdf;base64,"+base65;
-            pdf.setImageResource(R.drawable.ic_pdf);
+//            pdf.setImageResource(R.drawable.ic_pdf);
             System.out.println("------------------"+base65);
             typeF=".pdf";
+            String uploadId= UUID.randomUUID().toString();
+            nameF=uploadId;
+            new uploadData().execute();
         }
         if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK&&data!=null&&data.getData()!=null)
         {
@@ -278,12 +311,14 @@ Context context;
                 bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
-                pdf.setImageBitmap(bitmap);
+//                pdf.setImageBitmap(bitmap);
                 base65="data:image/jpeg;base64,"+base65;
                 typeF=".jpeg";
-                System.out.println("-------------------------------------"+base65);
+//                System.out.println("-------------------------------------"+base65);
                 //                Log.d("image ", "doInBackground: "+convertImage);
-
+                String uploadId= UUID.randomUUID().toString();
+                nameF=uploadId;
+                new uploadData().execute();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -303,16 +338,67 @@ Context context;
                 base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
                 base65="data:image/jpeg;base64,"+base65;
                 typeF=".jpeg";
-                pdf.setImageBitmap(bitmap);
+//                pdf.setImageBitmap(bitmap);
                 System.out.println("-------------------------------------"+base65);
                 //                Log.d("image ", "doInBackground: "+convertImage);
-
+                String uploadId= UUID.randomUUID().toString();
+                nameF=uploadId;
+                new uploadData().execute();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    public class uploadData extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().addImage64;
+            String data=new JsonParser().addImage(url,base65,nameF,typeF);
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            if(s!=null)
+            {
+                try{
+                    JSONObject obj=new JSONObject(s);
+                    String status=String.valueOf(obj.get("status"));
+                    if (status.equals("1"))
+                    {
+                        String fileName=String.valueOf(obj.get("name"));
+                        String msg=String.valueOf(obj.get("msg"));
+                        imagePaths+=fileName+";";
+                        list2.add(new imageRecyclerClass(base65,fileName,typeF));
+                        adapter2=new ImageRecylerAdapter(list2,context);
+                        recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
+                        recycler.setHasFixedSize(true);
+                        recycler.setAdapter(adapter2);
+                        Toast.makeText(context,"Image Inserted",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Image Not Inserted",Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     public String getStringPdf (Uri filepath){
         InputStream inputStream = null;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -365,7 +451,7 @@ Context context;
             number=number.substring(3,number.length());
             String uploadId= UUID.randomUUID().toString();
 
-            String json=new JsonParser().addReport(url,number,titleF,base65,observerF,dateF,detailF,typeF,uploadId,reportType);
+            String json=new JsonParser().addReport(url,number,titleF,observerF,dateF,detailF,typeF,imagePaths,reportType);
             return json;
         }
 

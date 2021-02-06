@@ -5,6 +5,8 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -42,6 +44,8 @@ import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.Prescription.Prescriptions;
 import com.developer.headthapp.Prescription.PrescriptionsView;
+import com.developer.headthapp.Prescription.presImageClass;
+import com.developer.headthapp.Prescription.prescriptionAdapterView;
 import com.developer.headthapp.Report.ReportView;
 import com.developer.headthapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,7 +73,10 @@ TextView title,dr_name,edit,delete;
 LinearLayout options;
 WebView webview;
 Button share,download;
-ImageView if_image;
+//ImageView if_image;
+RecyclerView multiRecycler;
+ArrayList<presImageClass> list;
+prescriptionAdapterView adapter;
 Context context;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 ProgressBar progress;
@@ -106,8 +113,10 @@ String optionF="edit";
         back=(ImageButton)findViewById(R.id.back);
         dr_name=(TextView)findViewById(R.id.dr_name);
         webview=(WebView)findViewById(R.id.webview);
-        if_image=(ImageView)findViewById(R.id.if_image);
-        if_image.setVisibility(View.INVISIBLE);
+        //from here multiple images code is starting
+        multiRecycler=(RecyclerView)findViewById(R.id.multirecyler);
+        list=new ArrayList<>();
+        multiRecycler.setVisibility(View.INVISIBLE);
         //layout code for the edit and delete dialog in the activity
         delete=(TextView)findViewById(R.id.delete);
         edit=(TextView)findViewById(R.id.edit);
@@ -222,8 +231,16 @@ String optionF="edit";
         {
             webview.setVisibility(View.INVISIBLE);
             //Toast.makeText(context,"Its a Jpeg file",Toast.LENGTH_SHORT).show();
-            if_image.setVisibility(View.VISIBLE);
-            Picasso.with(context).load(webviewurl).into(if_image);
+            String images[]=urlF.split(";");
+            for(int i=0;i<images.length;i++)
+            {
+                list.add(new presImageClass(i,new networkData().url_image+images[i]));
+            }
+            adapter=new prescriptionAdapterView(list,context);
+            multiRecycler.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+            multiRecycler.setAdapter(adapter);
+            multiRecycler.setHasFixedSize(true);
+            multiRecycler.setVisibility(View.VISIBLE);
         }
 
         dr_name.setText(drF);
@@ -236,12 +253,21 @@ String optionF="edit";
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_delete);
         ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
+        TextView msg=(TextView)dialog.findViewById(R.id.msg);
         close_btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
         });
+        if(optionF.equals("edit"))
+        {
+            msg.setText("Do you really want to edit this record ?");
+        }
+        else
+        {
+            msg.setText("Are you sure you want to delete this record ?");
+        }
         Button no=(Button)dialog.findViewById(R.id.no);
         Button yes=(Button)dialog.findViewById(R.id.yes);
         no.setOnClickListener(new View.OnClickListener() {

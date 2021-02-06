@@ -53,4 +53,7 @@ dependencies {
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     implementation "com.github.skydoves:balloon:1.1.5"
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
+    //this is image zoomer code
+    implementation 'com.github.MikeOrtiz:TouchImageView:3.0.1'
+    implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
 }

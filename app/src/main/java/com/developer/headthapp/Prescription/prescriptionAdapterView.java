@@ -1,5 +1,6 @@
 package com.developer.headthapp.Prescription;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +8,9 @@ import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -22,6 +25,7 @@ import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.GlobalVariables;
 import com.developer.headthapp.Prescription.PrescriptionAdd;
 import com.developer.headthapp.R;
+import com.ortiz.touchview.TouchImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -59,6 +63,24 @@ public class prescriptionAdapterView extends RecyclerView.Adapter<prescriptionAd
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final Dialog dialog=new Dialog(context);
+//                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                dialog.setContentView(R.layout.layout_full_image);
+                WebView bmImage = (WebView) dialog.findViewById(R.id.img_receipt);
+                bmImage.loadUrl(adapter.getUrl());
+                bmImage.getSettings().setBuiltInZoomControls(true);
+                bmImage.getSettings().setSupportZoom(true);
+                Button button=(Button)dialog.findViewById(R.id.btn_dissmiss);
+                dialog.setCancelable(true);
+                dialog.show();
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
                 Toast.makeText(context,"Zoom view will open soon",Toast.LENGTH_SHORT).show();
             }
         });

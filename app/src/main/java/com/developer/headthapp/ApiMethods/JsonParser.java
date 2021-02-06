@@ -596,7 +596,7 @@ public class JsonParser {
         }
         return null;
     }
- public String addReport(String url2,String mobile,String title,String data,String observer,String date
+ public String addReport(String url2,String mobile,String title,String observer,String date
          ,String detail,String type,String name,String category)
  {
      HttpURLConnection connection = null;
@@ -612,12 +612,12 @@ public class JsonParser {
 
          JSONObject loginData = new JSONObject();
          loginData.put("mobile", mobile);
-         loginData.put("name",name);
+         loginData.put("filename",name);
          loginData.put("title",title);
          loginData.put("observer",observer);
          loginData.put("detail",detail);
          loginData.put("date",date);
-         loginData.put("data",data);
+//         loginData.put("data",data);
          loginData.put("type",type);
          loginData.put("category",category);
         // loginData.put("type",type);

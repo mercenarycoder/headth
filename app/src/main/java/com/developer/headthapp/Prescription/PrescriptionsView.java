@@ -242,6 +242,15 @@ String optionF="edit";
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_delete);
         ImageButton close_btn2=(ImageButton)dialog.findViewById(R.id.close_btn2);
+        TextView msg=(TextView)dialog.findViewById(R.id.msg);
+        if(optionF.equals("edit"))
+        {
+            msg.setText("Do you really want to edit this record ?");
+        }
+        else
+        {
+            msg.setText("Are you sure you want to delete this record ?");
+        }
         close_btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
