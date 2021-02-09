@@ -263,7 +263,7 @@ public void transformList(String str)
                 x++;
             }
 
-            reportClass  m3 = new reportClass("null","null","","","","","");
+            reportClass  m3 = new reportClass("null","null","","","","","","");
             if(i+1<ll.size()&&ll.get(i+1).getCats().contains(str)) {
                 m1[x] = ll.get(i + 1);
                 ff=true;
@@ -356,16 +356,16 @@ public void transformList(String str)
                             String type = object.getString("type");
                             String image=object.getString("link");
                             String category=object.getString("category");
-                            list.add(new reportClass(doctor,title,date,id,image,type,category));
+                            list.add(new reportClass(doctor,title,date,id,image,type,category,observation));
                             if(matcher.containsKey(date))
                             {
                                 ArrayList<reportClass> ll=matcher.get(date);
-                                ll.add(new reportClass(doctor,title,date,id,image,type,category));
+                                ll.add(new reportClass(doctor,title,date,id,image,type,category,observation));
                             }
                             else
                             {
                                 ArrayList<reportClass> ll=new ArrayList<>();
-                                ll.add(new reportClass(doctor,title,date,id,image,type,category));
+                                ll.add(new reportClass(doctor,title,date,id,image,type,category,observation));
                                 matcher.put(date,ll);
                             }
                         }
@@ -384,14 +384,14 @@ public void transformList(String str)
                                 }
                                 else
                                 {
-                                m2 = new reportClass("null","null","","","","","");
+                                m2 = new reportClass("null","null","","","","","","");
                                 }
                             if(i+2<ll.size()) {
                                 m3 = ll.get(i + 1);
                             }
                             else
                             {
-                                m3 = new reportClass("null","null","","","","","");
+                                m3 = new reportClass("null","null","","","","","","");
                             }
                             list3.add(new reportOf3(m1,m2,m3));
                         }

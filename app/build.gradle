@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.developer.headthapp"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0.0"
@@ -53,7 +53,7 @@ dependencies {
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     implementation "com.github.skydoves:balloon:1.1.5"
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
-    //this is image zoomer code
-    implementation 'com.github.MikeOrtiz:TouchImageView:3.0.1'
-    implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
+    //biometric verifyer library here
+    def biometric_version= '1.0.0-rc02'
+    implementation "androidx.biometric:biometric:1.0.0-beta01"
 }

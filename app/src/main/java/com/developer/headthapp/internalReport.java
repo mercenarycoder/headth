@@ -65,6 +65,10 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                     intent.putExtra("id",item1.getId());
                     intent.putExtra("share",item1.getIcon());
                     intent.putExtra("type",item1.getTypeD());
+                    //these are new additons
+                    intent.putExtra("details",item1.getDetails());
+                    intent.putExtra("date",item1.getDate());
+                    intent.putExtra("category",item1.getCats());
                     context.startActivity(intent);
                 }
             });
@@ -136,6 +140,10 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                     intent.putExtra("id",item2.getId());
                     intent.putExtra("share",item2.getIcon());
                     intent.putExtra("type",item2.getTypeD());
+                    //these are new additons
+                    intent.putExtra("details",item2.getDetails());
+                    intent.putExtra("date",item2.getDate());
+                    intent.putExtra("category",item2.getCats());
                     context.startActivity(intent);
                 }
             });
@@ -207,6 +215,10 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
                     intent.putExtra("id",item3.getId());
                     intent.putExtra("share",item3.getIcon());
                     intent.putExtra("type",item3.getTypeD());
+                    //these are new additons
+                    intent.putExtra("details",item3.getDetails());
+                    intent.putExtra("date",item3.getDate());
+                    intent.putExtra("category",item3.getCats());
                     context.startActivity(intent); }
             });
             holder.reportitem3.setOnLongClickListener(new View.OnLongClickListener() {

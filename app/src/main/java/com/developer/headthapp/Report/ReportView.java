@@ -42,6 +42,7 @@ import android.widget.Toast;
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.DeleteClass;
+import com.developer.headthapp.Prescription.PrescriptionAdd;
 import com.developer.headthapp.Prescription.Prescriptions;
 import com.developer.headthapp.Prescription.PrescriptionsView;
 import com.developer.headthapp.Prescription.presImageClass;
@@ -80,8 +81,9 @@ prescriptionAdapterView adapter;
 Context context;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 ProgressBar progress;
-String drF,titF,urlF,idF,typeF,shareF;
+String drF,titF,urlF,idF,typeF,shareF,dateF,detailF,categoryF;
 String optionF="edit";
+boolean editer=false;
     private static final String TAG = "Download Task";
 
     private String downloadUrl = "", downloadFileName = "";
@@ -109,6 +111,9 @@ String optionF="edit";
         idF=intent.getStringExtra("id");
         typeF=intent.getStringExtra("type");
         shareF=intent.getStringExtra("share");
+        dateF=intent.getStringExtra("date");
+        detailF=intent.getStringExtra("details");
+        categoryF=intent.getStringExtra("category");
         title=(TextView)findViewById(R.id.title);
         back=(ImageButton)findViewById(R.id.back);
         dr_name=(TextView)findViewById(R.id.dr_name);
@@ -140,8 +145,28 @@ String optionF="edit";
             public void onClick(View view) {
                 optionF="edit";
                 options.setVisibility(View.INVISIBLE);
-                dialogShower();
+//                dialogShower();
+                editer=true;
+                Intent intent1=new Intent(ReportView.this, ReportAdd.class);
+                intent1.putExtra("title",titF);
+                intent1.putExtra("doctor",drF);
+                intent1.putExtra("observation",detailF);
+                intent1.putExtra("date",dateF);
+                intent1.putExtra("image",urlF);
+                if(urlF.contains(".pdf"))
+                {
+                    intent1.putExtra("type",".pdf");
+                }
+                else
+                {
+                    intent1.putExtra("type",".jpeg");
+                }
+                intent1.putExtra("id",idF);
+                intent1.putExtra("category",categoryF);
+                intent1.putExtra("mode","edit");
+                startActivity(intent1);
             }
+
         });
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,6 +271,16 @@ String optionF="edit";
         dr_name.setText(drF);
         title.setText(titF);
     }
+
+    @Override
+    protected void onResume() {
+        if(editer)
+        {
+            finish();
+        }
+        super.onResume();
+    }
+
     public void dialogShower()
     {
         final Dialog dialog=new Dialog(context, 0);

@@ -75,8 +75,10 @@ ImageRecylerAdapter adapter2;
 
 ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
-String titleF,observerF,dateF,detailF,typeF,base65,reportType=null;
+String titleF,observerF,dateF,detailF,typeF,base65,reportType=null,idF,category;
 Context context;
+boolean imgChoosed=false,pdfChoosed=false;
+String mode="new";
     public static String imagePaths;
     public String nameF;
     @Override
@@ -94,12 +96,6 @@ Context context;
         title=(EditText)findViewById(R.id.title);
         type=(Spinner)findViewById(R.id.type);
         recycler=(RecyclerView)findViewById(R.id.recycler);
-        //keep this much code to make it dynamic
-        adapter2=new ImageRecylerAdapter(list2,context);
-        recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
-        recycler.setHasFixedSize(true);
-        recycler.setAdapter(adapter2);
-        //till here
         formList();
         adapter=new SpinnerAdapter2(context,list);
         type.setAdapter(adapter);
@@ -118,6 +114,58 @@ Context context;
         observer=(EditText)findViewById(R.id.observer);
         detail=(EditText)findViewById(R.id.detail);
         date=(TextView)findViewById(R.id.date);
+        //from here the edit code is begining to make edit option work
+        mode=getIntent().getStringExtra("mode");
+        titleF=getIntent().getStringExtra("title");
+        dateF=getIntent().getStringExtra("date");
+        detailF=getIntent().getStringExtra("observation");
+        typeF=getIntent().getStringExtra("type");
+        imagePaths=getIntent().getStringExtra("image");
+        idF=getIntent().getStringExtra("id");
+        observerF=getIntent().getStringExtra("doctor");
+        category=getIntent().getStringExtra("category");
+        if(category!=null)
+        {
+            for(int i=0;i<list.size();i++)
+            {
+                if(list.get(i).getId().equalsIgnoreCase(category))
+                {
+                    type.setSelection(i);
+                }
+            }
+        }
+        title.setText(titleF);
+        date.setText(dateF);
+        detail.setText(detailF);
+        observer.setText(observerF);
+        if(mode!=null && mode.equals("edit"))
+        {
+            if(typeF.equals(".pdf"))
+            {
+                pdfChoosed=true;
+            }
+            else
+            {
+                imgChoosed=true;
+            }
+            String fileName[]=imagePaths.split(";");
+            for(int i=0;i<fileName.length;i++)
+            {
+                list2.add(new imageRecyclerClass("",fileName[i],typeF));
+            }
+            adapter2=new ImageRecylerAdapter(list2,context);
+            recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
+            recycler.setHasFixedSize(true);
+            recycler.setAdapter(adapter2);
+        }
+        //keep this much code to make it dynamic
+        adapter2=new ImageRecylerAdapter(list2,context);
+        recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
+        recycler.setHasFixedSize(true);
+        recycler.setAdapter(adapter2);
+        //till here
+
+
         myCalendar=Calendar.getInstance();
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -450,8 +498,16 @@ Context context;
             String number=mauth.getCurrentUser().getPhoneNumber();
             number=number.substring(3,number.length());
             String uploadId= UUID.randomUUID().toString();
-
-            String json=new JsonParser().addReport(url,number,titleF,observerF,dateF,detailF,typeF,imagePaths,reportType);
+            String json;
+            if(mode!=null&&mode.equals("edit"))
+            {
+             method=networkData.updateReport;
+             url=base+method;
+             json=new JsonParser().updateReport(url,idF,number,titleF,observerF,dateF,imagePaths,typeF,category,detailF);
+            }
+            else {
+                json = new JsonParser().addReport(url, number, titleF, observerF, dateF, detailF, typeF, imagePaths, reportType);
+            }
             return json;
         }
 

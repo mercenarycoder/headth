@@ -78,6 +78,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
 Context context=PrescriptionsView.this;
 Button share,download;
 ProgressDialog progressDialog;
+boolean editer=false;
 String optionF="edit";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +128,25 @@ String optionF="edit";
             public void onClick(View view) {
               optionF="edit";
               options.setVisibility(View.INVISIBLE);
-              dialogShower();
+//              dialogShower();
+                editer=true;
+                Intent intent1=new Intent(PrescriptionsView.this,PrescriptionAdd.class);
+                intent1.putExtra("title",titleF);
+                intent1.putExtra("doctor",doctorF);
+                intent1.putExtra("observation",observationF);
+                intent1.putExtra("date",dateF);
+                intent1.putExtra("image",imageF);
+                if(imageF.contains(".pdf"))
+                {
+                    intent1.putExtra("type",".pdf");
+                }
+                else
+                {
+                    intent1.putExtra("type",".jpeg");
+                }
+                intent1.putExtra("id",idF);
+                intent1.putExtra("mode","edit");
+                startActivity(intent1);
             }
         });
         delete.setOnClickListener(new View.OnClickListener() {
@@ -235,6 +254,16 @@ String optionF="edit";
         });
 
     }
+
+    @Override
+    protected void onResume() {
+        if(editer)
+        {
+            finish();
+        }
+        super.onResume();
+    }
+
     public void dialogShower()
     {
         final Dialog dialog=new Dialog(context, 0);

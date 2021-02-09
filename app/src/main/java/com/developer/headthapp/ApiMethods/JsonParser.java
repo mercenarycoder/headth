@@ -77,6 +77,104 @@ public class JsonParser {
         }
         return null;
     }
+    public String updatePrescription(String url2,String id,String mobile,String title,String doctor,
+                                     String image,String observation,String date)
+    {
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+
+        try {
+            URL url = new URL(url2);
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
+            httpURLConnection.connect();
+
+            JSONObject loginData = new JSONObject();
+            loginData.put("mobile", mobile);
+            loginData.put("id", id);
+            loginData.put("title", title);
+            loginData.put("date", date);
+            loginData.put("image", image);
+            loginData.put("doctor", doctor);
+            loginData.put("observation", observation);
+            Log.d("LoginData", "---> " + loginData);
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes(loginData.toString());
+            wr.flush();
+            wr.close();
+
+            InputStream stream = httpURLConnection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            String finalJson = buffer.toString();
+            return finalJson;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String updateReport(String url2,String id,String mobile,String title,String observer,String date,String fileName
+    ,String typeF,String category,String detail)
+    {
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+
+        try {
+            URL url = new URL(url2);
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
+            httpURLConnection.connect();
+
+            JSONObject loginData = new JSONObject();
+            loginData.put("mobile", mobile);
+            loginData.put("title", title);
+            loginData.put("date", date);
+            loginData.put("filename", fileName);
+            loginData.put("id", id);
+            loginData.put("observer", observer);
+            loginData.put("category", category);
+            loginData.put("type", typeF);
+            loginData.put("detail", detail);
+            Log.d("LoginData", "---> " + loginData);
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes(loginData.toString());
+            wr.flush();
+            wr.close();
+
+            InputStream stream = httpURLConnection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            String finalJson = buffer.toString();
+            return finalJson;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public String deleteImage(String url2,String file)
     {
         HttpURLConnection connection = null;

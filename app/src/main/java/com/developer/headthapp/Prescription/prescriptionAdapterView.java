@@ -25,7 +25,7 @@ import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.GlobalVariables;
 import com.developer.headthapp.Prescription.PrescriptionAdd;
 import com.developer.headthapp.R;
-import com.ortiz.touchview.TouchImageView;
+//import com.ortiz.touchview.TouchImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;

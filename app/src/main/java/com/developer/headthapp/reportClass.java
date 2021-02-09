@@ -1,13 +1,13 @@
 package com.developer.headthapp;
 
 public class reportClass {
-    String name,type,date,id,icon,typeD,cats;
+    String name,type,date,id,icon,typeD,cats,details;
 
     public String getTypeD() {
         return typeD;
     }
 
-    public reportClass(String name, String type, String date, String id, String icon, String typeD,String cats) {
+    public reportClass(String name, String type, String date, String id, String icon, String typeD,String cats,String details) {
         this.name = name;
         this.type = type;
         this.date = date;
@@ -15,6 +15,11 @@ public class reportClass {
         this.icon = icon;
         this.typeD=typeD;
         this.cats=cats;
+        this.details=details;
+    }
+
+    public String getDetails() {
+        return details;
     }
 
     public String getCats() {

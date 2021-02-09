@@ -83,13 +83,13 @@ public class PrescriptionAdd extends AppCompatActivity {
     Bitmap img=null;
     FirebaseAuth mauth;
     Calendar myCalendar;
-    String titleF,docF,observationF,dateF,imageF="",typeF;
+    String titleF,docF,observationF,dateF,imageF="",typeF,idF;
     ProgressDialog progressDialog;
     //new multiple image adder code from here
     RecyclerView recycler;
     ArrayList<imageRecyclerClass> list=new ArrayList<>();
     ImageRecylerAdapter adapter;
-    String path="";
+    String mode="add";
     boolean pdfChecker=false,imgCheck=false;
     public static String imagePaths="";
     private void initRetrofitClient() {
@@ -113,6 +113,31 @@ public class PrescriptionAdd extends AppCompatActivity {
         initRetrofitClient();
         date=(TextView)findViewById(R.id.date);
         recycler=(RecyclerView)findViewById(R.id.recycler);
+        //from here the edit code is begining to make edit option work
+        mode=getIntent().getStringExtra("mode");
+        titleF=getIntent().getStringExtra("title");
+        dateF=getIntent().getStringExtra("date");
+        observationF=getIntent().getStringExtra("observation");
+        typeF=getIntent().getStringExtra("type");
+        imagePaths=getIntent().getStringExtra("image");
+        idF=getIntent().getStringExtra("id");
+        docF=getIntent().getStringExtra("doctor");
+        title.setText(titleF);
+        date.setText(dateF);
+        observation.setText(observationF);
+        doc_name.setText(docF);
+        if(mode!=null && mode.equals("edit"))
+        {
+            String fileName[]=imagePaths.split(";");
+            for(int i=0;i<fileName.length;i++)
+            {
+                list.add(new imageRecyclerClass("",fileName[i],typeF));
+            }
+            adapter=new ImageRecylerAdapter(list,context);
+            recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
+            recycler.setHasFixedSize(true);
+            recycler.setAdapter(adapter);
+        }
         //keep this much code to make it dynamic
         adapter=new ImageRecylerAdapter(list,context);
         recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
@@ -628,8 +653,16 @@ public class uploadPres extends AsyncTask<String,String,String>
         String number=mauth.getCurrentUser().getPhoneNumber();
         number=number.substring(3,number.length());
         String uploadId= UUID.randomUUID().toString();
-
-        String json=new JsonParser().saveCategory(url,number,titleF,dateF,imagePaths,docF,observationF);
+        String json;
+        if(mode!=null&&mode.equals("edit"))
+        {
+            method=networkData.updatePrescription;
+            url=base+method;
+            json=new JsonParser().updatePrescription(url,idF,number,titleF,docF,imagePaths,observationF,dateF);
+        }
+        else {
+            json = new JsonParser().saveCategory(url, number, titleF, dateF, imagePaths, docF, observationF);
+        }
         return json;
     }
 

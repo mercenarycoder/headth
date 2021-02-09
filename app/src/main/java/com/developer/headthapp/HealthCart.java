@@ -1,10 +1,12 @@
 package com.developer.headthapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -12,7 +14,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.biometrics.BiometricManager;
+import android.hardware.biometrics.BiometricPrompt;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -69,16 +74,24 @@ TextView no_report,no_pres;
 ImageButton disease_2,medicine_2,allergies_2,history_2,qr,noti;
 SwipeRefreshLayout refresh,refresh2;
 Boolean check=false;
-
+    public BiometricManager biometricManager;
 public static void changeVisiblity()
 {
     layout_changer.setVisibility(View.INVISIBLE);
 }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=HealthCart.this;
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//            if(biometricManager.canAuthenticate()==BiometricManager.BIOMETRIC_SUCCESS)
+//            {
+//                Toast.makeText(context,"verification could be done",Toast.LENGTH_SHORT).show();
+//            }
+//        }
         mauth=FirebaseAuth.getInstance();
         setContentView(R.layout.activity_health_cart);
         new GlobalVariables("fdfkd");
@@ -352,6 +365,7 @@ public static void changeVisiblity()
         new getProfile().execute();
         new getReports().execute();
     }
+    
     public void initiaLize()
     {
         help=(Button)findViewById(R.id.help);
@@ -542,7 +556,7 @@ public static void changeVisiblity()
                             String type = object.getString("type");
                             String image = object.getString("link");
                             String category=object.getString("category");
-                            list.add(new reportClass(doctor, title, date, id, image, type,category));
+                            list.add(new reportClass(doctor, title, date, id, image, type,category,observation));
                         }
                         adapter = new dashmainadapter(list, context);
                         recycler_report.setHasFixedSize(true);

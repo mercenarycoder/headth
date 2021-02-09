@@ -45,4 +45,6 @@ public class networkData {
     public static String updateNotification="/updateNotification";
     public static String deleteData="/deleteData";
     public static String addImage64="/addImage64";
+    public static String updatePrescription="/updatePrescription";
+    public static String updateReport="/updateReport";
 }
