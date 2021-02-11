@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -92,6 +93,7 @@ public class PrescriptionAdd extends AppCompatActivity {
     String mode="add";
     boolean pdfChecker=false,imgCheck=false;
     public static String imagePaths="";
+
     private void initRetrofitClient() {
 
         new networkData();
@@ -304,7 +306,9 @@ public class PrescriptionAdd extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+//        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+       intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+       startActivityForResult(intent.createChooser(intent,"Select Picture"),PICK_IMAGE_REQUEST);
     }
     String nameF;
     @Override
@@ -334,33 +338,65 @@ public class PrescriptionAdd extends AppCompatActivity {
             //till here
 
         }
-        if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK&&data!=null&&data.getData()!=null)
+        if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK)
         {
-            Uri imageuri=data.getData();
-            //path=getPath(imageuri);
-            try
-            {
-                Toast.makeText(context,"image choosed",Toast.LENGTH_SHORT).show();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
-                //imageView_pic.setImageURI(imageuri);
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream.toByteArray();
-                imageF= Base64.encodeToString(byteArray,Base64.NO_WRAP);
-                imageF="data:image/jpeg;base64,"+imageF;
-                typeF=".jpeg";
-                System.out.println("-------------------------------------"+imageF);
-                //keep this much code to make it dynamic
-                String uploadId= UUID.randomUUID().toString();
-                nameF=uploadId;
-                imgCheck=true;
+            assert data != null;
+            if(data.getClipData()!=null) {
+                imageF="";
+                int count = data.getClipData().getItemCount();
+                System.out.println("------------------------------Found multiple-----------------------");
+                for (int i = 0; i < count; i++) {
+                    try {
+                        Uri imageuri2 = data.getClipData().getItemAt(i).getUri();
+                        Bitmap bitmap2 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri2);
+                        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+                        bitmap2.compress(Bitmap.CompressFormat.JPEG,95,byteArrayOutputStream);
+                        byte [] byteArray=byteArrayOutputStream.toByteArray();
+                        String image = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+                        imageF += "data:image/jpeg;base64," + image+"HareKrishna";
+                        typeF = ".jpeg";
+//                        System.out.println("-------------------------------------" + imageF);
+                        //keep this much code to make it dynamic
+                        String uploadId = UUID.randomUUID().toString();
+                        System.out.println("------------------------------DETECING-----------------------");
+                        nameF += uploadId+"HareKrishna";
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(imageF.endsWith("HareKrishna"))
+                {
+                    imageF=imageF.substring(0,imageF.length()-11);
+                    nameF=nameF.substring(0,nameF.length()-11);
+                }
                 new uploadData().execute();
-
-                //till here
-                //                Log.d("image ", "doInBackground: "+convertImage);
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            }
+            //path=getPath(imageuri);
+           else if(data.getData() != null) {
+                try {
+                    Uri imageuri = data.getData();
+                    Toast.makeText(context, "image choosed", Toast.LENGTH_SHORT).show();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
+                    //imageView_pic.setImageURI(imageuri);
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream.toByteArray();
+                    imageF = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+                    imageF = "data:image/jpeg;base64," + imageF;
+                    typeF = ".jpeg";
+//                    System.out.println("-------------------------------------" + imageF);
+                    //keep this much code to make it dynamic
+                    String uploadId = UUID.randomUUID().toString();
+                    nameF = uploadId;
+                    imgCheck = true;
+                    new uploadData().execute();
+                    //till here
+                    //                Log.d("image ", "doInBackground: "+convertImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         if(requestCode==9&&resultCode==RESULT_OK)
@@ -384,7 +420,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                 new uploadData().execute();
 
                 //till here
-                System.out.println("-------------------------------------"+imageF);
+//                System.out.println("-------------------------------------"+imageF);
                 //                Log.d("image ", "doInBackground: "+convertImage);
 
             } catch (Exception e) {
@@ -400,11 +436,32 @@ public class PrescriptionAdd extends AppCompatActivity {
             progressDialog.show();
         }
 
+        @SuppressLint("WrongThread")
         @Override
         protected String doInBackground(String... strings) {
             String url=new networkData().url+new networkData().addImage64;
-            String data=new JsonParser().addImage(url,imageF,nameF,typeF);
-            return data;
+            String imgF[]=imageF.split("HareKrishna");
+            String nmF[]=nameF.split("HareKrishna");
+
+            System.out.println("------------------------------Count is----"+imgF.length);
+            for(int i=0;i<imgF.length;i++) {
+                System.out.println("------------------------------INSERTING-----------------------");
+                String data = new JsonParser().addImage(url, imgF[i], nmF[i], typeF);
+                try {
+                    JSONObject obj = new JSONObject(data);
+                    String status = String.valueOf(obj.get("status"));
+                    if (status.equals("1")) {
+                        String fileName = String.valueOf(obj.get("name"));
+                        String msg = String.valueOf(obj.get("msg"));
+                        imagePaths += fileName + ";";
+                        list.add(new imageRecyclerClass(imgF[i], fileName, typeF));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            adapter=new ImageRecylerAdapter(list,context);
+            return "data";
         }
 
         @Override
@@ -414,15 +471,16 @@ public class PrescriptionAdd extends AppCompatActivity {
             if(s!=null)
             {
                 try{
-                    JSONObject obj=new JSONObject(s);
-                    String status=String.valueOf(obj.get("status"));
-                    if (status.equals("1"))
+//                    JSONObject obj=new JSONObject(s);
+                    String status="1";
+//                    String status=String.valueOf(obj.get("status"));
+                    if (1==1||status.equals("1"))
                     {
-                        String fileName=String.valueOf(obj.get("name"));
-                        String msg=String.valueOf(obj.get("msg"));
-                        imagePaths+=fileName+";";
-                        list.add(new imageRecyclerClass(imageF,fileName,typeF));
-                        adapter=new ImageRecylerAdapter(list,context);
+//                        String fileName=String.valueOf(obj.get("name"));
+//                        String msg=String.valueOf(obj.get("msg"));
+//                        imagePaths+=fileName+";";
+//                        list.add(new imageRecyclerClass(imageF,fileName,typeF));
+//                        adapter=new ImageRecylerAdapter(list,context);
                         recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
                         recycler.setHasFixedSize(true);
                         recycler.setAdapter(adapter);

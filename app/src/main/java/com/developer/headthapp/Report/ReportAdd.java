@@ -36,6 +36,7 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.FragmentMains.DiseaseFragment;
 import com.developer.headthapp.ImageRecylerAdapter;
+import com.developer.headthapp.Prescription.PrescriptionAdd;
 import com.developer.headthapp.R;
 import com.developer.headthapp.SpinnerAdapter2;
 import com.developer.headthapp.SpinnerClass;
@@ -46,6 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -269,7 +271,9 @@ String mode="new";
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+//        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        startActivityForResult(intent.createChooser(intent,"Select Picture"),PICK_IMAGE_REQUEST);
     }
     private void openPdfChooser()
     {
@@ -346,29 +350,64 @@ String mode="new";
             nameF=uploadId;
             new uploadData().execute();
         }
-        if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK&&data!=null&&data.getData()!=null)
+        if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK)
         {
-           Uri imageuri=data.getData();
-            //path=getPath(imageuri);
-            try
-            {
-                Toast.makeText(context,"image choosed",Toast.LENGTH_SHORT).show();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
-                //imageView_pic.setImageURI(imageuri);
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream.toByteArray();
-                base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
-//                pdf.setImageBitmap(bitmap);
-                base65="data:image/jpeg;base64,"+base65;
-                typeF=".jpeg";
-//                System.out.println("-------------------------------------"+base65);
-                //                Log.d("image ", "doInBackground: "+convertImage);
-                String uploadId= UUID.randomUUID().toString();
-                nameF=uploadId;
+            assert data != null;
+            if(data.getClipData()!=null) {
+                base65="";
+                int count = data.getClipData().getItemCount();
+                System.out.println("------------------------------Found multiple-----------------------");
+                for (int i = 0; i < count; i++) {
+                    try {
+                        Uri imageuri2 = data.getClipData().getItemAt(i).getUri();
+                        Bitmap bitmap2 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri2);
+                        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+                        bitmap2.compress(Bitmap.CompressFormat.JPEG,95,byteArrayOutputStream);
+                        byte [] byteArray=byteArrayOutputStream.toByteArray();
+                        String image = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+                        base65 += "data:image/jpeg;base64," + image+"HareKrishna";
+                        typeF = ".jpeg";
+//                        System.out.println("-------------------------------------" + imageF);
+                        //keep this much code to make it dynamic
+                        String uploadId = UUID.randomUUID().toString();
+                        System.out.println("------------------------------DETECING-----------------------");
+                        nameF += uploadId+"HareKrishna";
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(base65.endsWith("HareKrishna"))
+                {
+                    base65=base65.substring(0,base65.length()-11);
+                    nameF=nameF.substring(0,nameF.length()-11);
+                }
                 new uploadData().execute();
-            } catch (IOException e) {
-                e.printStackTrace();
+            }
+            //path=getPath(imageuri);
+            else if(data.getData() != null) {
+                Uri imageuri = data.getData();
+                //path=getPath(imageuri);
+                try {
+                    Toast.makeText(context, "image choosed", Toast.LENGTH_SHORT).show();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
+                    //imageView_pic.setImageURI(imageuri);
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream.toByteArray();
+                    base65 = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+//                pdf.setImageBitmap(bitmap);
+                    base65 = "data:image/jpeg;base64," + base65;
+                    typeF = ".jpeg";
+//                System.out.println("-------------------------------------"+base65);
+                    //                Log.d("image ", "doInBackground: "+convertImage);
+                    String uploadId = UUID.randomUUID().toString();
+                    nameF = uploadId;
+                    new uploadData().execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         if(requestCode==9&&resultCode==RESULT_OK)
@@ -409,8 +448,29 @@ String mode="new";
         @Override
         protected String doInBackground(String... strings) {
             String url=new networkData().url+new networkData().addImage64;
-            String data=new JsonParser().addImage(url,base65,nameF,typeF);
-            return data;
+            String imgF[]=base65.split("HareKrishna");
+            String nmF[]=nameF.split("HareKrishna");
+
+            System.out.println("------------------------------Count is----"+imgF.length);
+            for(int i=0;i<imgF.length;i++) {
+                System.out.println("------------------------------INSERTING-----------------------");
+                String data = new JsonParser().addImage(url, imgF[i], nmF[i], typeF);
+                try {
+                    JSONObject obj = new JSONObject(data);
+                    String status = String.valueOf(obj.get("status"));
+                    if (status.equals("1")) {
+                        String fileName = String.valueOf(obj.get("name"));
+                        String msg = String.valueOf(obj.get("msg"));
+                        imagePaths += fileName + ";";
+                        list2.add(new imageRecyclerClass(imgF[i], fileName, typeF));
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            adapter2=new ImageRecylerAdapter(list2,context);
+            return "data";
         }
 
         @Override
@@ -420,14 +480,10 @@ String mode="new";
             if(s!=null)
             {
                 try{
-                    JSONObject obj=new JSONObject(s);
-                    String status=String.valueOf(obj.get("status"));
+//                    JSONObject obj=new JSONObject(s);
+                    String status="1";
                     if (status.equals("1"))
                     {
-                        String fileName=String.valueOf(obj.get("name"));
-                        String msg=String.valueOf(obj.get("msg"));
-                        imagePaths+=fileName+";";
-                        list2.add(new imageRecyclerClass(base65,fileName,typeF));
                         adapter2=new ImageRecylerAdapter(list2,context);
                         recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
                         recycler.setHasFixedSize(true);

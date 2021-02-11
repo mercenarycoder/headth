@@ -54,11 +54,15 @@ public class ProfileUpdate extends AppCompatActivity {
     TextView name,dob,height,weight,blood;
     FirebaseAuth mauth;
     String nameS,dobS,heightS,weightS,bloodS,edit="false";
+    SharedPreferences checker;
+    SharedPreferences.Editor editor;
 Calendar myCalendar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=ProfileUpdate.this;
+        checker=getSharedPreferences("basicinfo",Context.MODE_PRIVATE);
+        editor=checker.edit();
         mauth=FirebaseAuth.getInstance();
         Intent intent=getIntent();
         edit=intent.getStringExtra("edit");
@@ -139,7 +143,7 @@ Calendar myCalendar;
                         myCalendar.set(Calendar.YEAR, year);
                         myCalendar.set(Calendar.MONTH, monthOfYear);
                         myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String myFormat = "MM/dd/yy"; //In which you need put here
+                        String myFormat = "dd/MM/YY"; //In which you need put here
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
                         dob.setText(sdf.format(myCalendar.getTime()));
@@ -334,6 +338,9 @@ Calendar myCalendar;
                         {
                             intent.putExtra("edit","false");
                         }
+                        editor.putString("personal","done");
+                        editor.apply();
+                        editor.commit();
                         startActivity(intent);
                         finish();
                     }

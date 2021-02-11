@@ -46,21 +46,45 @@ public class LoginUser extends AppCompatActivity {
     String codeSent;
     String phonenum;
     boolean account=false;
-    SharedPreferences preferences;
+    SharedPreferences preferences,checker;
     ProgressDialog progressDialog;
    // DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-    SharedPreferences.Editor editor;
+    SharedPreferences.Editor editor,editor2;
+
     LinearLayout otp_layout,main_layout;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth=FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser()!=null)
+        checker=getSharedPreferences("basicinfo",Context.MODE_PRIVATE);
+        editor2=checker.edit();
+//        editor2.putString("personal","done");
+//        editor2.putString("emergency","done");
+//        editor2.apply();
+//        editor2.commit();
+        if(mAuth.getCurrentUser()!=null&&checker.getString("personal","no").equals("done")
+                &&checker.getString("emergency","no").equals("done"))
         {
          Intent intent=new Intent(LoginUser.this,HealthCart.class);
          startActivity(intent);
          finish();
+        }
+        else if(mAuth.getCurrentUser()!=null&&checker.getString("personal","no").equals("done")&&
+                checker.getString("emergency","no").equals("no"))
+        {
+         Intent intent=new Intent(LoginUser.this,EmergencyContacts.class);
+            intent.putExtra("edit","false");
+         startActivity(intent);
+         finish();
+        }
+        else if(mAuth.getCurrentUser()!=null&&checker.getString("personal","no").equals("no")
+                &&checker.getString("emergency","no").equals("no"))
+        {
+            Intent intent=new Intent(LoginUser.this,ProfileUpdate.class);
+            intent.putExtra("edit","false");
+            startActivity(intent);
+            finish();
         }
         setContentView(R.layout.activity_login_user);
         context=LoginUser.this;

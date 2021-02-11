@@ -8,6 +8,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -59,10 +60,15 @@ public class EmergencyContacts extends AppCompatActivity {
     int z=0,index=0;
     String rec_id1="null",rec_id2="null",rec_id3="null",rec_id4="null",rec_id5="null";
     String Rec_Id="",Phone="",Name="";
+    SharedPreferences checker;
+    SharedPreferences.Editor editor;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=EmergencyContacts.this;
+        checker=getSharedPreferences("basicinfo",Context.MODE_PRIVATE);
+        editor=checker.edit();
+
         setContentView(R.layout.activity_nominations);
         dialog=new ProgressDialog(context);
         dialog.setMessage("Please wait");
@@ -276,6 +282,9 @@ public class EmergencyContacts extends AppCompatActivity {
                         Toast.makeText(context,"Atleast One Contact Should be their",Toast.LENGTH_SHORT).show();
                     }
                     else {
+                        editor.putString("emergency","done");
+                        editor.apply();
+                        editor.commit();
                         Intent intent = new Intent(context, HealthCart.class);
                         startActivity(intent);
                         finish();
