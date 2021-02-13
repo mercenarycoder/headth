@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#fff"
+    android:background="@drawable/back_new"
     android:layout_height="match_parent"
     tools:context=".Report.ReportActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="#88FFFFFF"
         android:baselineAligned="false"
         android:orientation="horizontal">
         <ImageButton
@@ -32,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:gravity="center"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:orientation="horizontal"
         android:baselineAligned="false">
         <Button
@@ -60,7 +61,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="130dp"
         android:orientation="horizontal"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"

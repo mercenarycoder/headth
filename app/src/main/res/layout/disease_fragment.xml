@@ -7,12 +7,13 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="360dp"
+        android:background="@drawable/back_new"
         android:layout_height="400dp">
     <LinearLayout
         android:layout_width="360dp"
         android:layout_height="400dp"
         android:orientation="vertical"
-        android:background="@drawable/edit2">
+        android:background="@drawable/edit_new">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -39,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
-                android:background="#fff"
+                android:background="@drawable/main_base_btn"
                 android:id="@+id/close_btn"
                 android:src="@drawable/ic_close"
                 />

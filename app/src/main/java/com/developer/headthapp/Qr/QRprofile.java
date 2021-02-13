@@ -21,6 +21,7 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.R;
 import com.developer.headthapp.emergencyClass;
+import com.google.android.gms.location.FusedLocationProviderClient;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

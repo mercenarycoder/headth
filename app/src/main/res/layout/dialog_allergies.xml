@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="344dp"
     android:orientation="vertical"
+    android:background="@drawable/back_new"
     android:layout_height="250dp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2.9"
-            android:background="#fff"
+            android:background="@drawable/main_base_btn"
             android:id="@+id/close_btn2"
             android:src="@drawable/ic_close"
             />

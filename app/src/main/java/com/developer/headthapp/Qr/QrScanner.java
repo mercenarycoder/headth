@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -25,6 +26,10 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Profile;
 import com.developer.headthapp.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -39,24 +44,27 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class QrScanner extends AppCompatActivity {
-ImageButton close_btn;
-TextView next;
+    ImageButton close_btn;
+    TextView next;
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     String intentData = "";
     SurfaceView surfaceView;
-    FirebaseAuth mauth=FirebaseAuth.getInstance();
+    FirebaseAuth mauth = FirebaseAuth.getInstance();
     TextView scanner;
     Button open_profile;
     Context context;
     ProgressDialog progressDialog;
-    String numberF="",accessF="";
+    String numberF = "", accessF = "";
+    private FusedLocationProviderClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context=QrScanner.this;
+        context = QrScanner.this;
         setContentView(R.layout.activity_qr_scanner);
+
         open_profile=(Button)findViewById(R.id.open_profile);
         open_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,13 +219,38 @@ TextView next;
                     @Override
                     public void run() {
                      //scanner.setText(barcodes.valueAt(0).displayValue);
-                   barcodeDetector.release();
-                   numberF=barcodes.valueAt(0).displayValue;
-                   Toast.makeText(context,numberF,Toast.LENGTH_SHORT).show();
-                   Intent intent=new Intent(context,QRprofile.class);
-                   intent.putExtra("mobile",numberF);
-                   intent.putExtra("access",accessF);
-                   startActivity(intent);
+                        client = LocationServices.getFusedLocationProviderClient(context);
+                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                                PackageManager.PERMISSION_GRANTED &&
+                                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                                        PackageManager.PERMISSION_GRANTED) {
+                            finish();
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        client.getLastLocation().addOnSuccessListener(QrScanner.this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location o) {
+                                if(o!=null)
+                                {
+                                    Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
+                                    System.out.println(o);
+                                    barcodeDetector.release();
+                                    numberF=barcodes.valueAt(0).displayValue;
+                                    Toast.makeText(context,numberF,Toast.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(context,QRprofile.class);
+                                    intent.putExtra("mobile",numberF);
+                                    intent.putExtra("access",accessF);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
                     }
                 });
                 }

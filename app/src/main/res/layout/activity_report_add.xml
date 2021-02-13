@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back_new"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="#fff"
     android:layout_height="match_parent"
     tools:context=".Report.ReportAdd">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="#88FFFFFF"
         android:baselineAligned="false"
         android:orientation="horizontal">
         <ImageButton
@@ -141,7 +142,7 @@
             android:layout_marginTop="25dp"
             android:fontFamily="@font/dm_font"
             android:textColor="@color/colorPrimary"
-            android:textSize="10sp"/>
+            android:textSize="12sp"/>
     </LinearLayout>
 </LinearLayout>
 </ScrollView>

@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back_new"
     android:orientation="vertical"
     tools:context=".Qr.QRotp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#fff"
+        android:background="#88FFFFFF"
         android:id="@+id/layer1"
         android:layout_centerHorizontal="true"
         android:baselineAligned="false"
