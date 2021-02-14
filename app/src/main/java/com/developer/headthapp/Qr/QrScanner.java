@@ -247,7 +247,13 @@ public class QrScanner extends AppCompatActivity {
                                     Intent intent=new Intent(context,QRprofile.class);
                                     intent.putExtra("mobile",numberF);
                                     intent.putExtra("access",accessF);
+                                    intent.putExtra("longitude",o.getLongitude());
+                                    intent.putExtra("latitude",o.getLatitude());
                                     startActivity(intent);
+                                }
+                                else
+                                {
+                                    Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

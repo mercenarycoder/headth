@@ -216,6 +216,52 @@ public class JsonParser {
         }
         return null;
     }
+    public String recordLocation(String url2,String user,String accesser,String date,String time,String latitude,String longitude)
+    {
+        HttpURLConnection connection = null;
+        BufferedReader reader = null;
+
+        try {
+            URL url = new URL(url2);
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setRequestProperty("Content-Type", "application/json");
+            httpURLConnection.connect();
+
+            JSONObject loginData = new JSONObject();
+            loginData.put("user", user);
+            loginData.put("accesser", accesser);
+            loginData.put("date", date);
+            loginData.put("time", time);
+            loginData.put("latitude", latitude);
+            loginData.put("longitude", longitude);
+            Log.d("LoginData", "---> " + loginData);
+            DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+            wr.writeBytes(loginData.toString());
+            wr.flush();
+            wr.close();
+
+            InputStream stream = httpURLConnection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+            }
+            String finalJson = buffer.toString();
+            return finalJson;
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public String addImage(String url2,String image,String name,String typef)
     {
         HttpURLConnection connection = null;

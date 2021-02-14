@@ -105,6 +105,8 @@ String optionF="edit";
         imageF=intent.getStringExtra("image");
         idF=intent.getStringExtra("id");
         urlF=intent.getStringExtra("url");
+        dateF=intent.getStringExtra("date");
+        observationF=intent.getStringExtra("observation");
         //layout code for the edit and delete dialog in the activity
         delete=(TextView)findViewById(R.id.delete);
         edit=(TextView)findViewById(R.id.edit);

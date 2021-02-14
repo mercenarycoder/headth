@@ -551,12 +551,12 @@ public static void changeVisiblity()
                             String title = object.getString("title");
                             String doctor = object.getString("observer");
                             String observation = object.getString("details");
-                            String date = object.getString("date");
+                            String date[] = object.getString("date").split("T");
                             String id = object.getString("id");
                             String type = object.getString("type");
                             String image = object.getString("link");
                             String category=object.getString("category");
-                            list.add(new reportClass(doctor, title, date, id, image, type,category,observation));
+                            list.add(new reportClass(doctor, title, date[0], id, image, type,category,observation));
                         }
                         adapter = new dashmainadapter(list, context);
                         recycler_report.setHasFixedSize(true);
@@ -660,10 +660,10 @@ public static void changeVisiblity()
                                 String title = object.getString("title");
                                 String doctor = object.getString("doctor");
                                 String observation = object.getString("observation");
-                                String date = object.getString("date");
+                                String date[] = object.getString("date").split("T");
                                 String id = object.getString("id");
                                 String image = object.getString("image");
-                                list2.add(new presClass(title, date, doctor, image, id, observation));
+                                list2.add(new presClass(title, date[0], doctor, image, id, observation));
                             }
                             adapter2 = new dashboard2(list2, context);
                             recycler_pres.setHasFixedSize(true);

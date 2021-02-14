@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.developer.headthapp.AdapterEmergency;
 import com.developer.headthapp.ApiMethods.JsonParser;
@@ -22,10 +25,13 @@ import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.R;
 import com.developer.headthapp.emergencyClass;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
@@ -35,11 +41,12 @@ Context context;
 TextView blood,age;
 RecyclerView diesease_recycler,medicine_recycler,allergy_recycler;
 Button ambulance,police,family;
-String mobile,access;
+String mobile,access,latitude,longitude,date,time;
 ArrayList<qrBase> list_d,list_a,list_m;
 ArrayList<emergencyClass>        list_e;
 QrAdapter adapter_d,adapter_m,adapter_a;
 ProgressDialog progressDialog;
+FirebaseAuth mauth=FirebaseAuth.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +55,20 @@ ProgressDialog progressDialog;
         Intent intent=getIntent();
         mobile=intent.getStringExtra("mobile");
         access=intent.getStringExtra("access");
+        latitude=intent.getStringExtra("latitude");
+        longitude=intent.getStringExtra("longitude");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            DateTimeFormatter dtf=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime now=LocalDateTime.now();
+            String base[]=dtf.format(now).split(" ");
+            date=base[0];
+            time=base[1];
+        }
+        else
+        {
+
+        }
+
         ambulance=(Button)findViewById(R.id.ambulance);
         police=(Button)findViewById(R.id.police);
         family=(Button)findViewById(R.id.family);
@@ -79,6 +100,57 @@ ProgressDialog progressDialog;
             }
         });
         new getEmergencyProfile1().execute();
+        new qrAccessHistory().execute();
+    }
+    public class qrAccessHistory extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().recordLocation;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String data=new JsonParser().recordLocation(url,mobile,number,date,time,latitude,longitude);
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s!=null)
+            {
+                try{
+                    JSONObject obj=new JSONObject(s);
+                    String status = obj.getString("status");
+                    String msg=obj.getString("msg");
+                    if(status.equals("1"))
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(msg)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Not accessable this way. Its not how it works",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public class  getEmergencyProfile1 extends AsyncTask<String,String,String>
     {

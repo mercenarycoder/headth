@@ -325,7 +325,6 @@ public void transformList(String str)
             String number=mauth.getCurrentUser().getPhoneNumber();
             number=number.substring(3,number.length());
             String uploadId= UUID.randomUUID().toString();
-
             String json=new JsonParser().viewOffer(url,number);
             return json;
         }
@@ -351,22 +350,22 @@ public void transformList(String str)
                             String title=object.getString("title");
                             String doctor=object.getString("observer");
                             String observation=object.getString("details");
-                            String date=object.getString("date");
+                            String date[]=object.getString("date").split("T");
                             String id=object.getString("id");
                             String type = object.getString("type");
                             String image=object.getString("link");
                             String category=object.getString("category");
-                            list.add(new reportClass(doctor,title,date,id,image,type,category,observation));
-                            if(matcher.containsKey(date))
+                            list.add(new reportClass(doctor,title,date[0],id,image,type,category,observation));
+                            if(matcher.containsKey(date[0]))
                             {
-                                ArrayList<reportClass> ll=matcher.get(date);
-                                ll.add(new reportClass(doctor,title,date,id,image,type,category,observation));
+                                ArrayList<reportClass> ll=matcher.get(date[0]);
+                                ll.add(new reportClass(doctor,title,date[0],id,image,type,category,observation));
                             }
                             else
                             {
                                 ArrayList<reportClass> ll=new ArrayList<>();
-                                ll.add(new reportClass(doctor,title,date,id,image,type,category,observation));
-                                matcher.put(date,ll);
+                                ll.add(new reportClass(doctor,title,date[0],id,image,type,category,observation));
+                                matcher.put(date[0],ll);
                             }
                         }
                         list2=new ArrayList<>();

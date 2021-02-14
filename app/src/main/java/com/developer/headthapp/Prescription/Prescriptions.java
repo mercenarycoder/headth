@@ -314,12 +314,12 @@ Button add_prescription,remove_prescription,previous;
                         data_cont.add(doctor);
                         String observation=object.getString("observation");
                         data_cont.add(observation);
-                        String date=object.getString("date");
-                        data_cont.add(date);
+                        String date[]=object.getString("date").split("T");
+                        data_cont.add(date[0]);
                         String id=object.getString("id");
                         String image=object.getString("image");
                         counter.add(i);
-                        list2.add(new presClass(title,date,doctor,image,id,observation));
+                        list2.add(new presClass(title,date[0],doctor,image,id,observation));
                     }
                         adapter=new dashboard2(list2,context);
                         previous_pres.setHasFixedSize(true);
