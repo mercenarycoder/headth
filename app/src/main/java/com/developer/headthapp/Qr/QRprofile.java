@@ -135,7 +135,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        finish();
+//                                        finish();
                                     }
                                 });
                         builder.create();
@@ -171,7 +171,6 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
             String method=networkData.getQR;
             String url=base+method;
             String uploadId= UUID.randomUUID().toString();
-
             String json=new JsonParser().getCompleteHealth(url,mobile,access);
             return json;
         }
@@ -193,7 +192,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                         String blood2=object1.getString("blood");
                         String dob=object1.getString("dob");
                         String arr[]=dob.split("/");
-                        String age2=getAge(Integer.parseInt("20"+arr[2]),Integer.parseInt(arr[0]),Integer.parseInt(arr[1]));
+                        String age2=getAge(Integer.parseInt(arr[2]),Integer.parseInt(arr[1]),Integer.parseInt(arr[0]));
                         age.setText(age2);
                         blood.setText(blood2);
                         list_m=new ArrayList<>();

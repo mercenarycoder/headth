@@ -240,15 +240,16 @@ public class QrScanner extends AppCompatActivity {
                                 if(o!=null)
                                 {
                                     Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
-                                    System.out.println(o);
+                                    System.out.println(o.getLatitude()+" "+o.getLongitude());
                                     barcodeDetector.release();
                                     numberF=barcodes.valueAt(0).displayValue;
                                     Toast.makeText(context,numberF,Toast.LENGTH_SHORT).show();
                                     Intent intent=new Intent(context,QRprofile.class);
                                     intent.putExtra("mobile",numberF);
                                     intent.putExtra("access",accessF);
-                                    intent.putExtra("longitude",o.getLongitude());
-                                    intent.putExtra("latitude",o.getLatitude());
+
+                                    intent.putExtra("longitude",String.valueOf(o.getLongitude()));
+                                    intent.putExtra("latitude",String.valueOf(o.getLatitude()));
                                     startActivity(intent);
                                 }
                                 else
