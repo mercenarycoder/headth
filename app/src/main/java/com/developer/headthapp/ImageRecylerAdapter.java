@@ -61,6 +61,7 @@ public class ImageRecylerAdapter extends RecyclerView.Adapter<ImageRecylerAdapte
             public void onClick(View view) {
                 Name=adapter.getId();
                 actualPosition=holder.getAdapterPosition();
+                
                 new removeData().execute();
 //                Toast.makeText(context,"This will remove item",Toast.LENGTH_SHORT).show();
             }

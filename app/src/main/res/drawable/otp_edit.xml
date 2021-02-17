@@ -13,5 +13,10 @@
                 android:top="4dp" />
         </shape>
     </item>
-
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="100dp" />
+            <solid android:color="#BD1717" />
+        </shape>
+    </item>
 </selector>

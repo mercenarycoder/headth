@@ -159,7 +159,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                         myCalendar.set(Calendar.YEAR, year);
                         myCalendar.set(Calendar.MONTH, monthOfYear);
                         myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String myFormat = "dd/MM/YYYY"; //In which you need put here
+                        String myFormat = "dd-MM-YYYY"; //In which you need put here
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                         date.setText(sdf.format(myCalendar.getTime()));
                     }
@@ -187,7 +187,7 @@ public class PrescriptionAdd extends AppCompatActivity {
             public void onClick(View view) {
                titleF=title.getText().toString();
                dateF=date.getText().toString();
-               String mod[]=dateF.split("/");
+               String mod[]=dateF.split("-");
                dateF=mod[2]+"-"+mod[1]+"-"+mod[0];
                docF=doc_name.getText().toString();
                observationF=observation.getText().toString();

@@ -181,7 +181,7 @@ String mode="new";
                         myCalendar.set(Calendar.YEAR, year);
                         myCalendar.set(Calendar.MONTH, monthOfYear);
                         myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String myFormat = "dd/MM/YYYY"; //In which you need put here
+                        String myFormat = "dd-MM-YYYY"; //In which you need put here
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                         date.setText(sdf.format(myCalendar.getTime()));
                     }
@@ -210,7 +210,7 @@ String mode="new";
              titleF=title.getText().toString();
              observerF=observer.getText().toString();
              dateF=date.getText().toString();
-                String mod[]=dateF.split("/");
+                String mod[]=dateF.split("-");
                 dateF=mod[2]+"-"+mod[1]+"-"+mod[0];
              detailF=detail.getText().toString();
              if(titleF.isEmpty())
