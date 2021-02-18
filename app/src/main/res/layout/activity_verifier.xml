@@ -26,9 +26,9 @@
         <EditText
             android:layout_width="63dp"
             android:layout_height="59dp"
-            android:id="@+id/edit1"
+            android:id="@+id/edit11"
             android:background="@drawable/otp_edit"
-            android:inputType="none"
+            android:inputType="text"
             android:maxLength="1"
             android:textColorHint="@color/colorPrimary"
             android:maxLines="1"
