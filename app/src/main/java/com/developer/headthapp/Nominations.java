@@ -18,6 +18,7 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.Verifier;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -618,7 +619,7 @@ Toast.makeText(context,"Some error here",Toast.LENGTH_SHORT).show();
                     final String responce2=String.valueOf(jsonObject.get("msg"));
                     if(responce.equals("1"))
                     {
-                        Intent intent=new Intent(Nominations.this,HealthCart.class);
+                        Intent intent=new Intent(Nominations.this, Verifier.class);
                         startActivity(intent);
                         finish();
                     }

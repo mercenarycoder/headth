@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.Verifier;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -66,7 +67,7 @@ public class LoginUser extends AppCompatActivity {
         if(mAuth.getCurrentUser()!=null&&checker.getString("personal","no").equals("done")
                 &&checker.getString("emergency","no").equals("done"))
         {
-         Intent intent=new Intent(LoginUser.this,HealthCart.class);
+         Intent intent=new Intent(LoginUser.this, Verifier.class);
          startActivity(intent);
          finish();
         }
@@ -199,12 +200,12 @@ public class LoginUser extends AppCompatActivity {
             //waitingDialog.dismiss();
         }
         else {
-            edit1.setText(code.charAt(0));
-            edit2.setText(code.charAt(1));
-            edit3.setText(code.charAt(2));
-            edit4.setText(code.charAt(3));
-            edit5.setText(code.charAt(4));
-            edit6.setText(code.charAt(5));
+            edit1.setText("*");
+            edit2.setText("*");
+            edit3.setText("*");
+            edit4.setText("*");
+            edit5.setText("*");
+            edit6.setText("*");
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeSent, code);
             signInWithPhoneAuthCredential(credential);
         }
@@ -268,6 +269,10 @@ public class LoginUser extends AppCompatActivity {
 //                        startActivity(intent);
 //                        finish();
                         account=true;
+                        editor2.putString("personal","done");
+                        editor2.putString("emergency","done");
+                        editor2.apply();
+                        editor2.commit();
                     }
                     else
                     {

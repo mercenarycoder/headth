@@ -37,11 +37,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".ApiMethods.Verifier">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".NotificationsDir.NotificationLayout" />
         <activity android:name=".WiproId" />
@@ -54,7 +50,11 @@
         <activity android:name=".Qr.QrScanner" />
         <activity android:name=".Qr.QRone" />
         <activity android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".Prescription.PrescriptionAdd" />
         <activity android:name=".Report.ReportAdd" />
