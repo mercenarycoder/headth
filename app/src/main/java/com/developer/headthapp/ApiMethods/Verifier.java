@@ -22,8 +22,10 @@ import com.developer.headthapp.HealthCart;
 import com.developer.headthapp.LoginUser;
 import com.developer.headthapp.Nominations;
 import com.developer.headthapp.R;
+import com.developer.headthapp.Setting;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.UUID;
@@ -37,6 +39,7 @@ SharedPreferences preferences;
 SharedPreferences.Editor editor;
 Button delete;
 Context context;
+String account;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 ProgressDialog progressDialog;
     @Override
@@ -44,7 +47,7 @@ ProgressDialog progressDialog;
         super.onCreate(savedInstanceState);
         preferences=getSharedPreferences("basicinfo",Context.MODE_PRIVATE);
         editor=preferences.edit();
-
+        account=preferences.getString("account","not done");
         setContentView(R.layout.activity_verifier);
         context=Verifier.this;
         progressDialog=new ProgressDialog(context);
@@ -55,6 +58,12 @@ ProgressDialog progressDialog;
         if(preferences.getString("otp","not done").equals("done"))
         {
             first="no";
+        }
+        else if(account.equals("done"))
+        {
+            new deleteOtp().execute();
+            title.setText("Please Choose Otp");
+            first="yes";
         }
         else
         {
@@ -453,5 +462,48 @@ ProgressDialog progressDialog;
             }
         }
     }
+    private class deleteOtp extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.show();
+        }
 
+        @Override
+        protected String doInBackground(String... strings) {
+            String base= networkData.url;
+            String method=networkData.deleteOtp;
+            String url=base+method;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String uploadId= UUID.randomUUID().toString();
+            String json=new JsonParser().deleteOtp(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+            if(s!=null)
+            {
+                try{
+                    JSONObject obj=new JSONObject(s);
+                    String status=String.valueOf(obj.get("status"));
+                    if(status.equals("1"))
+                    {
+                     Toast.makeText(context,"Previous otp cleared",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Please check internet connection",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

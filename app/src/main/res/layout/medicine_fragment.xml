@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="360dp"
-        android:background="@drawable/back_new"
+        android:background="@color/white"
         android:layout_height="400dp">
     <LinearLayout
     android:layout_width="360dp"

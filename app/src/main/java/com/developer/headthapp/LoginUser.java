@@ -275,6 +275,7 @@ public class LoginUser extends AppCompatActivity {
                         Toast.makeText(context,"Account Found",Toast.LENGTH_SHORT).show();
                         account=true;
                         editor2.putString("personal","done");
+                        editor2.putString("account","done");
                         editor2.putString("emergency","done");
                         editor2.apply();
                         editor2.commit();
