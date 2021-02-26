@@ -120,6 +120,22 @@ ImageButton filter;
         LinearLayout dental =(LinearLayout)dialog.findViewById(R.id.dental);
         LinearLayout xray=(LinearLayout)dialog.findViewById(R.id.xray);
         LinearLayout all=(LinearLayout)dialog.findViewById(R.id.all);
+        TextView latest=(TextView)dialog.findViewById(R.id.latest);
+        TextView oldest=(TextView)dialog.findViewById(R.id.oldest);
+        latest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new getReports().execute();
+                dialog.dismiss();
+            }
+        });
+        oldest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new getReverseReports().execute();
+                dialog.dismiss();
+            }
+        });
         eye.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -305,6 +321,156 @@ public void transformList(String str)
         nop.setVisibility(View.VISIBLE);
     }
 }
+public class getReverseReports extends AsyncTask<String,String,String>
+{
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage("Sending information");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            progressDialog.show();
+    }
+    @Override
+    protected String doInBackground(String... strings) {
+        new networkData();
+        String base= networkData.url;
+        String method=networkData.getReverseReports;
+        String url=base+method;
+        String number=mauth.getCurrentUser().getPhoneNumber();
+        number=number.substring(3,number.length());
+        String uploadId= UUID.randomUUID().toString();
+        String json=new JsonParser().viewOffer(url,number);
+        return json;
+    }
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        progressDialog.dismiss();
+        if(null!=result)
+        {
+            try
+            {
+                list=new ArrayList<>();
+                JSONObject jsonObject = new JSONObject(result);
+                matcher=new HashMap<>();
+                final String responce = String.valueOf(jsonObject.get("status"));
+                // final String responce2=String.valueOf(jsonObject.get("msg"));
+                if(responce.equals("1"))
+                {
+                    JSONArray data=jsonObject.getJSONArray("data");
+                    for(int i=0;i<data.length();i++)
+                    {
+                        JSONObject object = data.getJSONObject(i);
+                        String title=object.getString("title");
+                        String doctor=object.getString("observer");
+                        String observation=object.getString("details");
+                        String date[]=object.getString("date").split("T");
+                        String id=object.getString("id");
+                        String type = object.getString("type");
+                        String image=object.getString("link");
+                        String category=object.getString("category");
+                        list.add(new reportClass(doctor,title,date[0],id,image,type,category,observation));
+                        if(matcher.containsKey(date[0]))
+                        {
+                            ArrayList<reportClass> ll=matcher.get(date[0]);
+                            ll.add(new reportClass(doctor,title,date[0],id,image,type,category,observation));
+                        }
+                        else
+                        {
+                            ArrayList<reportClass> ll=new ArrayList<>();
+                            ll.add(new reportClass(doctor,title,date[0],id,image,type,category,observation));
+                            matcher.put(date[0],ll);
+                        }
+                    }
+                    list2=new ArrayList<>();
+                    for(Map.Entry<String,ArrayList<reportClass>> entry:matcher.entrySet())
+                    {
+                        String main=entry.getKey();
+                        ArrayList<reportClass> ll=entry.getValue();
+                        list3=new ArrayList<>();
+                        for(int i=0;i<ll.size();i=i+3)
+                        {
+                            reportClass m1=ll.get(i);
+                            reportClass m2,m3;
+                            if(i+1<ll.size()) {
+                                m2 = ll.get(i + 1);
+                            }
+                            else
+                            {
+                                m2 = new reportClass("null","null","","","","","","");
+                            }
+                            if(i+2<ll.size()) {
+                                m3 = ll.get(i + 1);
+                            }
+                            else
+                            {
+                                m3 = new reportClass("null","null","","","","","","");
+                            }
+                            list3.add(new reportOf3(m1,m2,m3));
+                        }
+                        list2.add(new bundleReport(main,list3));
+                    }
+                    previous_report.setLayoutManager(new LinearLayoutManager(context));
+                    previous_report.setHasFixedSize(true);
+                    adapter=new dateReportAdapter(list2,context);
+                    previous_report.setAdapter(adapter);
+                    if(list2.size()>0)
+                    {
+                        nop.setVisibility(View.INVISIBLE);
+                    }
+                    else
+                    {
+                        nop.setVisibility(View.VISIBLE);
+                    }
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage("Some Error in fetching info please swipe to refresh")
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    final String responce2=String.valueOf(jsonObject.get("msg"));
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Update")
+                            .setMessage(responce2)
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
+                catch (Exception r)
+                {
+
+                }
+            }
+        }
+        //Toast.makeText(signup_Activity.this, "something missing", Toast.LENGTH_SHORT).show();
+        else
+        {
+            Toast.makeText(context,"please check details and try again",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+ }
+
     public class getReports extends AsyncTask<String,String,String>
     {
         @Override

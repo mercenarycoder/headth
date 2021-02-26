@@ -223,6 +223,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/dm_font"
             android:textSize="13sp"
+            android:id="@+id/latest"
             android:textColor="#000"
             android:gravity="center"/>
         <TextView
@@ -232,6 +233,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/dm_font"
             android:textSize="13sp"
+            android:id="@+id/oldest"
             android:textColor="#000"
             android:gravity="center"/>
         <TextView

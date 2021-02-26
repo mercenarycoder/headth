@@ -43,7 +43,7 @@ public class LoginUser extends AppCompatActivity {
     ImageButton start;
     String numberP;
     FirebaseAuth mAuth;
-    Context context;
+    Context context=LoginUser.this;
     String codeSent;
     String phonenum;
     boolean account=false;
@@ -74,6 +74,8 @@ public class LoginUser extends AppCompatActivity {
         else if(mAuth.getCurrentUser()!=null&&checker.getString("personal","no").equals("done")&&
                 checker.getString("emergency","no").equals("no"))
         {
+
+            Toast.makeText(context,"emergency finder",Toast.LENGTH_SHORT).show();
          Intent intent=new Intent(LoginUser.this,EmergencyContacts.class);
             intent.putExtra("edit","false");
          startActivity(intent);
@@ -82,6 +84,7 @@ public class LoginUser extends AppCompatActivity {
         else if(mAuth.getCurrentUser()!=null&&checker.getString("personal","no").equals("no")
                 &&checker.getString("emergency","no").equals("no"))
         {
+            Toast.makeText(context,"profile finder",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(LoginUser.this,ProfileUpdate.class);
             intent.putExtra("edit","false");
             startActivity(intent);
@@ -123,7 +126,7 @@ public class LoginUser extends AppCompatActivity {
                 if(str.length()==10)
                 {
                     numberP=str;
-                    sendVerificationCode();
+
                     new checkAccount().execute();
                 }
                 else
@@ -239,11 +242,11 @@ public class LoginUser extends AppCompatActivity {
     {
         @Override
         protected void onPreExecute() {
-//            progressDialog=new ProgressDialog(context);
-//            progressDialog.setMessage("Sending information");
-//            progressDialog.setCanceledOnTouchOutside(false);
-//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//            progressDialog.show();
+            progressDialog=new ProgressDialog(context);
+            progressDialog.setMessage("Sending information");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
             super.onPreExecute();
         }
 
@@ -257,7 +260,7 @@ public class LoginUser extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-//            progressDialog.dismiss();
+            progressDialog.dismiss();
             if(s!=null)
             {
                 try{
@@ -268,11 +271,14 @@ public class LoginUser extends AppCompatActivity {
 //                        Intent intent=new Intent(LoginUser.this, HealthCart.class);
 //                        startActivity(intent);
 //                        finish();
+
+                        Toast.makeText(context,"Account Found",Toast.LENGTH_SHORT).show();
                         account=true;
                         editor2.putString("personal","done");
                         editor2.putString("emergency","done");
                         editor2.apply();
                         editor2.commit();
+                        sendVerificationCode();
                     }
                     else
                     {
@@ -280,6 +286,9 @@ public class LoginUser extends AppCompatActivity {
 //                        intent.putExtra("edit","false");
 //                        startActivity(intent);
 //                        finish();
+
+                        Toast.makeText(context,"Account Not found",Toast.LENGTH_SHORT).show();
+                        sendVerificationCode();
                         account=false;
                     }
                 } catch (Exception e) {

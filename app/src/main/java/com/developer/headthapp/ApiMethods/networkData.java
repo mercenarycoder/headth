@@ -52,4 +52,5 @@ public class networkData {
     public static String updateOtp="/updateOtp";
     public static String checkotp="/checkOtp";
     public static String deleteOtp="/deleteOtp";
+    public static String getReverseReports="/getReverseReports";
 }

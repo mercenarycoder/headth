@@ -125,7 +125,7 @@ ProgressDialog progressDialog;
                  }
                  else
                  {
-
+                    Toast.makeText(context,"Failed to logout please try again",Toast.LENGTH_SHORT).show();
                  }
              } catch (JSONException e) {
                  e.printStackTrace();
