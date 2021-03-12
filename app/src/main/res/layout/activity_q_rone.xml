@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_new"
+    android:background="@color/white"
     tools:context=".Qr.QRone">
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,6 +102,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
+        android:background="#0DFFFFFF"
         android:fitsSystemWindows="true"
         />
         <TextView

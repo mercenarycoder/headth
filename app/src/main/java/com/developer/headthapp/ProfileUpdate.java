@@ -15,12 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +53,10 @@ public class ProfileUpdate extends AppCompatActivity {
     Button verify;
     Context context;
     ProgressDialog dialog;
-    TextView name,dob,height,weight,blood;
+    TextView name,dob;
+    Spinner height,weight,blood;
+    SpinnerAdapter2 adapterH,adapterW,adapterB;
+    ArrayList<SpinnerClass> listH,listW,listB;
     FirebaseAuth mauth;
     String nameS,dobS,heightS,weightS,bloodS,edit="false";
     SharedPreferences checker;
@@ -70,44 +75,97 @@ Calendar myCalendar;
         name=(TextView) findViewById(R.id.name);
         dob=(TextView) findViewById(R.id.dob);
         myCalendar=Calendar.getInstance();
-        height=(TextView) findViewById(R.id.height);
-        height.setInputType(TYPE_NULL);
-        height.setOnClickListener(new View.OnClickListener() {
+        formHeight();
+        formBlood();
+        formWeight();
+        height=(Spinner) findViewById(R.id.height);
+        adapterH=new SpinnerAdapter2(context,listH);
+        height.setAdapter(adapterH);
+        height.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                formHeight();
-                dialogShower("Choose Height",options);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                SpinnerClass item= (SpinnerClass) adapterView.getSelectedItem();
+                heightS=item.getId();
+//                Toast.makeText(context,heightS,Toast.LENGTH_SHORT).show();
             }
-        });
-        weight=(TextView) findViewById(R.id.weight);
-//        weight.setInputType(NULL);
-        weight.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                formWeight();
-                dialogShower("Your Weight Approx",options);
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
-        blood=(TextView) findViewById(R.id.blood);
-//        blood.setInputType(NULL);
-        blood.setOnClickListener(new View.OnClickListener() {
+        weight=(Spinner) findViewById(R.id.weight);
+        adapterW=new SpinnerAdapter2(context,listW);
+        weight.setAdapter(adapterW);
+        weight.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                formBlood();
-                dialogShower("Your Blood Group",options);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                SpinnerClass item= (SpinnerClass) adapterView.getSelectedItem();
+                weightS=item.getId();
+//                Toast.makeText(context,heightS,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
+
+        blood=(Spinner) findViewById(R.id.blood);
+        adapterB=new SpinnerAdapter2(context,listB);
+        blood.setAdapter(adapterB);
+        blood.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                SpinnerClass item= (SpinnerClass) adapterView.getSelectedItem();
+                bloodS=item.getId();
+//                Toast.makeText(context,heightS,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         verify=(Button)findViewById(R.id.verify);
         if(edit.equals("true"))
         {
             nameS=intent.getStringExtra("name");
             name.setText(nameS);
             dob.setText(intent.getStringExtra("dob"));
-            height.setText(intent.getStringExtra("height"));
-            weight.setText(intent.getStringExtra("weight"));
-            blood.setText(intent.getStringExtra("blood"));
-
+            String ss=intent.getStringExtra("height");
+            String sw=intent.getStringExtra("weight");
+            String sb=intent.getStringExtra("blood");
+            int x=0,y=0,z=0;
+            for(int i=0;i<listH.size();i++)
+            {
+                SpinnerClass item=listH.get(i);
+                if(item.getId().equals(ss))
+                {
+                    x=i;
+                }
+            }
+            for(int i=0;i<listW.size();i++)
+            {
+                SpinnerClass item=listW.get(i);
+                if(item.getId().equals(sw))
+                {
+                    y=i;
+                }
+            }
+            for(int i=0;i<listB.size();i++)
+            {
+                SpinnerClass item=listB.get(i);
+                if(item.getId().equals(sb))
+                {
+                    z=i;
+                }
+            }
+            height.setSelection(x);
+            weight.setSelection(y);
+            blood.setSelection(z);
         }
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,9 +173,9 @@ Calendar myCalendar;
 
                 nameS=name.getText().toString();
                 dobS=dob.getText().toString();
-                heightS=height.getText().toString();
-                weightS=weight.getText().toString();
-                bloodS=blood.getText().toString();
+//                heightS=height.getText().toString();
+//                weightS=weight.getText().toString();
+//                bloodS=blood.getText().toString();
 //                Intent intent=new Intent(ProfileUpdate.this, Nominations.class);
 //                startActivity(intent);
 //                finish();
@@ -156,91 +214,91 @@ Calendar myCalendar;
     }
     public void formHeight()
     {
-        options=new ArrayList<>();
+        listH=new ArrayList<>();
         for(int i=120;i<240;i++)
         {
-            options.add(String.valueOf(i)+" cms");
+            listH.add(new SpinnerClass(String.valueOf(i) ,i+" cms"));
         }
     }
     public void formWeight()
     {
-        options=new ArrayList<>();
+        listW=new ArrayList<>();
         for(int i=30;i<120;i++)
         {
-            options.add(String.valueOf(i)+" kgs");
+            listW.add(new SpinnerClass(String.valueOf(i),i+" kgs"));
         }
     }
     public void formBlood()
     {
-        options=new ArrayList<>();
-        options.add("O+");
-        options.add("A+");
-        options.add("B+");
-        options.add("O-");
-        options.add("A-");
-        options.add("AB+");
-        options.add("AB-");
-        options.add("B-");
+        listB=new ArrayList<>();
+        listB.add(new SpinnerClass("O+","O+"));
+        listB.add(new SpinnerClass("A+","A+"));
+        listB.add(new SpinnerClass("B+","B+"));
+        listB.add(new SpinnerClass("O-","O-"));
+        listB.add(new SpinnerClass("A-","A-"));
+        listB.add(new SpinnerClass("AB+","AB+"));
+        listB.add(new SpinnerClass("AB-","AB-"));
+        listB.add(new SpinnerClass("B-","B-"));
     }
     ArrayList<String> options;
     Dialog dialog2;
-    public void dialogShower(String head,ArrayList<String> chose)
-    {
-        dialog2= new Dialog(ProfileUpdate.this, 0);
-        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog2.setCancelable(false);
-        dialog2.setContentView(R.layout.dialog_chooser);
-        ImageButton close_btn2=(ImageButton)dialog2.findViewById(R.id.close_but);
-        final TextView name=(TextView)dialog2.findViewById(R.id.option);
-        name.setText(head);
-        close_btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog2.dismiss();
-            }
-        });
-        RecyclerView options=(RecyclerView)dialog2.findViewById(R.id.options);
-        dashmainadapter adapter=new dashmainadapter(chose,context) {
-            @NonNull
-            @Override
-            public viewholder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return super.onCreateViewHolder(parent, viewType);
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull viewholder1 holder, int position) {
-                super.onBindViewHolder(holder, position);
-                holder.name.setText(chose.get(position));
-                holder.layout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if(head.contains("Weight"))
-                        {
-                            weight.setText(chose.get(position).substring(0,3));
-                        }
-                        if(head.contains("Height"))
-                        {
-                            height.setText(chose.get(position).substring(0,3));
-                        }
-                        if(head.contains("Blood"))
-                        {
-                            blood.setText(chose.get(position));
-                        }
-                        dialog2.dismiss();
-                    }
-                });
-            }
-
-            @Override
-            public int getItemCount() {
-                return super.getItemCount();
-            }
-        };
-        options.setLayoutManager(new LinearLayoutManager(context));
-        options.setHasFixedSize(true);
-        options.setAdapter(adapter);
-        dialog2.show();
-    }
+//    public void dialogShower(String head,ArrayList<String> chose)
+//    {
+//        dialog2= new Dialog(ProfileUpdate.this, 0);
+//        dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog2.setCancelable(false);
+//        dialog2.setContentView(R.layout.dialog_chooser);
+//        ImageButton close_btn2=(ImageButton)dialog2.findViewById(R.id.close_but);
+//        final TextView name=(TextView)dialog2.findViewById(R.id.option);
+//        name.setText(head);
+//        close_btn2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialog2.dismiss();
+//            }
+//        });
+//        RecyclerView options=(RecyclerView)dialog2.findViewById(R.id.options);
+//        dashmainadapter adapter=new dashmainadapter(chose,context) {
+//            @NonNull
+//            @Override
+//            public viewholder1 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                return super.onCreateViewHolder(parent, viewType);
+//            }
+//
+//            @Override
+//            public void onBindViewHolder(@NonNull viewholder1 holder, int position) {
+//                super.onBindViewHolder(holder, position);
+//                holder.name.setText(chose.get(position));
+//                holder.layout.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        if(head.contains("Weight"))
+//                        {
+//                            weight.setText(chose.get(position).substring(0,3));
+//                        }
+//                        if(head.contains("Height"))
+//                        {
+//                            height.setText(chose.get(position).substring(0,3));
+//                        }
+//                        if(head.contains("Blood"))
+//                        {
+//                            blood.setText(chose.get(position));
+//                        }
+//                        dialog2.dismiss();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public int getItemCount() {
+//                return super.getItemCount();
+//            }
+//        };
+//        options.setLayoutManager(new LinearLayoutManager(context));
+//        options.setHasFixedSize(true);
+//        options.setAdapter(adapter);
+//        dialog2.show();
+//    }
     public abstract class dashmainadapter extends RecyclerView.Adapter<dashmainadapter.viewholder1>{
         ArrayList<String> list;
         Context context;

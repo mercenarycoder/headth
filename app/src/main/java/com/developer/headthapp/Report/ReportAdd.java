@@ -2,9 +2,11 @@ package com.developer.headthapp.Report;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -13,6 +15,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -80,7 +83,9 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
 String titleF,observerF,dateF,detailF,typeF,base65,reportType=null,idF,category;
 Context context;
 boolean imgChoosed=false,pdfChoosed=false;
-String mode="new";
+boolean pdfChecker=false,imgCheck=false;
+
+    String mode="new";
     public static String imagePaths;
     public String nameF;
     @Override
@@ -312,23 +317,48 @@ String mode="new";
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openFileChooser();
                 dialog.dismiss();
+                if(!pdfChecker) {
+                    openFileChooser();
+                }
+                else
+                {
+                    Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             openPdfChooser();
-             dialog.dismiss();
+                dialog.dismiss();
+                if(!imgCheck) {
+                    openPdfChooser();
+                }
+                else
+                {
+                    Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             Intent cam=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-             startActivityForResult(cam,9);
-             dialog.dismiss();
+                dialog.dismiss();
+                if(!pdfChecker) {
+                    if (ActivityCompat.checkSelfPermission(ReportAdd.this, Manifest.permission.CAMERA) ==
+                            PackageManager.PERMISSION_GRANTED) {
+                        Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(cam, 9);
+                    } else {
+                        ActivityCompat.requestPermissions(ReportAdd.this, new
+                                String[]{Manifest.permission.CAMERA}, 34);
+                        Toast.makeText(ReportAdd.this, "Click on allow and then choose the camera option again", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         dialog.show();
@@ -350,6 +380,7 @@ String mode="new";
             typeF=".pdf";
             String uploadId= UUID.randomUUID().toString();
             nameF=uploadId;
+            pdfChecker=true;
             new uploadData().execute();
         }
         if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK)
@@ -385,6 +416,7 @@ String mode="new";
                     base65=base65.substring(0,base65.length()-11);
                     nameF=nameF.substring(0,nameF.length()-11);
                 }
+                imgCheck=true;
                 new uploadData().execute();
             }
             //path=getPath(imageuri);
@@ -406,6 +438,7 @@ String mode="new";
                     //                Log.d("image ", "doInBackground: "+convertImage);
                     String uploadId = UUID.randomUUID().toString();
                     nameF = uploadId;
+                    imgCheck=true;
                     new uploadData().execute();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -432,6 +465,7 @@ String mode="new";
                 //                Log.d("image ", "doInBackground: "+convertImage);
                 String uploadId= UUID.randomUUID().toString();
                 nameF=uploadId;
+                imgCheck=true;
                 new uploadData().execute();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -57,7 +57,6 @@ public class FromNotificationclass extends BroadcastReceiver
             SharedPreferences preferences=context.getApplicationContext().
                     getSharedPreferences("login_details",context.getApplicationContext().MODE_PRIVATE);
 
-            String staff_id=preferences.getString("user_id2","2");
             String data=new JsonParser().viewOffer(url,"7389438159");;
 
             return data;

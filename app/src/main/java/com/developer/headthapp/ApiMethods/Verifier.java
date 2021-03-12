@@ -304,22 +304,11 @@ ProgressDialog progressDialog;
                     String msg=String.valueOf(object.get("msg"));
                     if(status.equals("1"))
                     {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setTitle("Update")
-                                .setMessage(msg)
-                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        editor.putString("otp","done");
-//                                        editor.apply();
-//                                        editor.commit();
-                                        Intent intent=new Intent(Verifier.this, HealthCart.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                });
-                        builder.create();
-                        builder.show();
+
+                      Intent intent=new Intent(Verifier.this, HealthCart.class);
+                      startActivity(intent);
+                      finish();
+
                     }
                     else
                     {
@@ -329,6 +318,11 @@ ProgressDialog progressDialog;
                                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
+                          otp="";
+                          edit1.setText("");
+                          edit2.setText("");
+                          edit3.setText("");
+                          edit4.setText("");
                           Toast.makeText(context,"Otp not identified",Toast.LENGTH_SHORT).show();
                                     }
                                 });

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="340dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#88FFFFFF"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Terms &amp; Conditions"
+            android:fontFamily="@font/dm_font"
+            android:textColor="#000"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingStart="17dp"
+            android:gravity="center|left"/>
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2.9"
+            android:background="@drawable/main_base_btn"
+            android:id="@+id/close_btn2"
+            android:src="@drawable/ic_close"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:text="@string/phn_auth"
+        android:fontFamily="@font/dm_font"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:paddingStart="17dp"
+        android:gravity="center"/>
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:background="@drawable/btn2"
+        android:text="I Accept"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:id="@+id/accept"/>
+</LinearLayout>

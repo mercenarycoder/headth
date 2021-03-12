@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -53,6 +55,7 @@ public class LoginUser extends AppCompatActivity {
     SharedPreferences.Editor editor,editor2;
 
     LinearLayout otp_layout,main_layout;
+    Dialog dialog;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,8 +129,26 @@ public class LoginUser extends AppCompatActivity {
                 if(str.length()==10)
                 {
                     numberP=str;
-
-                    new checkAccount().execute();
+                    dialog=new Dialog(context, 0);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.dialog_phone);
+                    Button accept=dialog.findViewById(R.id.accept);
+                    accept.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                            new checkAccount().execute();
+                        }
+                    });
+                    ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);
+                    close_btn2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
                 }
                 else
                 {
@@ -157,6 +178,7 @@ public class LoginUser extends AppCompatActivity {
         }
 
         if(phone.length() < 10 ){
+
             number.setError("Please enter a valid phone");
             number.requestFocus();
             return;

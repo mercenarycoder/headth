@@ -249,7 +249,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                 }
                 else
                 {
-
+               Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -262,7 +262,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                 }
                 else
                 {
-
+                    Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -283,7 +283,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                }
                else
                {
-
+                   Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
                }
             }
         });
@@ -373,6 +373,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                     imageF=imageF.substring(0,imageF.length()-11);
                     nameF=nameF.substring(0,nameF.length()-11);
                 }
+                imgCheck=true;
                 new uploadData().execute();
             }
             //path=getPath(imageuri);
@@ -419,6 +420,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                //keep this much code to make it dynamic
                 String uploadId= UUID.randomUUID().toString();
                 nameF=uploadId;
+                imgCheck=true;
                 new uploadData().execute();
 
                 //till here
