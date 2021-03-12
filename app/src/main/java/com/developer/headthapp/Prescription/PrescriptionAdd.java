@@ -188,7 +188,9 @@ public class PrescriptionAdd extends AppCompatActivity {
                titleF=title.getText().toString();
                dateF=date.getText().toString();
                String mod[]=dateF.split("-");
-               dateF=mod[2]+"-"+mod[1]+"-"+mod[0];
+               if(mod[0].length()==2) {
+                   dateF = mod[2] + "-" + mod[1] + "-" + mod[0];
+               }
                docF=doc_name.getText().toString();
                observationF=observation.getText().toString();
                if(list.size()<=0)

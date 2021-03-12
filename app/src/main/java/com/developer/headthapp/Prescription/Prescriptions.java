@@ -52,7 +52,7 @@ SwipeRefreshLayout refresh;
 static boolean adding=false;
 boolean searched=false;
 DeleteClass dd=new DeleteClass("fdfd");
-ProgressDialog progressDialog;
+//ProgressDialog //progressDialog;
 TextView nop;
 Button add_prescription,remove_prescription,previous;
     @Override
@@ -110,6 +110,13 @@ Button add_prescription,remove_prescription,previous;
                 dialog.setContentView(R.layout.dialog_delete);
                 Button yes=dialog.findViewById(R.id.yes);
                 Button no=dialog.findViewById(R.id.no);
+                ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);
+                close_btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
                 yes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -208,9 +215,9 @@ Button add_prescription,remove_prescription,previous;
        if(adding)
        {
            adding=false;
-           new getallPres().execute();
        }
-           super.onResume();
+        new getallPres().execute();
+        super.onResume();
     }
 
     @Override
@@ -228,7 +235,7 @@ Button add_prescription,remove_prescription,previous;
     {
         @Override
         protected void onPreExecute() {
-          progressDialog.show();
+          //progressDialog.show();
             super.onPreExecute();
         }
 
@@ -255,7 +262,7 @@ Button add_prescription,remove_prescription,previous;
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
             if(s!=null)
             {
                 try{
@@ -287,11 +294,11 @@ Button add_prescription,remove_prescription,previous;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog=new ProgressDialog(context);
-            progressDialog.setMessage("Sending information");
-            progressDialog.setCanceledOnTouchOutside(false);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.show();
+            //progressDialog=new ProgressDialog(context);
+            //progressDialog.setMessage("Sending information");
+            //progressDialog.setCanceledOnTouchOutside(false);
+            //progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            //progressDialog.show();
         }
 
         @Override
@@ -311,7 +318,7 @@ Button add_prescription,remove_prescription,previous;
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
             if(null!=result)
             {
                 try

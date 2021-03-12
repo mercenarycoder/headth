@@ -105,6 +105,13 @@ ImageButton filter;
                 dialog.setContentView(R.layout.dialog_delete);
                 Button yes=dialog.findViewById(R.id.yes);
                 Button no=dialog.findViewById(R.id.no);
+                ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);
+                close_btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
                 yes.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -215,8 +222,8 @@ ImageButton filter;
         if(adding)
         {
             adding=false;
-            new getReports().execute();
         }
+        new getReports().execute();
         super.onResume();
     }
     public class deleteItems extends AsyncTask<String,String,String>

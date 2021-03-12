@@ -216,7 +216,9 @@ boolean pdfChecker=false,imgCheck=false;
              observerF=observer.getText().toString();
              dateF=date.getText().toString();
                 String mod[]=dateF.split("-");
-                dateF=mod[2]+"-"+mod[1]+"-"+mod[0];
+                if(mod[0].length()==2) {
+                    dateF = mod[2] + "-" + mod[1] + "-" + mod[0];
+                }
              detailF=detail.getText().toString();
              if(titleF.isEmpty())
              {
