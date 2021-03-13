@@ -334,6 +334,8 @@
         android:textColor="@color/black"
         android:textAllCaps="false"
         android:textSize="16sp"
+        android:visibility="invisible"
+        android:enabled="false"
         android:layout_weight="1"
         android:id="@+id/reset"
        />
@@ -346,7 +348,10 @@
             android:background="#0FFFFFFF"
             android:textColor="@color/black"
             android:textAllCaps="false"
-            android:textSize="16sp"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:gravity="right"
+            android:paddingEnd="10dp"
             android:id="@+id/delete"
             />
     </LinearLayout>

@@ -56,7 +56,7 @@ DeleteClass dd=new DeleteClass("fbfd");
 ProgressDialog progressDialog;
 SwipeRefreshLayout refresh;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
-Button add_report,remove_report;
+Button add_report,remove_report,previous;
 ImageButton filter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +64,18 @@ ImageButton filter;
         setContentView(R.layout.activity_report);
         back=(ImageButton)findViewById(R.id.back);
         context=ReportActivity.this;
+        //previous button functionality
+        previous=(Button)findViewById(R.id.previous);
+        previous.setVisibility(View.INVISIBLE);
+        previous.setEnabled(false);
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new getReports().execute();
+                previous.setVisibility(View.INVISIBLE);
+                previous.setEnabled(false);
+            }
+        });
         refresh=(SwipeRefreshLayout)findViewById(R.id.refresh);
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -340,11 +352,17 @@ public void transformList(String str)
     previous_report.setAdapter(adapter);
     if(list2.size()>0)
     {
+        nop.setText("Searched for "+str);
         nop.setVisibility(View.INVISIBLE);
+        previous.setVisibility(View.INVISIBLE);
     }
     else
     {
+
+        nop.setText("Searched for "+str);
         nop.setVisibility(View.VISIBLE);
+        previous.setVisibility(View.VISIBLE);
+        previous.setEnabled(true);
     }
 }
 public class getReverseReports extends AsyncTask<String,String,String>
@@ -445,10 +463,14 @@ public class getReverseReports extends AsyncTask<String,String,String>
                     if(list2.size()>0)
                     {
                         nop.setVisibility(View.INVISIBLE);
+                        previous.setVisibility(View.INVISIBLE);
                     }
                     else
                     {
+                        nop.setText("No reports are their");
                         nop.setVisibility(View.VISIBLE);
+                        previous.setVisibility(View.VISIBLE);
+                        previous.setEnabled(true);
                     }
                 }
                 else {
@@ -595,10 +617,14 @@ public class getReverseReports extends AsyncTask<String,String,String>
                         if(list2.size()>0)
                         {
                          nop.setVisibility(View.INVISIBLE);
+                         previous.setVisibility(View.INVISIBLE);
                         }
                         else
                         {
+                        nop.setText("No reports are their");
                         nop.setVisibility(View.VISIBLE);
+                        previous.setVisibility(View.VISIBLE);
+                        previous.setEnabled(true);
                         }
                     }
                     else {

@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +55,7 @@ boolean searched=false;
 DeleteClass dd=new DeleteClass("fdfd");
 //ProgressDialog //progressDialog;
 TextView nop;
+TextView latest,oldest,me;
 Button add_prescription,remove_prescription,previous;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ Button add_prescription,remove_prescription,previous;
         mauth=FirebaseAuth.getInstance();
         setContentView(R.layout.activity_prescriptions);
         context=Prescriptions.this;
+
         refresh=(SwipeRefreshLayout)findViewById(R.id.refresh);
         previous=(Button)findViewById(R.id.previous);
         previous.setVisibility(View.INVISIBLE);
@@ -170,6 +173,30 @@ Button add_prescription,remove_prescription,previous;
                 dialog.dismiss();
                 String str=search_key.getText().toString();
                 filterRecycler(str);
+            }
+        });
+        latest=(TextView)dialog.findViewById(R.id.latest);
+        oldest=(TextView)dialog.findViewById(R.id.oldest);
+        latest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            new getallPres().execute();
+            dialog.dismiss();
+            }
+        });
+        oldest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            new getReversePres().execute();
+            dialog.dismiss();
+            }
+        });
+        TextView me=(TextView)dialog.findViewById(R.id.me);
+        me.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context,"All are added by me",Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
         dialog.show();
@@ -287,6 +314,124 @@ Button add_prescription,remove_prescription,previous;
                     e.printStackTrace();
                 }
             }
+        }
+    }
+    public class getReversePres extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //progressDialog=new ProgressDialog(context);
+            //progressDialog.setMessage("Sending information");
+            //progressDialog.setCanceledOnTouchOutside(false);
+            //progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            //progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            new networkData();
+            String base= networkData.url;
+            String method=networkData.getReverseprescriptions;
+            String url=base+method;
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String uploadId= UUID.randomUUID().toString();
+
+            String json=new JsonParser().viewOffer(url,number);
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //progressDialog.dismiss();
+            if(null!=result)
+            {
+                try
+                {
+                    list2=new ArrayList<>();
+                    data_cont=new ArrayList<>();
+                    counter=new ArrayList<>();
+                    JSONObject jsonObject = new JSONObject(result);
+                    final String responce = String.valueOf(jsonObject.get("status"));
+                    // final String responce2=String.valueOf(jsonObject.get("msg"));
+                    if(responce.equals("1"))
+                    {
+                        JSONArray data=jsonObject.getJSONArray("data");
+                        for(int i=0;i<data.length();i++)
+                        {
+                            JSONObject object = data.getJSONObject(i);
+                            String title=object.getString("title");
+                            data_cont.add(title);
+                            String doctor=object.getString("doctor");
+                            data_cont.add(doctor);
+                            String observation=object.getString("observation");
+                            data_cont.add(observation);
+                            String date[]=object.getString("date").split("T");
+                            data_cont.add(date[0]);
+                            String id=object.getString("id");
+                            String image=object.getString("image");
+                            counter.add(i);
+                            list2.add(new presClass(title,date[0],doctor,image,id,observation));
+                        }
+                        adapter=new dashboard2(list2,context);
+                        previous_pres.setHasFixedSize(true);
+                        previous_pres.setLayoutManager(new LinearLayoutManager(context));
+                        previous_pres.setAdapter(adapter);
+                        if(list2.size()>0)
+                        {
+                            nop.setVisibility(View.INVISIBLE);
+                        }
+                        else
+                        {
+                            nop.setVisibility(View.VISIBLE);
+                            nop.setText("No Items found");
+                        }
+                    }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage("Some Error in fetching info please swipe to refresh")
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        final String responce2=String.valueOf(jsonObject.get("msg"));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    catch (Exception r)
+                    {
+
+                    }
+                }
+            }
+            //Toast.makeText(signup_Activity.this, "something missing", Toast.LENGTH_SHORT).show();
+            else
+            {
+                Toast.makeText(context,"please check details and try again",Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
     public class getallPres extends AsyncTask<String,String,String>

@@ -59,7 +59,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="49dp"
-            android:text="Rahul Ganjawala"
+            android:text="------"
             android:textSize="30sp"
             android:gravity="center"
             android:fontFamily="@font/dm_font"
@@ -70,7 +70,7 @@
         <TextView
             android:layout_width="196dp"
             android:layout_height="31dp"
-            android:text="+917389438159"
+            android:text="-----"
             android:textSize="20sp"
             android:fontFamily="@font/dm_font"
             android:id="@+id/phone"
