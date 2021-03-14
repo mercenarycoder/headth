@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.GlobalVariables;
+import com.developer.headthapp.HealthCart;
 import com.developer.headthapp.R;
 import com.squareup.picasso.Picasso;
 
@@ -91,6 +92,8 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
             public void onClick(View view) {
                 new GlobalVariables();
                 if(GlobalVariables.Helper) {
+                    new HealthCart();
+                    HealthCart.check =true;
                     Intent intent = new Intent(context, PrescriptionsView.class);
                     intent.putExtra("title", adapter.getDiesease());
                     intent.putExtra("doctor", adapter.getDoctor());

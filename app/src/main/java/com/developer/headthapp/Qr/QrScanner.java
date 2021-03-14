@@ -237,7 +237,7 @@ public class QrScanner extends AppCompatActivity {
                         client.getLastLocation().addOnSuccessListener(QrScanner.this, new OnSuccessListener<Location>() {
                             @Override
                             public void onSuccess(Location o) {
-                                if(o!=null)
+                                if(o!=null||1==1)
                                 {
                                     Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
                                     System.out.println(o.getLatitude()+" "+o.getLongitude());
@@ -247,9 +247,15 @@ public class QrScanner extends AppCompatActivity {
                                     Intent intent=new Intent(context,QRprofile.class);
                                     intent.putExtra("mobile",numberF);
                                     intent.putExtra("access",accessF);
-
-                                    intent.putExtra("longitude",String.valueOf(o.getLongitude()));
-                                    intent.putExtra("latitude",String.valueOf(o.getLatitude()));
+                                    if(o==null)
+                                    {
+                                        intent.putExtra("longitude",String.valueOf(o.getLongitude()));
+                                        intent.putExtra("latitude",String.valueOf(o.getLatitude()));
+                                    }
+                                    else {
+                                        intent.putExtra("longitude", "23.33");
+                                        intent.putExtra("latitude", "33.33");
+                                    }
                                     startActivity(intent);
                                 }
                                 else

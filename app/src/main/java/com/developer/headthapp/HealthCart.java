@@ -73,7 +73,7 @@ ProgressBar progress,progress2;
 TextView no_report,no_pres;
 ImageButton disease_2,medicine_2,allergies_2,history_2,qr,noti;
 SwipeRefreshLayout refresh,refresh2;
-Boolean check=false;
+public static Boolean check=false;
     public BiometricManager biometricManager;
 public static void changeVisiblity()
 {

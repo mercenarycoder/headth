@@ -56,12 +56,17 @@ public class dashmainadapter extends RecyclerView.Adapter<dashmainadapter.viewho
                // Toast.makeText(context,"Report Page soon",Toast.LENGTH_SHORT).show();
                 new GlobalVariables();
                 if(GlobalVariables.Helper) {
+                    new HealthCart();
+                    HealthCart.check =true;
                     Intent intent = new Intent(context, ReportView.class);
                     intent.putExtra("doctor", adapter.getName());
-                    intent.putExtra("url", new networkData().url_image + adapter.getIcon());
+                    intent.putExtra("url", adapter.getIcon());
                     intent.putExtra("title", adapter.getType());
                     intent.putExtra("id", adapter.getId());
+                    intent.putExtra("date", adapter.getDate());
+                    intent.putExtra("details",adapter.getDetails());
                     intent.putExtra("type", adapter.getTypeD());
+                    intent.putExtra("category",adapter.getCats());
                     context.startActivity(intent);
                 }
 

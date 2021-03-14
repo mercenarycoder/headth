@@ -58,6 +58,8 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
             holder.reportitem1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    new HealthCart();
+                    HealthCart.check =true;
                     Intent intent=new Intent(context, ReportView.class);
                     intent.putExtra("doctor",item1.getName());
                     intent.putExtra("url",item1.getIcon());
@@ -133,6 +135,9 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
             holder.reportitem2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    new HealthCart();
+                    HealthCart.check =true;
+
                     Intent intent=new Intent(context, ReportView.class);
                     intent.putExtra("doctor",item2.getName());
                     intent.putExtra("url",item2.getIcon());
@@ -208,6 +213,9 @@ public class internalReport extends RecyclerView.Adapter<internalReport.viewhold
             holder.reportitem3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    new HealthCart();
+                    HealthCart.check =true;
+
                     Intent intent=new Intent(context, ReportView.class);
                     intent.putExtra("doctor",item3.getName());
                     intent.putExtra("url",item3.getIcon());
