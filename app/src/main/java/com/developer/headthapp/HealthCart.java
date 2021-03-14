@@ -434,6 +434,7 @@ public static void changeVisiblity()
     {
         new getReports().execute();
         new getallPres().execute();
+        new getProfile().execute();
         check=false;
     }
     }

@@ -21,6 +21,7 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.HealthCart;
+import com.developer.headthapp.Prescription.Prescriptions;
 import com.developer.headthapp.R;
 import com.developer.headthapp.typeClass;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +50,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
 String titleF,descriptionF;
 ImageButton close_btn;
 ProgressBar progress;
+public static boolean check=false;
 TextView sabchanga;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +71,39 @@ TextView sabchanga;
         remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new deleteItems().execute();
+                if(dd.listD2.size()>0) {
+                    Dialog dialog = new Dialog(context, 0);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.dialog_delete);
+                    Button yes = dialog.findViewById(R.id.yes);
+                    Button no = dialog.findViewById(R.id.no);
+                    ImageButton close_btn2 = dialog.findViewById(R.id.close_btn2);
+                    close_btn2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                            new deleteItems().execute();
+                        }
+                    });
+                    no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
+                else
+                {
+                    Toast.makeText(context,"No items selected to be deleted",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         refresh_history=(SwipeRefreshLayout)view.findViewById(R.id.refresh_history);
@@ -98,6 +132,17 @@ TextView sabchanga;
         new getDieseas().execute();
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(check) {
+            Toast.makeText(context,String.valueOf(check),Toast.LENGTH_SHORT).show();
+//            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            new getDieseas().execute();
+        }
+    }
+
     Dialog dialog;
     public void dialogShower()
     {

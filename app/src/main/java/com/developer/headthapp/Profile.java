@@ -151,14 +151,23 @@ boolean check=false;
                         JSONArray data=jsonObject.getJSONArray("data");
                         JSONObject obj=data.getJSONObject(0);
                         String nameF=obj.getString("name");
+                        String arr[]=nameF.split(" ");
                         String mobileF = obj.getString("mobile");
                         String heightF = obj.getString("height");
                         String weightF = obj.getString("weight");
                         String dobF = obj.getString("dob");
                         String bloodF = obj.getString("blood");
+                        if(arr.length>1)
+                        {
+                            nameF=arr[0].substring(0,1).toUpperCase()+arr[0].substring(1)+" "+arr[1];
+                        }
+                        else
+                        {
+                            nameF=arr[0].substring(0,1).toUpperCase()+arr[0].substring(1);
+                        }
                         name_main.setText(nameF);
                         name.setText(nameF);
-                        phone.setText(mobileF);
+                        phone.setText("+91-"+mobileF);
                         height.setText(heightF);
                         weight.setText(weightF);
                         dob.setText(dobF);

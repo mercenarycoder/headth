@@ -52,7 +52,7 @@ public class EmergencyContacts extends AppCompatActivity {
     ImageButton edit1,edit2,edit3,edit4,edit5;
     ImageButton delete1,delete2,delete3,delete4,delete5;
     ProgressDialog dialog;
-    ArrayList<emergencyClass> list;
+    ArrayList<emergencyClass> list=new ArrayList<>();
     Context context;
     FirebaseAuth mauth=FirebaseAuth.getInstance();
     String edit="false";

@@ -107,9 +107,10 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                          String id=object1.getString("id");
                          String content=object1.getString("content");
                          String date=object1.getString("date");
+                         String dd[]=date.split("T");
                          String title=object1.getString("title");
                          String statusN=object1.getString("status");
-                         list.add(new notiClass(id,title,date,content,statusN));
+                         list.add(new notiClass(id,title,dd[0],content,statusN));
                      }
                      if(list.size()>0)
                      {

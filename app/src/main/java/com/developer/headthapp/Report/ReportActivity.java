@@ -111,33 +111,40 @@ ImageButton filter;
         remove_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog=new Dialog(context, 0);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCancelable(false);
-                dialog.setContentView(R.layout.dialog_delete);
-                Button yes=dialog.findViewById(R.id.yes);
-                Button no=dialog.findViewById(R.id.no);
-                ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);
-                close_btn2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                yes.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                        new deleteItems().execute();
-                    }
-                });
-                no.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
+
+                if(dd.listD.size()>0) {
+                    Dialog dialog = new Dialog(context, 0);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.dialog_delete);
+                    Button yes = dialog.findViewById(R.id.yes);
+                    Button no = dialog.findViewById(R.id.no);
+                    ImageButton close_btn2 = dialog.findViewById(R.id.close_btn2);
+                    close_btn2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                            new deleteItems().execute();
+                        }
+                    });
+                    no.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                }
+                else
+                {
+                    Toast.makeText(context,"No items selected to be deleted",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         context=ReportActivity.this;

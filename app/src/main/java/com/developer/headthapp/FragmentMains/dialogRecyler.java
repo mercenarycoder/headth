@@ -139,7 +139,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
             holder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Toast.makeText(context,"history",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"history",Toast.LENGTH_SHORT).show();
                     i=2;
                     dialogShower2(adapter.getTitle(),adapter.getThing1(),adapter.getId());
                 }
@@ -250,6 +250,12 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_history);
         ImageButton close_btn2 = (ImageButton) dialog.findViewById(R.id.close_btn2);
+        close_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         final EditText title = (EditText) dialog.findViewById(R.id.title);
         title.setText(title2);
         final EditText description = (EditText) dialog.findViewById(R.id.description);
@@ -264,10 +270,12 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                 if (titleF.isEmpty() || descriptionF.isEmpty()) {
                     Toast.makeText(context, "Please fill all the details", Toast.LENGTH_SHORT).show();
                 } else {
+//                    Toast.makeText(context,String.valueOf(FragmentHistiry.check),Toast.LENGTH_SHORT).show();
                     new addAllergy().execute();
                 }
             }
         });
+        dialog.show();
     }
     public void dialogShower3(String name2,String detail2,String id)
     {
@@ -319,9 +327,11 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
         final EditText purpose=(EditText)dialog.findViewById(R.id.purpose);
         purpose.setText(purpose2);
         final EditText dosage=(EditText)dialog.findViewById(R.id.dosage);
-        dosage.setText(dosage2);
+        String dos[]=dosage2.split(" ");
+        dosage.setText(dos[dos.length-1]);
         final EditText duration=(EditText)dialog.findViewById(R.id.duration);
-        duration.setText(duration2);
+        String dus[]=duration2.split(" ");
+        duration.setText(dus[dus.length-1]);
         Button add=(Button)dialog.findViewById(R.id.add);
         add.setText("Update");
         add.setOnClickListener(new View.OnClickListener() {
@@ -433,6 +443,8 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
+                                    new FragmentHistiry();
+                                    FragmentHistiry.check =true;
                                     dialog.dismiss();
                                 }
                             });

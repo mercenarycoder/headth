@@ -85,7 +85,7 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
     <LinearLayout
-        android:layout_width="322dp"
+        android:layout_width="315dp"
         android:layout_height="70dp"
         android:gravity="center"
         android:layout_gravity="center"
@@ -113,6 +113,7 @@
                 android:textColorHint="#6C6B6B"
                 android:textColor="#000"
                 android:textSize="14sp"
+                android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:paddingStart="5dp"
                 android:maxLines="1"
@@ -142,6 +143,7 @@
                 android:textSize="14sp"
                 android:layout_weight="1"
                 android:paddingStart="5dp"
+                android:layout_marginLeft="3dp"
                 android:maxLines="1"
                 android:gravity="center|left"
                 />
