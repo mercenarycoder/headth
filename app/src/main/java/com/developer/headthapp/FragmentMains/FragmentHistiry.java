@@ -58,7 +58,15 @@ TextView sabchanga;
         context=getActivity();
        // formList();
     }
+    public FragmentHistiry()
+    {
 
+    }
+    public FragmentHistiry(String str)
+    {
+//        Toast.makeText(context,"being called",Toast.LENGTH_SHORT).show();
+        new getDieseas().execute();
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

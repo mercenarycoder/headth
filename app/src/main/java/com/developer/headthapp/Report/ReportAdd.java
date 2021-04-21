@@ -220,6 +220,7 @@ boolean pdfChecker=false,imgCheck=false;
                     dateF = mod[2] + "-" + mod[1] + "-" + mod[0];
                 }
              detailF=detail.getText().toString();
+
              if(titleF.isEmpty())
              {
                  Toast.makeText(context,"title cannot be empty",Toast.LENGTH_SHORT).show();
@@ -245,7 +246,7 @@ boolean pdfChecker=false,imgCheck=false;
                  Toast.makeText(context,"Document cannot be empty",Toast.LENGTH_SHORT).show();
                  return;
              }
-             else if(reportType.isEmpty())
+             else if(reportType.isEmpty()||reportType.equals("none"))
              {
                  Toast.makeText(context,"Please Select your report type",Toast.LENGTH_SHORT).show();
                  return;
@@ -267,14 +268,14 @@ boolean pdfChecker=false,imgCheck=false;
     public void formList()
     {
         list=new ArrayList<>();
-        list.add(new SpinnerClass("others","Select Report Type"));
+        list.add(new SpinnerClass("none","Select Report Type"));
         list.add(new SpinnerClass("blood","Blood Report"));
         list.add(new SpinnerClass("eye","Eye Report"));
         list.add(new SpinnerClass("dental","Dental Report"));
         list.add(new SpinnerClass("ent","ENT Report"));
         list.add(new SpinnerClass("x_ray","X-Ray Report"));
         list.add(new SpinnerClass("others","Other"));
-        reportType="others";
+        reportType="none";
     }
     private void openFileChooser() {
         Intent intent = new Intent();

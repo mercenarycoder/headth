@@ -139,7 +139,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
             holder.edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context,"history",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,"history",Toast.LENGTH_SHORT).show();
                     i=2;
                     dialogShower2(adapter.getTitle(),adapter.getThing1(),adapter.getId());
                 }
@@ -445,6 +445,9 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     new FragmentHistiry();
                                     FragmentHistiry.check =true;
+
+//                                    FragmentHistiry ff= new FragmentHistiry("dfdfd");
+//                                    FragmentHistiry.getDieseas.execute();
                                     dialog.dismiss();
                                 }
                             });

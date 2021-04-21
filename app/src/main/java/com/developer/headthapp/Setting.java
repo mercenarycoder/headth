@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.Verifier;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.google.android.gms.vision.text.Line;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +27,7 @@ import org.json.JSONObject;
 import java.util.UUID;
 
 public class Setting extends AppCompatActivity {
-LinearLayout logout,privacy,doctor,notification;
+LinearLayout logout,privacy,doctor,notification,change_otp;
 ImageButton back;
 Context context=Setting.this;
 SharedPreferences preferences;
@@ -54,6 +55,38 @@ ProgressDialog progressDialog;
         privacy=(LinearLayout)findViewById(R.id.privacy);
         doctor=(LinearLayout)findViewById(R.id.upgrade);
         notification=(LinearLayout)findViewById(R.id.notification);
+        change_otp=(LinearLayout)findViewById(R.id.change_otp);
+        change_otp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Alert")
+                        .setMessage("Do you really want to Change your otp ?")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                new deleteOtp().execute();
+                            Intent intent=new Intent(Setting.this, Verifier.class);
+                                preferences=getSharedPreferences("basicinfo",Context.MODE_PRIVATE);
+                                editor=preferences.edit();
+                                editor.putString("otp","not done");
+                                editor.apply();
+                                editor.commit();
+                                startActivity(intent);
+                                finish();
+                            }
+
+                        })
+                        .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                builder.create();
+                builder.show();
+            }
+        });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

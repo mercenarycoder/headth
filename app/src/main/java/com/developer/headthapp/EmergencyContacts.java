@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
+import com.developer.headthapp.ApiMethods.Verifier;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.FragmentMains.FragmentHistiry;
 import com.google.android.material.textfield.TextInputEditText;
@@ -285,7 +286,15 @@ public class EmergencyContacts extends AppCompatActivity {
                         editor.putString("emergency","done");
                         editor.apply();
                         editor.commit();
-                        Intent intent = new Intent(context, HealthCart.class);
+                        Intent intent;
+                        if(checker.getString("otp","not done").equals("not done"))
+                        {
+                            intent=new Intent(context, Verifier.class);
+                        }
+                        else
+                        {
+                            intent = new Intent(context, HealthCart.class);
+                        }
                         startActivity(intent);
                         finish();
                     }

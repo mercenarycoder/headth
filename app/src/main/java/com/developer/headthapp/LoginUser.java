@@ -84,6 +84,17 @@ public class LoginUser extends AppCompatActivity {
          startActivity(intent);
          finish();
         }
+        else if(mAuth.getCurrentUser()!=null&&checker.getString("personal","no").equals("done")&&
+                checker.getString("emergency","no").equals("done")&&
+                checker.getString("otp","not done").equals("not done"))
+        {
+
+            Toast.makeText(context,"opt verfier finder",Toast.LENGTH_SHORT).show();
+         Intent intent=new Intent(LoginUser.this,Verifier.class);
+//            intent.putExtra("edit","false");
+         startActivity(intent);
+         finish();
+        }
         else if(mAuth.getCurrentUser()!=null&&checker.getString("personal","no").equals("no")
                 &&checker.getString("emergency","no").equals("no"))
         {
