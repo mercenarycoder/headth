@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
@@ -97,6 +98,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
              try{
                  JSONObject object = new JSONObject(s);
                  String status = object.getString("status");
+                 Toast.makeText(context,"Reaching here",Toast.LENGTH_SHORT).show();
                  if(status.equals("1"))
                  {
                      JSONArray array=object.getJSONArray("obj");
@@ -112,6 +114,8 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                          String statusN=object1.getString("status");
                          list.add(new notiClass(id,title,dd[0],content,statusN));
                      }
+
+                     Toast.makeText(context,"also here",Toast.LENGTH_SHORT).show();
                      if(list.size()>0)
                      {
                          Collections.reverse(list);

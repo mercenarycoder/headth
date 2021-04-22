@@ -257,7 +257,7 @@ public class LoginUser extends AppCompatActivity {
 //                          new checkAccount().execute();
                             if(account)
                             {
-                                Intent intent=new Intent(LoginUser.this, HealthCart.class);
+                                Intent intent=new Intent(LoginUser.this, Verifier.class);
                                 startActivity(intent);
                                 finish();
                             }

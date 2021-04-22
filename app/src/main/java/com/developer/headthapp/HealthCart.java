@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -41,6 +42,8 @@ import com.developer.headthapp.Prescription.dashboard2;
 import com.developer.headthapp.Prescription.presClass;
 import com.developer.headthapp.Qr.QRone;
 import com.developer.headthapp.Report.ReportActivity;
+import com.developer.headthapp.serviceOtp.MyService;
+import com.developer.headthapp.serviceOtp.ServiceNoDelay;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
@@ -79,7 +82,17 @@ public static void changeVisiblity()
 {
     layout_changer.setVisibility(View.INVISIBLE);
 }
-
+    private boolean isMyServiceRunning(Class<?> serviceClass){
+        ActivityManager manager=(ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for(ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
+            if(serviceClass.getName().equals(service.service.getClassName())){
+                System.out.println("MainCall"+" True++");
+                return true;
+            }
+        }
+        System.out.println("Service"+" False++");
+        return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +111,11 @@ public static void changeVisiblity()
         formList();
        // formList2();
         initiaLize();
+        //adding a new way to run a service which will persists even when phone restarts
+        ServiceNoDelay mSensorService=new ServiceNoDelay(getApplicationContext());
+        Intent mServiceIntent=new Intent(getApplicationContext(),mSensorService.getClass());
+        if(!isMyServiceRunning(mSensorService.getClass()))
+            startService(mServiceIntent);
         //these lines of code will enable notifications
         ComponentName receiver = new ComponentName(context, FromNotificationclass.class);
         PackageManager pm = context.getPackageManager();
@@ -105,6 +123,7 @@ public static void changeVisiblity()
         pm.setComponentEnabledSetting(receiver,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                 PackageManager.DONT_KILL_APP);
+
         //this few lines are for running a notification service
 //        AlarmManager manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 //        Intent alarmIntent;
@@ -325,6 +344,8 @@ public static void changeVisiblity()
         open_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //add service code here for testing
+//                startService(new Intent(getApplicationContext(), MyService.class));
                 Intent intent=new Intent(context, Notifications.class);
                 startActivity(intent);
             }

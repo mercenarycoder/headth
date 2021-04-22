@@ -18,6 +18,7 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.HealthCart;
 import com.developer.headthapp.R;
+import com.developer.headthapp.serviceOtp.MyService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,8 +38,8 @@ public class FromNotificationclass extends BroadcastReceiver
     public void formality()
     {
         notificationManager= NotificationManagerCompat.from(context);
+//        context.startService(new Intent(context.getApplicationContext(), MyService.class));
         new setIt().execute();
-
     }
 
     @Override
@@ -113,7 +114,7 @@ public class FromNotificationclass extends BroadcastReceiver
                         manager.createNotificationChannel(channel1);
                         manager.notify(r,notification);
                         r++;
-                        v.vibrate(VibrationEffect.createOneShot(1000,
+                        v.vibrate(VibrationEffect.createOneShot(5000,
                                 VibrationEffect.DEFAULT_AMPLITUDE));
                     }
                     else {
@@ -131,7 +132,7 @@ public class FromNotificationclass extends BroadcastReceiver
                         // a small code for making phone vibrate on this code when api is made
                         notificationManager.notify(r, notification);
                         r++;
-                        v.vibrate(1000);
+                        v.vibrate(5000);
                     }
                 }
 

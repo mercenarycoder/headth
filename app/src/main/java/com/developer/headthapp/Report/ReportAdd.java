@@ -82,8 +82,8 @@ ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 String titleF,observerF,dateF,detailF,typeF,base65,reportType=null,idF,category;
 Context context;
-boolean imgChoosed=false,pdfChoosed=false;
-boolean pdfChecker=false,imgCheck=false;
+boolean imgChoosed=false,pdfChoosed=false,dateCheck=false;
+public static boolean pdfChecker=false,imgCheck=false;
 
     String mode="new";
     public static String imagePaths;
@@ -147,7 +147,7 @@ boolean pdfChecker=false,imgCheck=false;
         observer.setText(observerF);
         if(mode!=null && mode.equals("edit"))
         {
-            if(typeF.equals(".pdf"))
+            if(imagePaths.contains(".pdf"))
             {
                 pdfChoosed=true;
             }
@@ -189,6 +189,7 @@ boolean pdfChecker=false,imgCheck=false;
                         String myFormat = "dd-MM-YYYY"; //In which you need put here
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                         date.setText(sdf.format(myCalendar.getTime()));
+                        dateCheck=true;
                     }
                 };
                 DatePickerDialog dialog=new DatePickerDialog(context,date2,myCalendar.get(Calendar.YEAR),
@@ -215,12 +216,13 @@ boolean pdfChecker=false,imgCheck=false;
              titleF=title.getText().toString();
              observerF=observer.getText().toString();
              dateF=date.getText().toString();
-                String mod[]=dateF.split("-");
-                if(mod[0].length()==2) {
-                    dateF = mod[2] + "-" + mod[1] + "-" + mod[0];
-                }
+             if(dateCheck) {
+                 String mod[] = dateF.split("-");
+                 if (mod[0].length() == 2) {
+                     dateF = mod[2] + "-" + mod[1] + "-" + mod[0];
+                 }
+             }
              detailF=detail.getText().toString();
-
              if(titleF.isEmpty())
              {
                  Toast.makeText(context,"title cannot be empty",Toast.LENGTH_SHORT).show();
@@ -372,7 +374,7 @@ boolean pdfChecker=false,imgCheck=false;
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //Toast.makeText(context, "here", Toast.LENGTH_SHORT).show();
-        if(resultCode==RESULT_OK&&requestCode==STORAGE_PERMISSION_CODE&&data!=null&&data.getData()!=null)
+        if(requestCode==STORAGE_PERMISSION_CODE&&resultCode==RESULT_OK)
         {
             Toast.makeText(context, "reached here", Toast.LENGTH_SHORT).show();
             Uri pdfUri = data.getData();
@@ -386,7 +388,7 @@ boolean pdfChecker=false,imgCheck=false;
             pdfChecker=true;
             new uploadData().execute();
         }
-        if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK)
+        else if(requestCode==PICK_IMAGE_REQUEST&&resultCode==RESULT_OK)
         {
             assert data != null;
             if(data.getClipData()!=null) {
@@ -448,7 +450,7 @@ boolean pdfChecker=false,imgCheck=false;
                 }
             }
         }
-        if(requestCode==9&&resultCode==RESULT_OK)
+        else if(requestCode==9&&resultCode==RESULT_OK)
         {
             Uri imageuri=data.getData();
             //path=getPath(imageuri);
@@ -527,11 +529,11 @@ boolean pdfChecker=false,imgCheck=false;
                         recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
                         recycler.setHasFixedSize(true);
                         recycler.setAdapter(adapter2);
-                        Toast.makeText(context,"Image Inserted",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,typeF+" Inserted",Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        Toast.makeText(context,"Image Not Inserted",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,typeF+" Not Inserted",Toast.LENGTH_SHORT).show();
 
                     }
                 }

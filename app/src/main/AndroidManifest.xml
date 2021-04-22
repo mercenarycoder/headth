@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.developer.headthapp">
+
     <!-- Step 1: Add the following permission to the app -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- Step 2: This permission is depreciated in Android P -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
@@ -36,9 +37,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ApiMethods.Verifier">
+        <receiver
+            android:name=".serviceOtp.SensorRestarterBroadcastReciever"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="ac.in.ActivityRecognition.RestartSensor"/>
+            </intent-filter>
+        </receiver>
 
-        </activity>
+        <service
+            android:name=".serviceOtp.ServiceNoDelay"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".serviceOtp.MyService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ApiMethods.Verifier" />
         <activity android:name=".NotificationsDir.NotificationLayout" />
         <activity android:name=".WiproId" />
         <activity android:name=".Setting" />
