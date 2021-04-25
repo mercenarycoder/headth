@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.Profile;
 import com.developer.headthapp.R;
+import com.developer.headthapp.serviceOtp.MyService;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -224,46 +226,44 @@ public class QrScanner extends AppCompatActivity {
                                 PackageManager.PERMISSION_GRANTED &&
                                 ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) !=
                                         PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(context,"Location must be enabled for using this feature",Toast.LENGTH_SHORT).show();
                             finish();
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
                             return;
                         }
-                        client.getLastLocation().addOnSuccessListener(QrScanner.this, new OnSuccessListener<Location>() {
-                            @Override
-                            public void onSuccess(Location o) {
-                                if(o!=null||1==1)
-                                {
-                                    Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
-                                    System.out.println(o.getLatitude()+" "+o.getLongitude());
-                                    barcodeDetector.release();
-                                    numberF=barcodes.valueAt(0).displayValue;
-                                    Toast.makeText(context,numberF,Toast.LENGTH_SHORT).show();
-                                    Intent intent=new Intent(context,QRprofile.class);
-                                    intent.putExtra("mobile",numberF);
-                                    intent.putExtra("access",accessF);
-                                    if(o==null)
+                        else{
+                            client.getLastLocation().addOnSuccessListener(QrScanner.this, new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location o) {
+                                    if(o!=null||1==1)
                                     {
-                                        intent.putExtra("longitude",String.valueOf(o.getLongitude()));
-                                        intent.putExtra("latitude",String.valueOf(o.getLatitude()));
+                                        Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
+//                                    System.out.println(o.getLatitude()+" "+o.getLongitude());
+                                        barcodeDetector.release();
+                                        numberF=barcodes.valueAt(0).displayValue;
+                                        Toast.makeText(context,numberF,Toast.LENGTH_SHORT).show();
+                                        Intent intent=new Intent(context,QRprofile.class);
+                                        intent.putExtra("mobile",numberF);
+                                        intent.putExtra("access",accessF);
+//                                        MyService ss=new MyService(context);
+//                                        startService(new Intent(getApplicationContext(), ss.getClass()));
+                                        if(o!=null)
+                                        {
+                                            intent.putExtra("longitude",String.valueOf(o.getLongitude()));
+                                            intent.putExtra("latitude",String.valueOf(o.getLatitude()));
+                                        }
+                                        else {
+                                            intent.putExtra("longitude", "23.33");
+                                            intent.putExtra("latitude", "33.33");
+                                        }
+                                        startActivity(intent);
                                     }
-                                    else {
-                                        intent.putExtra("longitude", "23.33");
-                                        intent.putExtra("latitude", "33.33");
+                                    else
+                                    {
+                                        Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
                                     }
-                                    startActivity(intent);
                                 }
-                                else
-                                {
-                                    Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                            });
+                        }
                     }
                 });
                 }

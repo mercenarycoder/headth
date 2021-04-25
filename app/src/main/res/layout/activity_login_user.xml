@@ -9,8 +9,8 @@
 <TextView
     android:layout_width="match_parent"
     android:layout_height="54dp"
-    android:text="HealthBee"
-    android:textSize="44sp"
+    android:text="Health Card"
+    android:textSize="42sp"
     android:textColor="#000"
     android:layout_centerHorizontal="true"
     android:fontFamily="@font/dm_font"
@@ -125,7 +125,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please wait while we auto verify the otp sent to your phone number"
+        android:text="Please wait while we auto verify the OTP sent to your phone number"
         android:textSize="16sp"
         android:fontFamily="@font/dm_font"
         android:layout_marginBottom="20dp"

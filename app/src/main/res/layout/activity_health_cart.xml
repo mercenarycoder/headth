@@ -20,18 +20,26 @@
             android:layout_height="match_parent"
             android:src="@drawable/ic_icon"
             android:tint="@color/black"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:id="@+id/qr_act"
             android:background="@drawable/main_base_btn"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:fontFamily="@font/dm_font"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"/>
+       <Button
+           android:layout_width="match_parent"
+           android:layout_height="30dp"
+           android:text="My Covid Profile"
+           android:layout_weight="1"
+           android:layout_gravity="center"
+           android:layout_marginRight="5dp"
+           android:textSize="10sp"
+
+           android:id="@+id/covid_profile"
+           android:textColor="#fff"
+           android:background="@drawable/dark_btn"/>
+
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:id="@+id/open_notification"
             android:layout_marginRight="5dp"
             android:layout_gravity="center"
@@ -41,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text="Help"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:layout_gravity="center"
             android:layout_marginRight="5dp"
             android:textSize="12sp"
@@ -52,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
            android:text="S"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:textColor="#fff"
             android:tooltipText="Profile Button"
             android:id="@+id/open_profile"

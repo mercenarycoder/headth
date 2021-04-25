@@ -1,16 +1,22 @@
 package com.developer.headthapp.Qr;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -71,6 +77,18 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
 
         ambulance=(Button)findViewById(R.id.ambulance);
         police=(Button)findViewById(R.id.police);
+        police.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                caller("100");
+            }
+        });
+        ambulance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                caller("108");
+            }
+        });
         family=(Button)findViewById(R.id.family);
         blood=(TextView)findViewById(R.id.blood);
         age=(TextView)findViewById(R.id.age);
@@ -101,6 +119,27 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
         });
         new getEmergencyProfile1().execute();
         new qrAccessHistory().execute();
+    }
+    public void caller(String num){
+        Intent call_intent = new Intent(Intent.ACTION_CALL);
+        call_intent.setData(Uri.parse("tel:" + num));
+        call_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                context.startActivity(call_intent);
+                return;
+            }
+            else
+            {
+                ActivityCompat.requestPermissions((Activity) context,
+                        new String[]{Manifest.permission.CALL_PHONE}, 1);
+            }
+        }
+        else
+        {
+            context.startActivity(call_intent);
+        }
     }
     public class qrAccessHistory extends AsyncTask<String,String,String>
     {

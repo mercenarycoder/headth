@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.developer.headthapp">
-
     <!-- Step 1: Add the following permission to the app -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- Step 2: This permission is depreciated in Android P -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
@@ -30,20 +29,30 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/app"
+        android:icon="@drawable/logom"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@drawable/app"
+        android:roundIcon="@drawable/logom"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Covid.SearchResults"></activity>
+        <activity android:name=".Covid.SearchHelp" />
+        <activity android:name=".Covid.Volunteer" />
+        <activity android:name=".Covid.CovidMain" />
+
         <receiver
             android:name=".serviceOtp.SensorRestarterBroadcastReciever"
             android:enabled="true"
             android:exported="true"
-            android:label="RestartServiceWhenStopped">
+            android:label="RestartServiceWhenStopped"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+            android:process=":remote">
             <intent-filter>
-                <action android:name="ac.in.ActivityRecognition.RestartSensor"/>
+                <action android:name="ac.in.ActivityRecognition.RestartSensor" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
 

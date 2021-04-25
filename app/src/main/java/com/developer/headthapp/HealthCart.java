@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.Covid.CovidMain;
 import com.developer.headthapp.FragmentMains.DiseaseFragment;
 import com.developer.headthapp.FragmentMains.FragmentAllergies;
 import com.developer.headthapp.FragmentMains.FragmentHistiry;
@@ -56,7 +57,7 @@ import java.util.UUID;
 public class HealthCart extends AppCompatActivity {
 RecyclerView recycler_report,recycler_pres;
 dashmainadapter adapter;
-Button view_pres,view_report,help;
+Button view_pres,view_report,help,covid_profile;
 dashboard2 adapter2;
 ArrayList<reportClass> list;
 ArrayList<presClass>  list2;
@@ -358,6 +359,13 @@ public static void changeVisiblity()
                 startActivity(intent);
             }
         });
+        covid_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, CovidMain.class);
+                startActivity(intent);
+            }
+        });
         view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -404,6 +412,7 @@ public static void changeVisiblity()
         allergies_2=(ImageButton)findViewById(R.id.allergies_2);
         history_2=(ImageButton)findViewById(R.id.history_2);
         qr_act=(ImageButton)findViewById(R.id.qr_act);
+        covid_profile=(Button)findViewById(R.id.covid_profile);
         //helper layouts from here
         help_layout=(LinearLayout)findViewById(R.id.help_layout);
         disease_help=(LinearLayout)findViewById(R.id.disease_help);

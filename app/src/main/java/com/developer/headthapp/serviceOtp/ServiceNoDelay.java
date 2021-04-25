@@ -24,6 +24,7 @@ public class ServiceNoDelay extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent,flags,startId);
+//        Toast.makeText(context,"HI i am getting executed",Toast.LENGTH_SHORT).show();
         startTimer();
         return START_STICKY;
     }

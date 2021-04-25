@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/back_new"
+    android:layout_height="match_parent"
+    tools:context=".Covid.SearchResults">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#88FFFFFF"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_back"
+            android:background="@drawable/main_base_btn"
+            android:id="@+id/back"
+            android:layout_weight="4.9"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Search Results"
+            android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
+            android:textColor="#000"
+            android:gravity="center|left"
+            android:textSize="24sp"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search Results for blood group o+ and age 120"
+        android:layout_marginTop="60dp"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/dm_font"
+        android:textColor="#000"
+        android:gravity="center|left"
+        android:textSize="20sp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="130dp"
+        android:id="@+id/results"
+        android:layout_marginBottom="70dp"
+        />
+</RelativeLayout>

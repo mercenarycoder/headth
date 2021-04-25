@@ -17,7 +17,7 @@
             android:fontFamily="@font/dm_font"
             android:text="Emergency Contacts"
             android:textColor="#000"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:paddingStart="17dp"
             android:gravity="center|left"/>

@@ -3,6 +3,7 @@ package com.developer.headthapp.ApiMethods;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,8 +14,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -367,22 +370,59 @@ ProgressDialog progressDialog;
                     String msg=String.valueOf(object.get("msg"));
                     if(status.equals("1"))
                     {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setTitle("Update")
-                                .setMessage(msg)
-                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        editor.putString("otp","done");
-                                        editor.apply();
-                                        editor.commit();
-                                        Intent intent=new Intent(Verifier.this, HealthCart.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                });
-                        builder.create();
-                        builder.show();
+                       Dialog dialog=new Dialog(context, 0);
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setCancelable(false);
+                        dialog.setContentView(R.layout.dialog_phone);
+                        TextView content=dialog.findViewById(R.id.content);
+                        TextView title=dialog.findViewById(R.id.title);
+                        content.setText(msg);
+                        title.setText("Hi User");
+                        Button accept=dialog.findViewById(R.id.accept);
+                        accept.setText("Ok");
+                        accept.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                                editor.putString("otp","done");
+                                editor.apply();
+                                editor.commit();
+                                Intent intent=new Intent(Verifier.this, HealthCart.class);
+                                startActivity(intent);
+                                finish();
+//                                new LoginUser.checkAccount().execute();
+                            }
+                        });
+                        ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);
+                        close_btn2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.dismiss();
+                                editor.putString("otp","done");
+                                editor.apply();
+                                editor.commit();
+                                Intent intent=new Intent(Verifier.this, HealthCart.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                        dialog.show();
+//                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                        builder.setTitle("Update")
+//                                .setMessage(msg)
+//                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialogInterface, int i) {
+//                                        editor.putString("otp","done");
+//                                        editor.apply();
+//                                        editor.commit();
+//                                        Intent intent=new Intent(Verifier.this, HealthCart.class);
+//                                        startActivity(intent);
+//                                        finish();
+//                                    }
+//                                });
+//                        builder.create();
+//                        builder.show();
                     }
                     else
                     {
