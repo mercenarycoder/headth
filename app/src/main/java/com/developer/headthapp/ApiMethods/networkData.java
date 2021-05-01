@@ -3,8 +3,8 @@ package com.developer.headthapp.ApiMethods;
 //Bhopal ip address
 //http://192.168.1.4:5000/app1
 public class networkData {
-    public static String url="http://52.66.205.197:5000/app1";
-    public static String url_image="http://52.66.205.197:5000/";
+    public static String url="http://192.168.1.4:5000/app1";
+    public static String url_image="http://192.168.1.4:5000/";
     public static String update="/newUser";
     public static String profileUpdate="/updateUser";
     public static String emergency="/emergency";
@@ -54,4 +54,10 @@ public class networkData {
     public static String deleteOtp="/deleteOtp";
     public static String getReverseReports="/getReverseReports";
     public static String getReverseprescriptions="/getReverseprescriptions";
+    public static String getCovidProfile="/getCovidProfile";
+    public static String submitData="/submitData";
+    public static String volunteer="/volunteer";
+    public static String setVolunteer="/setVolunteer";
+    public static String getVolunteer="/getVolunteer";
+    public static String defaultVolunteer="/defaultVolunteer";
 }

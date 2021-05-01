@@ -85,13 +85,13 @@ public class PrescriptionAdd extends AppCompatActivity {
     FirebaseAuth mauth;
     Calendar myCalendar;
     String titleF,docF,observationF,dateF,imageF="",typeF,idF;
+    boolean pdfChecker=false,imgCheck=false;
     ProgressDialog progressDialog;
     //new multiple image adder code from here
     RecyclerView recycler;
     ArrayList<imageRecyclerClass> list=new ArrayList<>();
     ImageRecylerAdapter adapter;
     String mode="add";
-    boolean pdfChecker=false,imgCheck=false;
     public static String imagePaths="";
 
     private void initRetrofitClient() {

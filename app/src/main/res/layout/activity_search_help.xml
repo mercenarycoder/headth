@@ -159,7 +159,7 @@
             android:layout_height="48dp"
             android:fontFamily="@font/dm_font"
             android:height="0dp"
-            android:inputType="text"
+            android:inputType="number"
             android:background="@drawable/edit2"
             android:textColorLink="#595757"
             android:textColorHint="@color/black"

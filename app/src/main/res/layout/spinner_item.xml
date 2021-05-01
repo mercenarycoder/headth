@@ -13,7 +13,7 @@
     android:fontFamily="@font/dm_font"
     android:background="#007C7979"
     android:textColor="#7C7979"
-    android:gravity="center|left"
+    android:gravity="center"
     android:padding="5dp"
     />
 </LinearLayout>

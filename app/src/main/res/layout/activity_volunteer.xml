@@ -57,7 +57,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Manjeet Singh"
+            android:text="-------------"
             android:textSize="30sp"
             android:gravity="center"
             android:layout_marginTop="10dp"
@@ -69,7 +69,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="41dp"
-            android:text="+91-7389438159"
+            android:text="------------------"
             android:textSize="24sp"
             android:fontFamily="@font/dm_font"
             android:id="@+id/phone"
@@ -80,8 +80,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="31dp"
-            android:text="BloodGroup: B+"
+            android:text="---------------"
             android:textSize="24sp"
+            android:id="@+id/blood"
             android:layout_marginTop="10dp"
             android:textStyle="bold"
             android:fontFamily="@font/dm_font"

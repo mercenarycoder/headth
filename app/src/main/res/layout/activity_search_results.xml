@@ -6,6 +6,18 @@
     android:background="@drawable/back_new"
     android:layout_height="match_parent"
     tools:context=".Covid.SearchResults">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sorry to say but no plasma donors available in your area"
+        android:layout_weight="1"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/dm_font"
+        android:textColor="#000"
+        android:gravity="center"
+        android:id="@+id/no_res"
+        android:textSize="34sp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -35,6 +47,7 @@
         android:text="Search Results for blood group o+ and age 120"
         android:layout_marginTop="60dp"
         android:padding="5dp"
+        android:id="@+id/request"
         android:layout_weight="1"
         android:fontFamily="@font/dm_font"
         android:textColor="#000"
