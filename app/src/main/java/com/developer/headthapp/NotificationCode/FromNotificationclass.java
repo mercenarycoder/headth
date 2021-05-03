@@ -13,12 +13,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.widget.RemoteViews;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.HealthCart;
 import com.developer.headthapp.R;
-import com.developer.headthapp.serviceOtp.MyService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +28,8 @@ import java.util.ArrayList;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import static com.developer.headthapp.NotificationCode.App.CHANNEL_ID;
 
 
 public class FromNotificationclass extends BroadcastReceiver
@@ -86,6 +88,7 @@ public class FromNotificationclass extends BroadcastReceiver
                     //action.putExtra("appointment_id", appointment_id);
                     //action.putExtra("buttons", "allfine2");
                     //Context context;
+
                     PendingIntent pendingIntent = PendingIntent.getActivity(context,
                             0, action, 0);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -142,6 +145,25 @@ public class FromNotificationclass extends BroadcastReceiver
 
         }
             }
+        }
+        //code for custom notification
+        public void showNotification(){
+        RemoteViews collapseView = new RemoteViews(context.getPackageName(),R.layout.notification_collapsed );
+        RemoteViews expandedView = new RemoteViews(context.getPackageName(), R.layout.notification_expanded);
+
+        Intent clickIntent=new Intent(context,NotificationReciever.class);
+        PendingIntent clickPendingIntent = PendingIntent.getBroadcast(context, 0, clickIntent, 0);
+
+        collapseView.setTextViewText(R.id.content,"Plasma donation is requested please help");
+        collapseView.setOnClickPendingIntent(R.id.call,clickPendingIntent);
+
+        expandedView.setOnClickPendingIntent(R.id.call,clickPendingIntent);
+        Notification notification=new NotificationCompat.Builder(context,CHANNEL_ID)
+                .setSmallIcon(R.drawable.logom)
+                .setCustomContentView(collapseView)
+                .setCustomBigContentView(expandedView)
+                .build();
+        notificationManager.notify(1,notification);
         }
     }
 

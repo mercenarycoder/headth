@@ -484,7 +484,7 @@ public class CovidMain extends AppCompatActivity {
                     if(rDialog){
                         if(recoveryurl.length()>10)
                         {
-                            Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
                             Name=recoveryurl;
                             recoveryurl="no data";
                             new removeData().execute();
@@ -862,7 +862,7 @@ public class CovidMain extends AppCompatActivity {
                         String volunteerD = String.valueOf(obj.get("volunter"));
                         if(shot1D.equals("no data"))
                         {
-                            Toast.makeText(context,recoveryurl,Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context,recoveryurl,Toast.LENGTH_SHORT).show();
                             upload_1.setText("upload");
                             shotChecker=false;
                         }else{

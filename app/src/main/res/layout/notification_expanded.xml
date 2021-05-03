@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/edit2"
+    android:layout_height="256dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Plasma Notification"
+        android:textSize="28sp"
+        android:id="@+id/header"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/basecolor"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="A user has asked for plasma donation from you please click on call
+button below to get details"
+        android:textSize="18sp"
+        android:id="@+id/content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/basecolor"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:padding="10dp"
+        android:src="@drawable/ic_blood"
+        android:id="@+id/img"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="70dp"
+            android:text="Call Requester"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
+            android:id="@+id/call"
+            android:background="@drawable/btn_new"
+            android:textColor="#fff"
+            android:padding="4dp"
+            android:textSize="12sp"
+            />
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="70dp"
+            android:text="Cancel"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn1"
+            android:textColor="#fff"
+            android:fontFamily="@font/dm_font"
+            android:id="@+id/cancel"
+            android:padding="4dp"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@drawable/edit_new"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Plasma Notification"
+    android:textSize="18sp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:textColor="@color/basecolor"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="Plasma donation requested by a user"
+        android:textSize="16sp"
+        android:id="@+id/content"
+        android:layout_gravity="center"
+        android:gravity="center|left"
+        android:textColor="@color/graycolor"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="70dp"
+            android:text="Call Requester"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/dm_font"
+            android:id="@+id/call"
+            android:background="@drawable/btn_new"
+            android:textColor="#fff"
+            android:padding="4dp"
+            android:textSize="12sp"
+            />
+        <Button
+            android:layout_width="110dp"
+            android:layout_height="70dp"
+            android:text="Cancel"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn1"
+            android:textColor="#fff"
+            android:fontFamily="@font/dm_font"
+            android:id="@+id/cancel"
+            android:padding="4dp"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+</LinearLayout>

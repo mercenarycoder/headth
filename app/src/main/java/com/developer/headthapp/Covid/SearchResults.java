@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class SearchResults extends AppCompatActivity {
     RecyclerView results;
     ImageButton back;
     ArrayList<CovidBox> list;
+    Button raiser;
     TextView no_res;
     CovidAdapter adapter;
     ProgressDialog progressDialog;
@@ -53,6 +55,19 @@ public class SearchResults extends AppCompatActivity {
         blood=intent.getStringExtra("blood");
         age=intent.getStringExtra("age");
         back=(ImageButton)findViewById(R.id.back);
+        raiser=(Button)findViewById(R.id.raiser);
+        raiser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         request=(TextView)findViewById(R.id.request);
         results=(RecyclerView) findViewById(R.id.results);
         request.setText("Search Results for blood group: "+blood+" city:"+city+" age:"+age+" pin:");
@@ -60,6 +75,7 @@ public class SearchResults extends AppCompatActivity {
         no_res.setVisibility(View.INVISIBLE);
         new getContacts().execute();
     }
+
     private class getContacts extends AsyncTask<String,String,String>{
         @Override
         protected void onPreExecute() {
@@ -84,7 +100,7 @@ public class SearchResults extends AppCompatActivity {
             progressDialog.dismiss();
             if(s!=null){
                 try {
-                    Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
                     JSONObject obj=new JSONObject(s);
                     String status=String.valueOf(obj.get("status"));
                     if(status.equals("1")){
@@ -111,11 +127,14 @@ public class SearchResults extends AppCompatActivity {
                             no_res.setVisibility(View.INVISIBLE);
                         }
                         else{
+
                             results.setVisibility(View.INVISIBLE);
                             no_res.setVisibility(View.VISIBLE);
                         }
                     }
                     else{
+                        results.setVisibility(View.INVISIBLE);
+                        no_res.setVisibility(View.VISIBLE);
                         final String responce2=String.valueOf(obj.get("msg"));
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Update")

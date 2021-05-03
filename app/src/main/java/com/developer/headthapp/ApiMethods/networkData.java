@@ -60,4 +60,8 @@ public class networkData {
     public static String setVolunteer="/setVolunteer";
     public static String getVolunteer="/getVolunteer";
     public static String defaultVolunteer="/defaultVolunteer";
+    //raising bulk request apis
+    public static String raiseAlarm="/raiseAlarm";
+    public static String getBulks="/getBulks";
+    public static String changeBulkStatus="/changeBulkStatus";
 }

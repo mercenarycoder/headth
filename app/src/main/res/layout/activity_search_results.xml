@@ -18,6 +18,22 @@
         android:gravity="center"
         android:id="@+id/no_res"
         android:textSize="34sp"/>
+    <Button
+        android:layout_width="282dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn2"
+        android:text="Raise a bulk request"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="right"
+        android:fontFamily="@font/dm_font"
+        android:layout_marginRight="20dp"
+        android:id="@+id/raiser"
+        android:textColor="#fff"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"

@@ -1,25 +1,23 @@
 package com.developer.headthapp;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.biometrics.BiometricManager;
-import android.hardware.biometrics.BiometricPrompt;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -36,15 +34,14 @@ import com.developer.headthapp.FragmentMains.DiseaseFragment;
 import com.developer.headthapp.FragmentMains.FragmentAllergies;
 import com.developer.headthapp.FragmentMains.FragmentHistiry;
 import com.developer.headthapp.FragmentMains.MedicineFragment;
-import com.developer.headthapp.NotificationCode.FromNotificationclass;
+import com.developer.headthapp.LoggerService.NotificationServiceCovid;
+import com.developer.headthapp.LoggerService.newService;
 import com.developer.headthapp.NotificationsDir.Notifications;
 import com.developer.headthapp.Prescription.Prescriptions;
 import com.developer.headthapp.Prescription.dashboard2;
 import com.developer.headthapp.Prescription.presClass;
 import com.developer.headthapp.Qr.QRone;
 import com.developer.headthapp.Report.ReportActivity;
-import com.developer.headthapp.serviceOtp.MyService;
-import com.developer.headthapp.serviceOtp.ServiceNoDelay;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
@@ -67,7 +64,6 @@ Button open_profile;
 FirebaseAuth mauth;
 ProgressDialog progressDialog;
 static RelativeLayout layout_changer;
-
 ImageButton open_notification,qr_act;
 LinearLayout disease,medicine,allergies,history,help_layout,disease_help,medicine_hep,allergies_help,history_help,qr_help;
 LinearLayout d_help,m_help,a_help,h_help,noti_help,profile_help,report_help2,pres_help2;
@@ -83,6 +79,8 @@ public static void changeVisiblity()
 {
     layout_changer.setVisibility(View.INVISIBLE);
 }
+
+
     private boolean isMyServiceRunning(Class<?> serviceClass){
         ActivityManager manager=(ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for(ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
@@ -99,6 +97,12 @@ public static void changeVisiblity()
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=HealthCart.this;
+        mauth=FirebaseAuth.getInstance();
+        setContentView(R.layout.activity_health_cart);
+        new GlobalVariables("fdfkd");
+        formList();
+        // formList2();
+        initiaLize();
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 //            if(biometricManager.canAuthenticate()==BiometricManager.BIOMETRIC_SUCCESS)
@@ -106,24 +110,18 @@ public static void changeVisiblity()
 //                Toast.makeText(context,"verification could be done",Toast.LENGTH_SHORT).show();
 //            }
 //        }
-        mauth=FirebaseAuth.getInstance();
-        setContentView(R.layout.activity_health_cart);
-        new GlobalVariables("fdfkd");
-        formList();
-       // formList2();
-        initiaLize();
         //adding a new way to run a service which will persists even when phone restarts
-        ServiceNoDelay mSensorService=new ServiceNoDelay(getApplicationContext());
-        Intent mServiceIntent=new Intent(getApplicationContext(),mSensorService.getClass());
-        if(!isMyServiceRunning(mSensorService.getClass()))
-            startService(mServiceIntent);
+//        ServiceNoDelay mSensorService=new ServiceNoDelay(getApplicationContext());
+//        Intent mServiceIntent=new Intent(getApplicationContext(),mSensorService.getClass());
+//        if(!isMyServiceRunning(mSensorService.getClass()))
+//            startService(mServiceIntent);
         //these lines of code will enable notifications
-        ComponentName receiver = new ComponentName(context, FromNotificationclass.class);
-        PackageManager pm = context.getPackageManager();
-
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
+//        ComponentName receiver = new ComponentName(context, FromNotificationclass.class);
+//        PackageManager pm = context.getPackageManager();
+//
+//        pm.setComponentEnabledSetting(receiver,
+//                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+//                PackageManager.DONT_KILL_APP);
 
         //this few lines are for running a notification service
 //        AlarmManager manager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
@@ -136,6 +134,10 @@ public static void changeVisiblity()
 //                interval, pendingIntent);
 
         //till here
+    //the code of jobscheduler will start from here for simple log msgs as of now and is successfull
+        scheduleJob();
+    //code to make notifications in real time
+        scheduleJob2();
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -394,7 +396,48 @@ public static void changeVisiblity()
         new getProfile().execute();
         new getReports().execute();
     }
-    
+    public static final String TAG="JobScheduler";
+    public void scheduleJob() {
+        ComponentName componentName = new ComponentName(this, newService.class);
+        JobInfo info = new JobInfo.Builder(123, componentName)
+                .setPersisted(true)
+                .setPeriodic(15 * 60 * 1000)
+                .build();
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(info);
+        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+            Log.d(TAG, "scheduleJob: Job Scheduled");
+        } else {
+            Log.d(TAG, "scheduleJob: JOB scheduleing failed");
+        }
+        
+    }
+    public void scheduleJob2(){
+        ComponentName componentName=new ComponentName(this, NotificationServiceCovid.class);
+        JobInfo info=new JobInfo.Builder(444,componentName)
+                .setPersisted(true)
+                .setPeriodic(15*60*1000)
+                .build();
+        JobScheduler scheduler=(JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(info);
+        if(resultCode==JobScheduler.RESULT_SUCCESS){
+            Log.d(TAG, "scheduleJob2: Job scheduled");
+        }else{
+            Log.d(TAG, "scheduleJob2: Job scheduling failed");
+        }
+
+    }
+    public void cancelJob (View v){
+        JobScheduler scheduler=(JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(123);
+        Log.d(TAG, "cancelJob: JOB Cancelled");
+    }
+    //to close this job scheduler
+    public void cancelJob2(){
+        JobScheduler scheduler=(JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(444);
+        Log.d(TAG, "cancelJob2: Job scheduling failed");
+    }
     public void initiaLize()
     {
         help=(Button)findViewById(R.id.help);

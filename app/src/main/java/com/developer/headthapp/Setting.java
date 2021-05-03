@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -117,6 +119,12 @@ ProgressDialog progressDialog;
         });
 
     }
+    //to cancel bulk plasma notification service
+    public void cancelJob2(){
+        JobScheduler scheduler=(JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(444);
+        Log.d("BlukNotification:-", "cancelJob2: Job scheduling failed");
+    }
     private class deleteOtp extends AsyncTask<String,String,String>
     {
         @Override
@@ -148,6 +156,7 @@ ProgressDialog progressDialog;
                  String status=String.valueOf(obj.get("status"));
                  if(status.equals("1"))
                  {
+                     cancelJob2();
                      Intent intent=new Intent(Setting.this,LoginUser.class);
                      mauth.signOut();
                      editor.clear();
