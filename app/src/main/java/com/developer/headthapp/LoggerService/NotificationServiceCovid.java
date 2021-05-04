@@ -56,6 +56,7 @@ public class NotificationServiceCovid extends JobService {
     }
 
     @Override
+
     public boolean onStopJob(JobParameters jobParameters) {
         Log.d(TAG, "onStopJob: Job is cancelled before completion");
         jobCancelled=true;
@@ -105,6 +106,9 @@ public class NotificationServiceCovid extends JobService {
 
                             collapseView.setTextViewText(R.id.content,"Plasma donation is requested please help by " +caller);
                             collapseView.setOnClickPendingIntent(R.id.call,clickPendingIntent);
+                            collapseView.setOnClickPendingIntent(R.id.cancel,clickPendingIntent);
+                            expandedView.setOnClickPendingIntent(R.id.call,clickPendingIntent);
+                            expandedView.setOnClickPendingIntent(R.id.cancel,clickPendingIntent);
                             expandedView.setTextViewText(R.id.content,"Plasma donation is requested please help by " +caller);
 //                            expandedView.setOnClickPendingIntent(R.id.call,clickPendingIntent);
                             Notification notification=new NotificationCompat.Builder(context,CHANNEL_ID)

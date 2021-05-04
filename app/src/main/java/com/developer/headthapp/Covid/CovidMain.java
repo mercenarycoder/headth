@@ -705,6 +705,11 @@ public class CovidMain extends AppCompatActivity {
                     JSONObject obj=new JSONObject(s);
                     String status=String.valueOf(obj.get("status"));
                     if(status.equals("1")) {
+                        if((s1Dialog||s2Dialog)&&volChecker)
+                        {
+                        Toast.makeText(context,"You cannot be a volunteer anymore",Toast.LENGTH_SHORT).show();
+                        new updateVolunteer().execute();
+                        }
                         final String msg = String.valueOf(obj.get("msg"));
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Update")

@@ -28,20 +28,20 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".NotificationCode.App"
         android:allowBackup="true"
         android:icon="@drawable/logom"
-        android:name=".NotificationCode.App"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/logom"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Covid.SearchResults"></activity>
+        <activity android:name=".Covid.CovidCaller"></activity>
+        <activity android:name=".Covid.SearchResults" />
         <activity android:name=".Covid.SearchHelp" />
         <activity android:name=".Covid.Volunteer" />
         <activity android:name=".Covid.CovidMain" />
-
         <activity android:name=".ApiMethods.Verifier" />
         <activity android:name=".NotificationsDir.NotificationLayout" />
         <activity android:name=".WiproId" />
@@ -97,11 +97,19 @@
                 <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <service android:name=".LoggerService.newService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
-        <service android:name=".LoggerService.NotificationServiceCovid"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
-        <receiver android:name=".NotificationCode.NotificationReciever"/>
+
+        <service
+            android:name=".LoggerService.newService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+            android:name=".LoggerService.NotificationServiceCovid"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver android:name=".NotificationCode.NotificationReciever" />
+
+        <service
+            android:name=".Schedulers.BlukRaiser"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

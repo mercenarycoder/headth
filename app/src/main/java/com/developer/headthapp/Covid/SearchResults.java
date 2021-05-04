@@ -6,11 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,7 +24,9 @@ import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.LoggerService.NotificationServiceCovid;
 import com.developer.headthapp.R;
+import com.developer.headthapp.Schedulers.BlukRaiser;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
@@ -29,6 +36,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class SearchResults extends AppCompatActivity {
+    public static final String TAG="BulkRaiser Scheduler";
     String city,pin,blood,age;
     FirebaseAuth mauth=FirebaseAuth.getInstance();
     Context context;
@@ -40,6 +48,7 @@ public class SearchResults extends AppCompatActivity {
     TextView no_res;
     CovidAdapter adapter;
     ProgressDialog progressDialog;
+    private boolean checkRaise=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +68,16 @@ public class SearchResults extends AppCompatActivity {
         raiser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+            if(checkRaise)
+            {
+                raiser.setEnabled(false);
+                Toast.makeText(context,"bluk alarm is raised have paitence",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else{
+                scheduleJob2();
+                checkRaise=true;
+            }
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +93,34 @@ public class SearchResults extends AppCompatActivity {
         no_res.setVisibility(View.INVISIBLE);
         new getContacts().execute();
     }
+    public void scheduleJob2(){
+        ComponentName componentName=new ComponentName(this, BlukRaiser.class);
+        PersistableBundle bundle=new PersistableBundle();
+        String caller="";
+        for(int i=0;i<list.size();i++)
+        {
+            CovidBox obj=list.get(i);
+            caller+=obj.getMobile()+";";
+        }
+        if(caller.endsWith(";"))
+        {
+            caller=caller.substring(0,caller.length()-1);
+        }
+        bundle.putString("caller",caller);
+        JobInfo info=new JobInfo.Builder(445,componentName)
+//                .setPersisted(true)
+                .setExtras(bundle)
+                .setPeriodic(15*60*1000)
+                .build();
+        JobScheduler scheduler=(JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(info);
+        if(resultCode==JobScheduler.RESULT_SUCCESS){
+            Log.d(TAG, "scheduleJob2: Job scheduled");
+        }else{
+            Log.d(TAG, "scheduleJob2: Job scheduling failed");
+        }
 
+    }
     private class getContacts extends AsyncTask<String,String,String>{
         @Override
         protected void onPreExecute() {

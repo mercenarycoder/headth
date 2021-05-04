@@ -17,13 +17,14 @@
         android:textColor="#000"
         android:gravity="center"
         android:id="@+id/no_res"
+        android:visibility="invisible"
         android:textSize="34sp"/>
     <Button
         android:layout_width="282dp"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
-        android:background="@drawable/btn2"
-        android:text="Raise a bulk request"
+        android:background="@drawable/btn_new"
+        android:text="Clear All"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:layout_alignParentBottom="true"
@@ -58,22 +59,12 @@
             android:gravity="center|left"
             android:textSize="24sp"/>
     </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Search Results for blood group o+ and age 120"
-        android:layout_marginTop="60dp"
-        android:padding="5dp"
-        android:id="@+id/request"
-        android:layout_weight="1"
-        android:fontFamily="@font/dm_font"
-        android:textColor="#000"
-        android:gravity="center|left"
-        android:textSize="20sp"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="80dp"
+        android:foregroundGravity="center"
         android:id="@+id/results"
         android:layout_marginBottom="70dp"
         />
