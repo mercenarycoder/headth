@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
@@ -145,11 +146,20 @@ public class LoginUser extends AppCompatActivity {
                     dialog.setCancelable(false);
                     dialog.setContentView(R.layout.dialog_phone);
                     Button accept=dialog.findViewById(R.id.accept);
+                    TextView content=(TextView)dialog.findViewById(R.id.content);
                     accept.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             dialog.dismiss();
-                            new checkAccount().execute();
+                            content.setText(R.string.second_d);
+                            accept.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+                                    new checkAccount().execute();
+                                }
+                            });
+                            dialog.show();
                         }
                     });
                     ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);

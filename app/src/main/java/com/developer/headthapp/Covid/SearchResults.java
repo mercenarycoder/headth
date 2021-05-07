@@ -88,7 +88,7 @@ public class SearchResults extends AppCompatActivity {
         });
         request=(TextView)findViewById(R.id.request);
         results=(RecyclerView) findViewById(R.id.results);
-        request.setText("Search Results for blood group: "+blood+" city:"+city+" age:"+age+" pin:");
+        request.setText("Search Results for blood group: "+blood+" city:"+city+" age:"+age+" pin:"+pin);
         no_res=(TextView)findViewById(R.id.no_res);
         no_res.setVisibility(View.INVISIBLE);
         new getContacts().execute();
@@ -110,7 +110,7 @@ public class SearchResults extends AppCompatActivity {
         JobInfo info=new JobInfo.Builder(445,componentName)
 //                .setPersisted(true)
                 .setExtras(bundle)
-                .setPeriodic(15*60*1000)
+                .setPeriodic(24*60*60*1000)
                 .build();
         JobScheduler scheduler=(JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
         int resultCode = scheduler.schedule(info);
@@ -130,11 +130,19 @@ public class SearchResults extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            String url=new networkData().url+new networkData().getVolunteer;
             String number=mauth.getCurrentUser().getPhoneNumber();
             number=number.substring(3,number.length());
             String uploadId= UUID.randomUUID().toString();
-            String json=new JsonParser().getHelp(url,age,blood,number,pin,city);
+            String json=null;
+            if(pin.length()==0)
+            {
+                String url=new networkData().url+new networkData().getVolunteerCity;
+                json=new JsonParser().getHelpCity(url,age,blood,number,city);
+            }
+            else{
+                String url=new networkData().url+new networkData().getVolunteerPin;
+                json=new JsonParser().getHelpPin(url,age,blood,number,pin);
+            }
             System.out.println(json);
             return json;
         }

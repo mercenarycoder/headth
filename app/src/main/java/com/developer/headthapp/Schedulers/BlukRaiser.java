@@ -56,7 +56,7 @@ public class BlukRaiser  extends JobService {
             number=number.substring(3,number.length());
             String data=null;
             for(int i=0;i<callers.length;i++) {
-                data=new JsonParser().raiseAlarm(url,callers[i],number);
+                data=new JsonParser().raiseAlarm(url,number,callers[i]);
             }
             Log.d(TAG, "doInBackground: "+data);
             return data;
@@ -67,11 +67,11 @@ public class BlukRaiser  extends JobService {
             super.onPostExecute(s);
             if(s!=null){
                 jobFinished(params,false);
-                Toast.makeText(context,"Bluk request raised",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Bulk request raised",Toast.LENGTH_SHORT).show();
             }
             else{
                 jobFinished(params,false);
-                Toast.makeText(context,"Bluk request failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"Bulk request failed",Toast.LENGTH_SHORT).show();
             }
         }
     }

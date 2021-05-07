@@ -98,7 +98,7 @@ public class CovidCaller extends AppCompatActivity {
             String data=null;
             for(int i=0;i<list.size();i++)
             {
-                data=new JsonParser().cancelPlasmaRequest(url,list.get(i).getCaller(),number);
+                data=new JsonParser().cancelPlasmaRequest(url,number,list.get(i).getCaller());
             }
                 Log.d("cancelling going", "doInBackground: "+data);
 

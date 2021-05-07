@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -72,6 +73,7 @@ RelativeLayout help_layout2;
 ProgressBar progress,progress2;
 TextView no_report,no_pres;
 ImageButton disease_2,medicine_2,allergies_2,history_2,qr,noti;
+ImageView covid;
 SwipeRefreshLayout refresh,refresh2;
 public static Boolean check=false;
     public BiometricManager biometricManager;
@@ -135,9 +137,9 @@ public static void changeVisiblity()
 
         //till here
     //the code of jobscheduler will start from here for simple log msgs as of now and is successfull
-        scheduleJob();
-    //code to make notifications in real time
-        scheduleJob2();
+        context=HealthCart.this;
+        //code to make notifications in real time
+        runServices(context);
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,6 +162,8 @@ public static void changeVisiblity()
                 help.setEnabled(false);
                 open_profile.setEnabled(false);
                 open_notification.setEnabled(false);
+                covid.setEnabled(false);
+                covid_profile.setEnabled(false);
                 new GlobalVariables();
                 GlobalVariables.Helper =false;
             }
@@ -261,11 +265,12 @@ public static void changeVisiblity()
                 help.setEnabled(true);
                 open_notification.setEnabled(true);
                 open_profile.setEnabled(true);
+                covid.setEnabled(true);
+                covid_profile.setEnabled(true);
                 new GlobalVariables();
                 GlobalVariables.Helper=true;
             }
         });
-        context=HealthCart.this;
 
 
         qr_act.setOnClickListener(new View.OnClickListener() {
@@ -368,6 +373,13 @@ public static void changeVisiblity()
                 startActivity(intent);
             }
         });
+        covid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, CovidMain.class);
+                startActivity(intent);
+            }
+        });
         view_report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -395,6 +407,49 @@ public static void changeVisiblity()
         new getallPres().execute();
         new getProfile().execute();
         new getReports().execute();
+    }
+    public static boolean isJobServiceOn( Context context ) {
+        JobScheduler scheduler = (JobScheduler) context.getSystemService( Context.JOB_SCHEDULER_SERVICE ) ;
+
+        boolean hasBeenScheduled = false ;
+
+        for ( JobInfo jobInfo : scheduler.getAllPendingJobs() ) {
+            if ( jobInfo.getId() == 444 ) {
+                hasBeenScheduled = true ;
+                break ;
+            }
+        }
+        return hasBeenScheduled ;
+    }
+    public  void runServices(Context context){
+      JobScheduler scheduler=(JobScheduler)context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+      boolean runit=false,runit2=false;
+      for(JobInfo jobInfo: scheduler.getAllPendingJobs()){
+          if(jobInfo.getId()==444)
+          {
+              runit=true;
+          }
+          if(jobInfo.getId()==123)
+          {
+              runit2=true;
+          }
+      }
+      if(!runit){
+          scheduleJob2();
+          Log.d(TAG, "runServices: Service is getting started");
+//          Toast.makeText(context,"Service gettign started",Toast.LENGTH_SHORT).show();
+      }
+      else {
+//          Toast.makeText(context,"Service already their",Toast.LENGTH_SHORT).show();
+          Log.d(TAG, "runServices: Service is already running on device");
+      }
+      if(!runit2)
+      {
+          scheduleJob();
+      }
+      else{
+          Log.d(TAG, "runServices continuous: this was already running");
+      }
     }
     public static final String TAG="JobScheduler";
     public void scheduleJob() {
@@ -490,6 +545,7 @@ public static void changeVisiblity()
         progress2=(ProgressBar)findViewById(R.id.progress2);
         no_report=(TextView)findViewById(R.id.no_report);
         no_pres=(TextView)findViewById(R.id.no_pres);
+        covid=(ImageView)findViewById(R.id.covid);
     }
     public void formList()
     {

@@ -4,4 +4,6 @@
     someone who uses the app. You provide the permission for Medical Experts to review your medical history , including
     prescriptions , medication and reports in case of Emergency. You also provide the permission for a third party user (outside your
     nominations) to scan your QR code and get access in case of an Emergency.</string>
+    <string name="second_d">By Clicking accept you agree that your Health Card profile will also be created by this number initially
+    and so we advice you to choose as your primary number as the one you are applying here with.</string>
 </resources>

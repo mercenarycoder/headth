@@ -110,7 +110,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/dm_font"
                 android:layout_marginRight="20dp"
-                android:drawableRight="@drawable/download2"
+                android:drawableRight="@drawable/ic_close"
                 android:gravity="center"
                 android:textSize="10sp"/>
         </LinearLayout>
@@ -172,7 +172,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/dm_font"
                 android:layout_marginRight="20dp"
-                android:drawableRight="@drawable/download2"
+                android:drawableRight="@drawable/ic_close"
                 android:gravity="center"
                 android:textSize="10sp"/>
         </LinearLayout>
@@ -222,7 +222,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/dm_font"
                 android:layout_marginRight="20dp"
-                android:drawableRight="@drawable/download2"
+                android:drawableRight="@drawable/ic_close"
                 android:gravity="center"
                 android:textSize="10sp"/>
         </LinearLayout>

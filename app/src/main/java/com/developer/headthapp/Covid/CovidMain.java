@@ -68,6 +68,7 @@ public class CovidMain extends AppCompatActivity {
     private String recoveryurl="no data",shot1url="no data",shot2url="no data";
     private boolean rDialog=false,s1Dialog=false,s2Dialog=false;
     private String Name="";
+    private boolean refresh=false,deleter=false,deleteR=false,deleteS1=false,deleteS2=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,19 +87,49 @@ public class CovidMain extends AppCompatActivity {
         download_c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Download will be here soon",Toast.LENGTH_SHORT).show();
+                if(recoveryurl.equals("no data"))
+                {
+                Toast.makeText(context,"No Data to be removed",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Name=recoveryurl;
+                    recoveryurl="no data";
+                    deleter=true;
+                    deleteR=true;
+                    new removeData().execute();
+                }
             }
         });
         download_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Download will be here soon",Toast.LENGTH_SHORT).show();
+                if(shot1url.equals("no data"))
+                {
+                    Toast.makeText(context,"No Data to be removed",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Name=shot1url;
+                    shot1url="no data";
+                    deleter=true;
+                    deleteS1=true;
+                    new removeData().execute();
+                }
             }
         });
         download_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Download will be here soon",Toast.LENGTH_SHORT).show();
+                if(shot2url.equals("no data"))
+                {
+                    Toast.makeText(context,"No Data to be removed",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Name=shot2url;
+                    shot2url="no data";
+                    deleter=true;
+                    deleteS2=true;
+                    new removeData().execute();
+                }
             }
         });
         upload_c.setOnClickListener(new View.OnClickListener() {
@@ -152,11 +183,17 @@ public class CovidMain extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Alert")
                             .setMessage(msg)
-                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 //                                    finish();
                                     new updateVolunteer().execute();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
                                 }
                             });
                     builder.create();
@@ -168,6 +205,7 @@ public class CovidMain extends AppCompatActivity {
                     return;
                 }
                 else if(recoveryurl.length()>10){
+                    refresh=true;
                     Intent intent=new Intent(context,Volunteer.class);
                     startActivity(intent);
 //                    return;
@@ -189,6 +227,18 @@ public class CovidMain extends AppCompatActivity {
         });
         new getMyProfile().execute();
     }
+
+    @Override
+    protected void onResume() {
+        if(refresh)
+        {
+            refresh=false;
+            new getMyProfile().execute();
+        }
+        super.onResume();
+
+    }
+
     private class updateVolunteer extends AsyncTask<String,String,String>{
         @Override
         protected void onPreExecute() {
@@ -681,7 +731,7 @@ public class CovidMain extends AppCompatActivity {
             String number=mauth.getCurrentUser().getPhoneNumber();
             number=number.substring(3,number.length());
             String uploadId= UUID.randomUUID().toString();
-            String json;
+            String json=null;
             if(rDialog){
                 json=new JsonParser().submitCovidData(url,number,recoveryurl,"certificate");
 //                recoveryurl=imagePaths;
@@ -689,6 +739,25 @@ public class CovidMain extends AppCompatActivity {
             else if(s1Dialog){
                 json=new JsonParser().submitCovidData(url,number,shot1url,"shot1");
 //                shot1url=imagePaths;
+            }
+            else if(deleter)
+            {
+                deleter=false;
+                if(deleteR)
+                {
+                    deleteR=false;
+                    json=new JsonParser().submitCovidData(url,number,recoveryurl,"certificate");
+                }
+                else if(deleteS1)
+                {
+                    deleteS1=false;
+                    json=new JsonParser().submitCovidData(url,number,shot1url,"shot1");
+                }
+                else if(deleteS2)
+                {
+                    deleteS2=false;
+                    json=new JsonParser().submitCovidData(url,number,shot2url,"shot2");
+                }
             }
             else {
                 json=new JsonParser().submitCovidData(url,number,shot2url,"shot2");
@@ -707,8 +776,13 @@ public class CovidMain extends AppCompatActivity {
                     if(status.equals("1")) {
                         if((s1Dialog||s2Dialog)&&volChecker)
                         {
-                        Toast.makeText(context,"You cannot be a volunteer anymore",Toast.LENGTH_SHORT).show();
-                        new updateVolunteer().execute();
+                            Toast.makeText(context,"You cannot be a volunteer anymore",Toast.LENGTH_SHORT).show();
+                            new updateVolunteer().execute();
+                        }
+                        if(recoveryurl.equals("no data")&&volChecker)
+                        {
+                            Toast.makeText(context,"You cannot be a volunteer anymore",Toast.LENGTH_SHORT).show();
+                            new updateVolunteer().execute();
                         }
                         final String msg = String.valueOf(obj.get("msg"));
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -799,7 +873,13 @@ public class CovidMain extends AppCompatActivity {
                     if(status.equals("1"))
                     {
                         Toast.makeText(context,"Previous Data Deleted",Toast.LENGTH_SHORT).show();
-                        new uploadData().execute();
+                        if(deleter){
+//                            deleter=false;
+                            new submitData().execute();
+                        }
+                        else{
+                            new uploadData().execute();
+                        }
                     }
                 }
                 catch (Exception e)

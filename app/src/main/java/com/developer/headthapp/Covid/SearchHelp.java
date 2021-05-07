@@ -2,10 +2,18 @@ package com.developer.headthapp.Covid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +36,7 @@ public class SearchHelp extends AppCompatActivity {
  Spinner blood,age;
  EditText city,pin;
  String cityS="",pinS="",bloodS="",ageS="";
+ boolean pinC=false,cityC=false;
     Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +80,144 @@ public class SearchHelp extends AppCompatActivity {
             }
         });
         context=SearchHelp.this;
+        pin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length()>0&&city.getText().toString().length()>0)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Alert")
+                            .setMessage("You can either search with Pin or City -\n Want Continue with Pin ?")
+                            .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    city.setText("");
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    pin.setText("");
+                                    InputMethodManager iim=(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    iim.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                                    iim.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                                }
+                            });
+                    builder.show();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        city.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.length()>0&&pin.getText().toString().length()>0)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Alert")
+                            .setMessage("You can either search with Pin or City -\n Want Continue with City ?")
+                            .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    pin.setText("");
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    city.setText("");
+                                    InputMethodManager iim=(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    iim.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                                    iim.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                                }
+                            });
+                    builder.show();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        city.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(pin.getText().toString().length()>0)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Alert")
+                            .setMessage("You can either search with Pin or City -\n Want Continue with City ?")
+                            .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    pin.setText("");
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                   city.setText("");
+                                }
+                            });
+                    builder.show();
+                }
+                else{
+
+                }
+            }
+        });
+        pin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(city.getText().toString().length()>0)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Alert")
+                            .setMessage("You can either search with Pin or City -\n Want Continue with Pin ?")
+                            .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    city.setText("");
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    pin.setText("");
+                                }
+                            });
+                    builder.show();
+                }
+                else{
+
+                }
+            }
+        });
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cityS=city.getText().toString().toLowerCase();
                 pinS=pin.getText().toString().toLowerCase();
-                if(cityS.length()<2){
+                if(pinS.length()==0&&cityS.length()<2){
                     Toast.makeText(context,"Please enter a valid city name",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(pinS.length()!=6){
+                if(cityS.length()==0&&pinS.length()!=6){
                     Toast.makeText(context,"Please enter a valid Pincode",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -109,6 +246,13 @@ public class SearchHelp extends AppCompatActivity {
             }
         });
     }
+
+    private boolean checkThing() {
+        Toast.makeText(context,"You cannot be a volunteer anymore",Toast.LENGTH_SHORT).show();
+//        new CovidMain.updateVolunteer().execute();
+        return true;
+    }
+
     public void formBlood()
     {
         listB=new ArrayList<>();

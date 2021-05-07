@@ -15,9 +15,11 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
+import com.developer.headthapp.Covid.HelpClass;
 import com.developer.headthapp.HealthCart;
 import com.developer.headthapp.NotificationCode.NotificationReciever;
 import com.developer.headthapp.R;
@@ -37,6 +39,7 @@ import static com.developer.headthapp.NotificationCode.App.CHANNEL_ID;
 public class NotificationServiceCovid extends JobService {
     public static final String TAG="NotificationService";
     private boolean jobCancelled=false;
+    ArrayList<HelpClass> list;
     int r=0;
     Context context;
     NotificationManagerCompat notificationManager;
@@ -63,6 +66,36 @@ public class NotificationServiceCovid extends JobService {
         new setIt().cancel(true);
         return true;
     }
+    public class cancelling extends AsyncTask<String,String,String>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().changeBulkStatus;
+            JsonParser jsonParser=new JsonParser();
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String data=null;
+            for(int i=0;i<list.size();i++)
+            {
+                data=new JsonParser().cancelPlasmaRequest(url,number,list.get(i).getCaller());
+            }
+            Log.d("cancelling going", "doInBackground: "+data);
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s!=null){
+                Toast.makeText(context,"Notification updated status",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     public class setIt extends AsyncTask<String, String, String>
     {
 
@@ -86,14 +119,14 @@ public class NotificationServiceCovid extends JobService {
                     JSONObject jsonObject = new JSONObject(s);
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
                     ArrayList name = new ArrayList<String>();
-                    // list = new ArrayList<>();
+                     list = new ArrayList<>();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object1 = jsonArray.getJSONObject(i);
                         String id=object1.getString("id");
                         String called=object1.getString("called");
                         String caller=object1.getString("caller");
                         String status=object1.getString("status");
-
+                        list.add(new HelpClass(id,caller));
                         System.out.println(id);
                         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -120,9 +153,8 @@ public class NotificationServiceCovid extends JobService {
                             v.vibrate(3000);
                             notificationManager.notify(r,notification);
                             r++;
-
                     }
-
+                    new cancelling().execute();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
