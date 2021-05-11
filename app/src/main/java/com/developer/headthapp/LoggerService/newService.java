@@ -29,7 +29,7 @@ public class newService  extends JobService {
             public void run() {
                 int i=0;
                 while(true){
-                    Log.d(TAG, "run: "+i);
+//                    Log.d(TAG, "run: "+i);
                     if(jobCancelled)
                         break;
                     i++;

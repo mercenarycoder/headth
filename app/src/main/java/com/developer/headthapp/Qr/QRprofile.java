@@ -231,8 +231,8 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                         String blood2=object1.getString("blood");
                         String dob=object1.getString("dob");
                         String arr[]=dob.split("/");
-                        String age2=getAge(Integer.parseInt(arr[2]),Integer.parseInt(arr[1]),Integer.parseInt(arr[0]));
-                        age.setText(age2);
+//                        String age2=getAge(Integer.parseInt(arr[2]),Integer.parseInt(arr[1]),Integer.parseInt(arr[0]));
+                        age.setText("age2");
                         blood.setText(blood2);
                         list_m=new ArrayList<>();
                         for(int i=0;i<medicines.length();i++)

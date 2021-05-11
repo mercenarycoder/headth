@@ -151,7 +151,8 @@ public class LoginUser extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             dialog.dismiss();
-                            content.setText(R.string.second_d);
+                            content.setText("Are you sure you wish to proceed with "+numberP);
+                            accept.setText("Proceed");
                             accept.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

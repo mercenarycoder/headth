@@ -27,6 +27,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 public class Volunteer extends AppCompatActivity {
@@ -278,6 +286,23 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                         String heightF = obj.getString("height");
                         String weightF = obj.getString("weight");
                         String dobF = obj.getString("dob");
+
+                        dobF=dobF.replace("/","-");
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = formatter.parse(dobF);
+                        //Converting obtained Date object to LocalDate object
+                        Instant instant = null;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            instant = date.toInstant();
+                            ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+                            LocalDate givenDate = zone.toLocalDate();
+                            //Calculating the difference between given date to current date.
+                            Period period = Period.between(givenDate, LocalDate.now());
+                            age=String.valueOf(period.getYears());
+                        }else{
+                            age="23";
+                        }
+
                         String bloodF = obj.getString("blood");
                         if(arr.length>1)
                         {
@@ -308,7 +333,7 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                         builder.show();
                     }
                 }
-                catch (JSONException e) {
+                catch (JSONException | ParseException e) {
                     e.printStackTrace();
                     try {
                         JSONObject jsonObject = new JSONObject(result);

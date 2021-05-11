@@ -38,6 +38,7 @@
         android:fontFamily="@font/dm_font"
         android:textColor="#000"
         android:textSize="18sp"
+        android:scrollbars="vertical"
         android:id="@+id/content"
         android:paddingStart="17dp"
         android:gravity="center"/>

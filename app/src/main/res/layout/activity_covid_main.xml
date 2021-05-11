@@ -80,7 +80,7 @@
                 android:id="@+id/recovery"
                 android:layout_gravity="center"
                 android:paddingStart="4dp"
-                android:text="Recovery Certificate \n (If Applicable)"
+                android:text="Recovery Certificate \n (Or latest negative RT-PCR report)"
                 />
             <Button
                 android:layout_width="match_parent"
@@ -94,10 +94,10 @@
                 android:fontFamily="@font/dm_font"
                 android:background="@drawable/btn2"
                 android:layout_marginTop="20dp"
-                android:textSize="10sp"
+                android:textSize="13sp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"/>
-            <Button
+            <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text=""
@@ -110,7 +110,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/dm_font"
                 android:layout_marginRight="20dp"
-                android:drawableRight="@drawable/ic_close"
+                android:src="@drawable/ic_close"
                 android:gravity="center"
                 android:textSize="10sp"/>
         </LinearLayout>
@@ -156,10 +156,10 @@
                 android:fontFamily="@font/dm_font"
                 android:background="@drawable/btn2"
                 android:layout_marginTop="20dp"
-                android:textSize="10sp"
+                android:textSize="13sp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"/>
-            <Button
+            <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text=""
@@ -172,7 +172,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/dm_font"
                 android:layout_marginRight="20dp"
-                android:drawableRight="@drawable/ic_close"
+                android:src="@drawable/ic_close"
                 android:gravity="center"
                 android:textSize="10sp"/>
         </LinearLayout>
@@ -206,10 +206,10 @@
                 android:fontFamily="@font/dm_font"
                 android:background="@drawable/btn2"
                 android:layout_marginTop="20dp"
-                android:textSize="10sp"
+                android:textSize="13sp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"/>
-            <Button
+            <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text=""
@@ -222,7 +222,7 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/dm_font"
                 android:layout_marginRight="20dp"
-                android:drawableRight="@drawable/ic_close"
+                android:src="@drawable/ic_close"
                 android:gravity="center"
                 android:textSize="10sp"/>
         </LinearLayout>
@@ -241,7 +241,7 @@
         <Button
             android:layout_width="294dp"
             android:layout_height="wrap_content"
-            android:text="Search for Plasma, \n Oxygen Cylinder, \n Hospital Beds and other resources"
+            android:text="Search for Blood Plasma"
             android:textAllCaps="false"
             android:textColor="#fff"
             android:textStyle="bold"
@@ -255,7 +255,7 @@
         <Button
             android:layout_width="294dp"
             android:layout_height="wrap_content"
-            android:text="Volunteer for Blood Donation"
+            android:text="Volunteer for Plasma Donation"
             android:textAllCaps="false"
             android:textColor="#fff"
             android:textStyle="bold"

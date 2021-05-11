@@ -201,7 +201,7 @@ Calendar myCalendar;
                         myCalendar.set(Calendar.YEAR, year);
                         myCalendar.set(Calendar.MONTH, monthOfYear);
                         myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String myFormat = "dd/MM/YYYY"; //In which you need put here
+                        String myFormat = "dd-MM-YYYY"; //In which you need put here
                         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
                         dob.setText(sdf.format(myCalendar.getTime()));

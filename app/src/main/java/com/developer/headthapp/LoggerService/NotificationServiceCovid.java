@@ -81,7 +81,7 @@ public class NotificationServiceCovid extends JobService {
             String data=null;
             for(int i=0;i<list.size();i++)
             {
-                data=new JsonParser().cancelPlasmaRequest(url,number,list.get(i).getCaller());
+                data=new JsonParser().cancelPlasmaRequest(url,list.get(i).getCaller(),number);
             }
             Log.d("cancelling going", "doInBackground: "+data);
 

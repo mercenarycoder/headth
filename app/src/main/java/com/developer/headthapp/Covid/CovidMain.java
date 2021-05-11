@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.view.View;
 import android.view.Window;
@@ -55,7 +56,8 @@ public class CovidMain extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int STORAGE_PERMISSION_CODE = 2;
     Context context;
-    Button upload_1,upload_2,upload_c,download_c,download_1,download_2;
+    Button upload_1,upload_2,upload_c;
+    ImageButton download_c,download_1,download_2;
     TextView recovery,shot1,shot2;
     String titleF,docF,observationF,dateF,imageF="",typeF,idF;
     boolean pdfChecker=false,imgCheck=false;
@@ -68,7 +70,7 @@ public class CovidMain extends AppCompatActivity {
     private String recoveryurl="no data",shot1url="no data",shot2url="no data";
     private boolean rDialog=false,s1Dialog=false,s2Dialog=false;
     private String Name="";
-    private boolean refresh=false,deleter=false,deleteR=false,deleteS1=false,deleteS2=false;
+    private boolean refresh=false,deleter=false,deleteR=false,deleteS1=false,deleteS2=false,deleteMsg=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +98,7 @@ public class CovidMain extends AppCompatActivity {
                     recoveryurl="no data";
                     deleter=true;
                     deleteR=true;
+                    deleteMsg=true;
                     new removeData().execute();
                 }
             }
@@ -112,6 +115,7 @@ public class CovidMain extends AppCompatActivity {
                     shot1url="no data";
                     deleter=true;
                     deleteS1=true;
+                    deleteMsg=true;
                     new removeData().execute();
                 }
             }
@@ -128,6 +132,7 @@ public class CovidMain extends AppCompatActivity {
                     shot2url="no data";
                     deleter=true;
                     deleteS2=true;
+                    deleteMsg=true;
                     new removeData().execute();
                 }
             }
@@ -138,6 +143,7 @@ public class CovidMain extends AppCompatActivity {
                 rDialog=true;
                 s1Dialog=false;
                 s2Dialog=false;
+                deleteMsg=false;
                 dialogShower();
             }
         });
@@ -147,6 +153,7 @@ public class CovidMain extends AppCompatActivity {
                 rDialog=false;
                 s1Dialog=true;
                 s2Dialog=false;
+                deleteMsg=false;
                 dialogShower();
             }
         });
@@ -156,6 +163,7 @@ public class CovidMain extends AppCompatActivity {
                 rDialog=false;
                 s1Dialog=false;
                 s2Dialog=true;
+                deleteMsg=false;
                 dialogShower();
             }
         });
@@ -179,6 +187,7 @@ public class CovidMain extends AppCompatActivity {
                 }
                 if(volChecker)
                 {
+
                     String msg="Do you really want to unvolunteer yourself!!";
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Alert")
@@ -206,8 +215,32 @@ public class CovidMain extends AppCompatActivity {
                 }
                 else if(recoveryurl.length()>10){
                     refresh=true;
-                    Intent intent=new Intent(context,Volunteer.class);
-                    startActivity(intent);
+                    dialog=new Dialog(context, 0);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.dialog_phone);
+                    Button accept=dialog.findViewById(R.id.accept);
+                    TextView content=(TextView)dialog.findViewById(R.id.content);
+                    TextView title=(TextView)dialog.findViewById(R.id.title);
+                    content.setText(R.string.guidelines);
+                    content.setMovementMethod(new ScrollingMovementMethod());
+                    title.setText("Guidelines");
+                    accept.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent=new Intent(context,Volunteer.class);
+                            startActivity(intent);
+                            dialog.dismiss();
+                        }
+                    });
+                    ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);
+                    close_btn2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
 //                    return;
                 }
             }
@@ -699,7 +732,7 @@ public class CovidMain extends AppCompatActivity {
 //                        list.add(new imageRecyclerClass(imageF,fileName,typeF));
 //                        adapter=new ImageRecylerAdapter(list,context);
 
-                        Toast.makeText(context,"Image Inserted",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,"Image Inserted",Toast.LENGTH_SHORT).show();
                         new submitData().execute();
                     }
                     else
@@ -759,7 +792,7 @@ public class CovidMain extends AppCompatActivity {
                     json=new JsonParser().submitCovidData(url,number,shot2url,"shot2");
                 }
             }
-            else {
+            else if(s2Dialog){
                 json=new JsonParser().submitCovidData(url,number,shot2url,"shot2");
 //                shot2url=imagePaths;
             }
@@ -769,6 +802,7 @@ public class CovidMain extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            System.out.println(s);
             if(s!=null){
                 try{
                     JSONObject obj=new JSONObject(s);
@@ -784,7 +818,16 @@ public class CovidMain extends AppCompatActivity {
                             Toast.makeText(context,"You cannot be a volunteer anymore",Toast.LENGTH_SHORT).show();
                             new updateVolunteer().execute();
                         }
-                        final String msg = String.valueOf(obj.get("msg"));
+                        String msg = String.valueOf(obj.get("msg"));
+                        if(deleteMsg&&msg.contains("certificate"))
+                        {
+                            msg="Certificate has been removed";
+                        }else if(deleteMsg&&msg.contains("shot1")){
+                            msg="Ist Shot certificate has been removed";
+                        }else if(deleteMsg&&msg.contains("shot2")){
+                            msg="IInd Shot certificate has been removed";
+                        }
+                        deleteMsg=false;
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Update")
                                 .setMessage(msg)
@@ -864,6 +907,7 @@ public class CovidMain extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            System.out.println(s);
             progressDialog.dismiss();
             if(s!=null)
             {
@@ -880,12 +924,23 @@ public class CovidMain extends AppCompatActivity {
                         else{
                             new uploadData().execute();
                         }
+                    }else{
+                        if(deleter){
+//                            deleter=false;
+                            new submitData().execute();
+                        }
+                        else{
+                            new uploadData().execute();
+                        }
                     }
                 }
                 catch (Exception e)
                 {
                     e.printStackTrace();
                 }
+            }
+            else {
+                Toast.makeText(context,"Please Check your Internet connection",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -896,9 +951,9 @@ public class CovidMain extends AppCompatActivity {
         upload_1=(Button)findViewById(R.id.upload_1);
         upload_2=(Button)findViewById(R.id.upload_2);
         upload_c=(Button)findViewById(R.id.upload_c);
-        download_c=(Button)findViewById(R.id.download_c);
-        download_1=(Button)findViewById(R.id.download_1);
-        download_2=(Button)findViewById(R.id.download_2);
+        download_c=(ImageButton)findViewById(R.id.download_c);
+        download_1=(ImageButton)findViewById(R.id.download_1);
+        download_2=(ImageButton)findViewById(R.id.download_2);
         recovery=(TextView)findViewById(R.id.recovery);
         shot1=(TextView)findViewById(R.id.shot1);
         shot2=(TextView)findViewById(R.id.shot2);
@@ -948,42 +1003,45 @@ public class CovidMain extends AppCompatActivity {
                         if(shot1D.equals("no data"))
                         {
 //                            Toast.makeText(context,recoveryurl,Toast.LENGTH_SHORT).show();
-                            upload_1.setText("upload");
+                            upload_1.setText("Upload");
+                            shot1.setText("1st Shot");
                             shotChecker=false;
                         }else{
                             upload_1.setText("Reupload");
                             shot1.setText("1st Shot (Uploaded)");
                             shotChecker=true;
                         }
+//                        Toast.makeText(context,shot2D,Toast.LENGTH_SHORT).show();
                         if(shot2D.equals("no data"))
                         {
-                            upload_2.setText("upload");
+                            upload_2.setText("Upload");
+                            shot2.setText("2nd Shot");
                             shot2Checker=false;
-
                         }else{
                             upload_2.setText("Reupload");
-                            shot2.setText("1st Shot (Uploaded)");
+                            shot2.setText("2nd Shot (Uploaded)");
                             shot2Checker=true;
                         }
                         if(recoveryD.equals("no data"))
                         {
                             recoverChecker=false;
-                            upload_c.setText("upload");
+                            recovery.setText("Recovery Certificate \n (Or latest negative RT-PCR report)");
+                            upload_c.setText("Upload");
                         }
                         else{
                             recoverChecker=true;
                             upload_c.setText("Reupload");
-                            recovery.setText("Recovery Certificate (Uploaded)");
+                            recovery.setText("Recovery Certificate \n (Or latest negative RT-PCR report) (Uploaded)");
                         }
                         if(volunteerD.equals("0")){
                             search_2.setEnabled(true);
                             volChecker=false;
-                            search_2.setText("Volunteer for Blood Donation");
+                            search_2.setText("Volunteer for Plasma Donation");
                         }
                         else {
                             volChecker=true;
                             search_2.setEnabled(true);
-                            search_2.setText("Unvolunteer for Blood Donation");
+                            search_2.setText("Unvolunteer for Plasma Donation");
                         }
                     }
                     else {

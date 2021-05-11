@@ -67,7 +67,7 @@ public class CovidAdapter extends RecyclerView.Adapter<CovidAdapter.viewholder1>
         final CovidBox adapter=list.get(position);
         holder.name.setText(adapter.getName());
         holder.mobile.setText(adapter.getMobile());
-        holder.data.setText("Age: "+adapter.getAge()+" Blood: "+adapter.getBlood());
+        holder.data.setText("Age:"+adapter.getAge()+" Blood Group: "+adapter.getBlood());
         holder.call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

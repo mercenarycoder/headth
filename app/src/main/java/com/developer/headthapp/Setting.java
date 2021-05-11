@@ -3,6 +3,7 @@ package com.developer.headthapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.job.JobScheduler;
 import android.content.Context;
@@ -13,8 +14,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.headthapp.ApiMethods.JsonParser;
@@ -29,7 +33,7 @@ import org.json.JSONObject;
 import java.util.UUID;
 
 public class Setting extends AppCompatActivity {
-LinearLayout logout,privacy,doctor,notification,change_otp;
+LinearLayout logout,privacy,doctor,notification,change_otp,delete_account;
 ImageButton back;
 Context context=Setting.this;
 SharedPreferences preferences;
@@ -58,6 +62,36 @@ ProgressDialog progressDialog;
         doctor=(LinearLayout)findViewById(R.id.upgrade);
         notification=(LinearLayout)findViewById(R.id.notification);
         change_otp=(LinearLayout)findViewById(R.id.change_otp);
+        delete_account=(LinearLayout)findViewById(R.id.delete_account);
+        delete_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Dialog dialog=new Dialog(context, 0);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.dialog_phone);
+                Button accept=dialog.findViewById(R.id.accept);
+                TextView title=dialog.findViewById(R.id.title);
+                TextView content=(TextView)dialog.findViewById(R.id.content);
+                content.setText("It will take  14 days for your account to be deleted till then you can relogin and save your account");
+                title.setText("Delete Account");
+                ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);
+                close_btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                accept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new deleteOtp().execute();
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        });
         change_otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,6 +192,7 @@ ProgressDialog progressDialog;
                  {
                      cancelJob2();
                      Intent intent=new Intent(Setting.this,LoginUser.class);
+                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                      mauth.signOut();
                      editor.clear();
                      editor.apply();

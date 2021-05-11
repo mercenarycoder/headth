@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -75,8 +77,31 @@ public class SearchResults extends AppCompatActivity {
                 return;
             }
             else{
-                scheduleJob2();
-                checkRaise=true;
+                Dialog dialog=new Dialog(context, 0);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(R.layout.dialog_phone);
+                Button accept=dialog.findViewById(R.id.accept);
+                TextView title=dialog.findViewById(R.id.title);
+                TextView content=(TextView)dialog.findViewById(R.id.content);
+                content.setText("A notification will be sent to all the volunteers along with your number. Are you sure you want to raise a Bulk Request?");
+                title.setText("Bulk Request Raiser");
+                ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);
+                close_btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                accept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        scheduleJob2();
+                        checkRaise=true;
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
             }
         });
@@ -93,6 +118,7 @@ public class SearchResults extends AppCompatActivity {
         no_res.setVisibility(View.INVISIBLE);
         new getContacts().execute();
     }
+    private String callers[];
     public void scheduleJob2(){
         ComponentName componentName=new ComponentName(this, BlukRaiser.class);
         PersistableBundle bundle=new PersistableBundle();
@@ -106,21 +132,61 @@ public class SearchResults extends AppCompatActivity {
         {
             caller=caller.substring(0,caller.length()-1);
         }
+        callers=caller.split(";");
+        new raiseBulk().execute();
         bundle.putString("caller",caller);
-        JobInfo info=new JobInfo.Builder(445,componentName)
-//                .setPersisted(true)
-                .setExtras(bundle)
-                .setPeriodic(24*60*60*1000)
-                .build();
-        JobScheduler scheduler=(JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
-        int resultCode = scheduler.schedule(info);
-        if(resultCode==JobScheduler.RESULT_SUCCESS){
-            Log.d(TAG, "scheduleJob2: Job scheduled");
-        }else{
-            Log.d(TAG, "scheduleJob2: Job scheduling failed");
+//        JobInfo info=new JobInfo.Builder(445,componentName)
+////                .setPersisted(true)
+//                .setExtras(bundle)
+//                .setPeriodic(365*24*60*60*1000)
+//                .build();
+//        JobScheduler scheduler=(JobScheduler)getSystemService(JOB_SCHEDULER_SERVICE);
+//        int resultCode = scheduler.schedule(info);
+//        if(resultCode==JobScheduler.RESULT_SUCCESS){
+//            Log.d(TAG, "scheduleJob2: Job scheduled");
+//        }else{
+//            Log.d(TAG, "scheduleJob2: Job scheduling failed");
+//        }
+    }
+    private class raiseBulk extends AsyncTask<String,String,String>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url=new networkData().url+new networkData().raiseAlarm;
+            JsonParser jsonParser=new JsonParser();
+            String number=mauth.getCurrentUser().getPhoneNumber();
+            number=number.substring(3,number.length());
+            String data=null;
+            for(int i=0;i<callers.length;i++) {
+                data=new JsonParser().raiseAlarm(url,number,callers[i]);
+            }
+            Log.d(TAG, "doInBackground: "+data);
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s!=null){
+//                jobFinished(params,false);
+                Toast.makeText(context,"Bulk request raised",Toast.LENGTH_SHORT).show();
+            }
+            else{
+//                jobFinished(params,false);
+                Toast.makeText(context,"Bulk request failed",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
+
     private class getContacts extends AsyncTask<String,String,String>{
         @Override
         protected void onPreExecute() {

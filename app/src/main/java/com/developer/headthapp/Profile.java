@@ -28,7 +28,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 public class Profile extends AppCompatActivity {
@@ -85,11 +93,15 @@ Context context;
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(Profile.this,ProfileUpdate.class);
+                String hh=height.getText().toString();
+                hh=hh.substring(0,hh.length()-4);
+                String ww=weight.getText().toString();
+                ww=ww.substring(0,ww.length()-3);
                 intent.putExtra("edit","true");
                 intent.putExtra("name",name.getText().toString());
                 intent.putExtra("dob",dob.getText().toString());
-                intent.putExtra("height",height.getText().toString());
-                intent.putExtra("weight",weight.getText().toString());
+                intent.putExtra("height",hh);
+                intent.putExtra("weight",ww);
                 intent.putExtra("blood",blood.getText().toString());
                 startActivity(intent);
                 check=true;
@@ -156,6 +168,22 @@ boolean check=false;
                         String heightF = obj.getString("height");
                         String weightF = obj.getString("weight");
                         String dobF = obj.getString("dob");
+
+                        dobF=dobF.replace("/","-");
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = formatter.parse(dobF);
+                        //Converting obtained Date object to LocalDate object
+                        Instant instant = null;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            instant = date.toInstant();
+                            ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+                            LocalDate givenDate = zone.toLocalDate();
+                            //Calculating the difference between given date to current date.
+                            Period period = Period.between(givenDate, LocalDate.now());
+                            age.setText(String.valueOf(period.getYears()));
+                        }else{
+                            age.setText("23");
+                        }
                         String bloodF = obj.getString("blood");
                         if(arr.length>1)
                         {
@@ -168,11 +196,10 @@ boolean check=false;
                         name_main.setText(nameF);
                         name.setText(nameF);
                         phone.setText("+91-"+mobileF);
-                        height.setText(heightF);
-                        weight.setText(weightF);
+                        height.setText(heightF+" cms");
+                        weight.setText(weightF+" kg");
                         dob.setText(dobF);
                         blood.setText(bloodF);
-                        age.setText("23");
                         new getEmergency().execute();
                     }
                     else {
@@ -189,7 +216,7 @@ boolean check=false;
                         builder.show();
                     }
                 }
-                catch (JSONException e) {
+                catch (JSONException | ParseException e) {
                     e.printStackTrace();
                     try {
                         JSONObject jsonObject = new JSONObject(result);
@@ -217,6 +244,14 @@ boolean check=false;
                 Toast.makeText(context,"Some Networking error try again later",Toast.LENGTH_SHORT).show();
             }
         }
+    }
+    public static Date StringToDate(String dob) throws ParseException {
+        //Instantiating the SimpleDateFormat class
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        //Parsing the given String to Date object
+        Date date = formatter.parse(dob);
+//        System.out.println("Date object value: "+date);
+        return date;
     }
     public class getEmergency extends AsyncTask<String,String,String>
     {

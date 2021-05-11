@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:id="@+id/prescribtion"
+
         android:layout_margin="0dp"
         android:background="@drawable/edit2"
         android:baselineAligned="false"
@@ -28,12 +31,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:id="@+id/name"
                     android:textColor="#089BAB"
                     android:text="Manjeet Singh Pal"
                     android:fontFamily="@font/dm_font"
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.9"
                     android:gravity="left"/>
                 <TextView
                     android:layout_width="match_parent"
@@ -42,9 +45,9 @@
                     android:fontFamily="@font/dm_font"
                     android:gravity="right"
                     android:id="@+id/data"
-                    android:layout_weight="1"
+                    android:layout_weight="0.7"
                     android:layout_marginRight="16dp"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     android:textColor="#F40B5B"
                     />
             </LinearLayout>
