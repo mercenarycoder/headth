@@ -792,6 +792,47 @@ public class JsonParser {
      }
      return null;
  }
+ public String getAllAlrams(String url2,String called){
+     HttpURLConnection connection = null;
+     BufferedReader reader = null;
+
+     try {
+         URL url = new URL(url2);
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+         httpURLConnection.setDoOutput(true);
+         httpURLConnection.setRequestMethod("POST");
+         httpURLConnection.setRequestProperty("Content-Type", "application/json");
+         httpURLConnection.connect();
+
+         JSONObject loginData = new JSONObject();
+         loginData.put("called", called);
+//         loginData.put("caller", caller);
+         Log.d("LoginData", "---> " + loginData);
+         DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+         wr.writeBytes(loginData.toString());
+         wr.flush();
+         wr.close();
+
+         InputStream stream = httpURLConnection.getInputStream();
+         reader = new BufferedReader(new InputStreamReader(stream));
+
+         StringBuffer buffer = new StringBuffer();
+         String line = "";
+         while ((line = reader.readLine()) != null) {
+             buffer.append(line);
+         }
+         String finalJson = buffer.toString();
+         return finalJson;
+
+     } catch (MalformedURLException e) {
+         e.printStackTrace();
+     } catch (IOException e) {
+         e.printStackTrace();
+     } catch (JSONException e) {
+         e.printStackTrace();
+     }
+     return null;
+ }
  public String raiseAlarm(String url2,String caller,String called){
      HttpURLConnection connection = null;
      BufferedReader reader = null;

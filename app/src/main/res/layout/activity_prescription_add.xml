@@ -51,6 +51,7 @@
             android:fontFamily="@font/dm_font"
             android:layout_marginRight="0dp"
             android:layout_weight=".9"
+            android:maxLines="1"
             android:layout_marginBottom="30dp"
             android:paddingStart="5dp"
             android:hint="Title of the Prescription"
@@ -120,6 +121,7 @@
             android:id="@+id/doc_name"
             android:fontFamily="@font/dm_font"
             android:textSize="16sp"
+            android:maxLines="1"
             android:layout_marginBottom="10dp"
             android:hint="Name of Referring Doctor"
             android:layout_marginTop="10dp"/>

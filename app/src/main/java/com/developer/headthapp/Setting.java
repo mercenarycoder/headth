@@ -73,8 +73,9 @@ ProgressDialog progressDialog;
                 Button accept=dialog.findViewById(R.id.accept);
                 TextView title=dialog.findViewById(R.id.title);
                 TextView content=(TextView)dialog.findViewById(R.id.content);
-                content.setText("It will take  14 days for your account to be deleted till then you can relogin and save your account");
-                title.setText("Delete Account");
+                content.setText("Your account and all your stored details will be removed. Within 30 days. Are you sure you want to proceed?");
+                title.setText("Confirm Deletion");
+                accept.setText("Proceed");
                 ImageButton close_btn2=dialog.findViewById(R.id.close_btn2);
                 close_btn2.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -97,7 +98,7 @@ ProgressDialog progressDialog;
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Alert")
-                        .setMessage("Do you really want to Change your otp ?")
+                        .setMessage("Do you really want to Change your Pin ?")
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -148,7 +149,8 @@ ProgressDialog progressDialog;
         privacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Privacy policies here",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context,WiproId.class);
+                startActivity(intent);
             }
         });
 

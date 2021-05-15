@@ -65,12 +65,12 @@ ProgressDialog progressDialog;
         else if(account.equals("done"))
         {
             new deleteOtp().execute();
-            title.setText("Please Choose Otp");
+            title.setText("Please Choose PIN");
             first="yes";
         }
         else
         {
-            title.setText("Please Choose Otp");
+            title.setText("Please Choose PIN");
             first="yes";
         }
         edit1=(EditText)findViewById(R.id.edit11);
@@ -247,7 +247,7 @@ ProgressDialog progressDialog;
                         {
                             confirm=otp;
                             otp="";
-                            Toast.makeText(context,"Enter Otp again to confirm",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"Enter PIN again to confirm",Toast.LENGTH_SHORT).show();
                             edit1.setText("");
                             edit2.setText("");
                             edit3.setText("");
@@ -255,7 +255,7 @@ ProgressDialog progressDialog;
                         }
                         else if(!confirm.equals(otp))
                         {
-                            Toast.makeText(context,"Given otp does not match the previous one",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"Given PIN does not match the previous one",Toast.LENGTH_SHORT).show();
                             otp="";
                         }
                     }
@@ -272,7 +272,7 @@ ProgressDialog progressDialog;
         }
         else
         {
-            Toast.makeText(context,"Otp can be of 4 digit only",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,"PIN can be of 4 digit only",Toast.LENGTH_SHORT).show();
         }
     }
     private class checkOtp extends AsyncTask<String,String,String>
@@ -326,7 +326,7 @@ ProgressDialog progressDialog;
                           edit2.setText("");
                           edit3.setText("");
                           edit4.setText("");
-                          Toast.makeText(context,"Otp not identified",Toast.LENGTH_SHORT).show();
+                          Toast.makeText(context,"PIN not identified",Toast.LENGTH_SHORT).show();
                                     }
                                 });
                         builder.create();
@@ -432,7 +432,7 @@ ProgressDialog progressDialog;
                                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(context,"Otp not inserted try again",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,"PIN not inserted try again",Toast.LENGTH_SHORT).show();
                                     }
                                 });
                         builder.create();
@@ -527,7 +527,7 @@ ProgressDialog progressDialog;
                     String status=String.valueOf(obj.get("status"));
                     if(status.equals("1"))
                     {
-                     Toast.makeText(context,"Previous otp cleared",Toast.LENGTH_SHORT).show();
+                     Toast.makeText(context,"Previous PIN cleared",Toast.LENGTH_SHORT).show();
                     }
                     else
                     {

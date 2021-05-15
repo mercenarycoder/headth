@@ -80,7 +80,7 @@ ImageRecylerAdapter adapter2;
 
 ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
-String titleF,observerF,dateF,detailF,typeF,base65,reportType=null,idF,category;
+String titleF,observerF,dateF,detailF="no details",typeF,base65,reportType=null,idF,category;
 Context context;
 boolean imgChoosed=false,pdfChoosed=false,dateCheck=false;
 public static boolean pdfChecker=false,imgCheck=false;
@@ -142,7 +142,10 @@ public static boolean pdfChecker=false,imgCheck=false;
             }
         }
         title.setText(titleF);
-        date.setText(dateF);
+        if(dateF!=null&&dateF.length()>0)
+        {
+            date.setText(dateF);
+        }
         detail.setText(detailF);
         observer.setText(observerF);
         if(mode!=null && mode.equals("edit"))
@@ -233,11 +236,6 @@ public static boolean pdfChecker=false,imgCheck=false;
                  Toast.makeText(context,"Observer cannot be empty",Toast.LENGTH_SHORT).show();
                  return;
              }
-             else if(detailF.isEmpty())
-             {
-                 Toast.makeText(context,"Detail cannot be empty",Toast.LENGTH_SHORT).show();
-                 return;
-             }
              else if(dateF.isEmpty()||dateF.contains("date"))
              {
                  Toast.makeText(context,"Date cannot be empty",Toast.LENGTH_SHORT).show();
@@ -261,7 +259,11 @@ public static boolean pdfChecker=false,imgCheck=false;
                      imageRecyclerClass item=list2.get(i);
                      imagePaths+=item.getId()+";";
                  }
-                 Toast.makeText(context,imagePaths,Toast.LENGTH_SHORT).show();
+                 if(detailF.isEmpty())
+                 {
+                 detailF="no details";
+                 }
+//                 Toast.makeText(context,imagePaths,Toast.LENGTH_SHORT).show();
                  new submitReport().execute();
              }
             }

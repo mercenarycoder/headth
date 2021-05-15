@@ -84,8 +84,8 @@ public class PrescriptionAdd extends AppCompatActivity {
     Bitmap img=null;
     FirebaseAuth mauth;
     Calendar myCalendar;
-    String titleF,docF,observationF,dateF,imageF="",typeF,idF;
-    boolean pdfChecker=false,imgCheck=false;
+    String titleF,docF,observationF="no observation",dateF,imageF="",typeF,idF;
+    public static boolean pdfChecker=false,imgCheck=false;
     ProgressDialog progressDialog;
     //new multiple image adder code from here
     RecyclerView recycler;
@@ -125,7 +125,10 @@ public class PrescriptionAdd extends AppCompatActivity {
         idF=getIntent().getStringExtra("id");
         docF=getIntent().getStringExtra("doctor");
         title.setText(titleF);
-        date.setText(dateF);
+        if(dateF!=null&&dateF.length()>0)
+        {
+            date.setText(dateF);
+        }
         observation.setText(observationF);
         doc_name.setText(docF);
         if(mode!=null && mode.equals("edit"))

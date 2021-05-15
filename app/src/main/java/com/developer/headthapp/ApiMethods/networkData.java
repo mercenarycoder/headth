@@ -66,4 +66,5 @@ public class networkData {
     public static String changeBulkStatus="/changeBulkStatus";
     public static String getVolunteerCity="/getVolunteerCity";
     public static String getVolunteerPin="/getVolunteerPin";
+    public static String getAllRequests="/getAllRequests";
 }

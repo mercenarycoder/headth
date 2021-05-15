@@ -36,10 +36,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 public class QRprofile extends AppCompatActivity {
@@ -230,9 +238,25 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                         JSONObject object1 = object.getJSONObject("profile");
                         String blood2=object1.getString("blood");
                         String dob=object1.getString("dob");
+                        dob=dob.replace("/","-");
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = formatter.parse(dob);
+                        //Converting obtained Date object to LocalDate object
+                        Instant instant = null;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            instant = date.toInstant();
+                            ZonedDateTime zone = instant.atZone(ZoneId.systemDefault());
+                            LocalDate givenDate = zone.toLocalDate();
+                            //Calculating the difference between given date to current date.
+                            Period period = Period.between(givenDate, LocalDate.now());
+                            age.setText(String.valueOf(period.getYears()));
+                        }else{
+                            age.setText("23");
+                        }
+
                         String arr[]=dob.split("/");
 //                        String age2=getAge(Integer.parseInt(arr[2]),Integer.parseInt(arr[1]),Integer.parseInt(arr[0]));
-                        age.setText("age2");
+//                        age.setText("age2");
                         blood.setText(blood2);
                         list_m=new ArrayList<>();
                         for(int i=0;i<medicines.length();i++)
@@ -292,6 +316,14 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                 }
             }
         }
+    }
+    public static Date StringToDate(String dob) throws ParseException {
+        //Instantiating the SimpleDateFormat class
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        //Parsing the given String to Date object
+        Date date = formatter.parse(dob);
+//        System.out.println("Date object value: "+date);
+        return date;
     }
     private String getAge(int year, int month, int day){
         Calendar dob = Calendar.getInstance();

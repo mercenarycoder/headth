@@ -42,7 +42,7 @@ button below to get details"
         <Button
             android:layout_width="110dp"
             android:layout_height="70dp"
-            android:text="Call Requester"
+            android:text="See Requests"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"

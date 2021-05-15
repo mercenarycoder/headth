@@ -80,6 +80,7 @@
             android:id="@+id/title"
             android:fontFamily="@font/dm_font"
             android:layout_marginBottom="15dp"
+            android:maxLines="1"
             android:paddingStart="5dp"
             android:hint="Title of Report"
             android:layout_marginTop="10dp"/>
@@ -105,6 +106,7 @@
             android:textSize="13sp"
             android:fontFamily="@font/dm_font"
             android:id="@+id/observer"
+            android:maxLines="1"
             android:layout_marginBottom="10dp"
             android:hint="Observer"
             android:layout_marginTop="10dp"/>

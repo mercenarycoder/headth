@@ -9,6 +9,8 @@ import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.VibrationEffect;
@@ -144,12 +146,17 @@ public class NotificationServiceCovid extends JobService {
                             expandedView.setOnClickPendingIntent(R.id.cancel,clickPendingIntent);
                             expandedView.setTextViewText(R.id.content,"Plasma donation is requested please help by " +caller);
 //                            expandedView.setOnClickPendingIntent(R.id.call,clickPendingIntent);
-                            Notification notification=new NotificationCompat.Builder(context,CHANNEL_ID)
+                            Uri alaramSound= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        Notification notification=new NotificationCompat.Builder(context,CHANNEL_ID)
                                     .setSmallIcon(R.drawable.logom)
                                     .setCustomContentView(collapseView)
                                     .setCustomBigContentView(expandedView)
+                                    .setVibrate(new long[] {3000,2000,2000,2000,2000})
+                                    .setSound(alaramSound)
                                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                                     .build();
+//                            notification.sound= Uri.parse("android.resource://com.packagename.org/raw/alert");
+//                            notification.vibrate(new long[] {3000,2000,2000,2000,2000});
                             v.vibrate(3000);
                             notificationManager.notify(r,notification);
                             r++;

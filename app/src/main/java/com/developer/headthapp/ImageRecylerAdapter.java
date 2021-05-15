@@ -23,6 +23,7 @@ import com.developer.headthapp.DeleteClass;
 import com.developer.headthapp.GlobalVariables;
 import com.developer.headthapp.Prescription.PrescriptionAdd;
 import com.developer.headthapp.R;
+import com.developer.headthapp.Report.ReportAdd;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -61,7 +62,6 @@ public class ImageRecylerAdapter extends RecyclerView.Adapter<ImageRecylerAdapte
             public void onClick(View view) {
                 Name=adapter.getId();
                 actualPosition=holder.getAdapterPosition();
-                
                 new removeData().execute();
 //                Toast.makeText(context,"This will remove item",Toast.LENGTH_SHORT).show();
             }
@@ -94,6 +94,19 @@ public class ImageRecylerAdapter extends RecyclerView.Adapter<ImageRecylerAdapte
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     }
+    public void alterThings(){
+        if(list.size()<=0)
+        {
+            new ReportAdd();
+            ReportAdd.pdfChecker =false;
+            new ReportAdd();
+            ReportAdd.imgCheck =false;
+            new PrescriptionAdd();
+            PrescriptionAdd.pdfChecker=false;
+            new PrescriptionAdd();
+            PrescriptionAdd.imgCheck=false;
+        }
+    }
     ProgressDialog progressDialog;
     public class removeData extends AsyncTask<String,String,String>
     {
@@ -123,6 +136,7 @@ public class ImageRecylerAdapter extends RecyclerView.Adapter<ImageRecylerAdapte
                     if(status.equals("1"))
                     {
                         list.remove(actualPosition);
+                        alterThings();
                         notifyItemRemoved(actualPosition);
                         notifyItemRangeChanged(actualPosition, list.size());
                         String data=new PrescriptionAdd().imagePaths;

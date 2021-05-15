@@ -37,7 +37,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Covid.CovidCaller"></activity>
+        <activity android:name=".Covid.CovidCaller">
+
+        </activity>
         <activity android:name=".Covid.SearchResults" />
         <activity android:name=".Covid.SearchHelp" />
         <activity android:name=".Covid.Volunteer" />

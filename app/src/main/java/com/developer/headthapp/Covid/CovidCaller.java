@@ -50,6 +50,10 @@ public class CovidCaller extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(mauth.getCurrentUser()==null)
+        {
+            finish();
+        }
         setContentView(R.layout.activity_covid_caller);
         plasma=(TextView)findViewById(R.id.plasma);
         context=CovidCaller.this;
@@ -75,7 +79,9 @@ public class CovidCaller extends AppCompatActivity {
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                            new cancelling().execute();
+//                            new cancelling().execute();
+                                startActivity(intent);
+                                finish();
                             }
                         });
                 builder.show();
@@ -91,16 +97,17 @@ public class CovidCaller extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            String url=new networkData().url+new networkData().changeBulkStatus;
+            String url=new networkData().url+new networkData().getAllRequests;
             JsonParser jsonParser=new JsonParser();
             String number=mauth.getCurrentUser().getPhoneNumber();
             number=number.substring(3,number.length());
             String data=null;
             for(int i=0;i<list.size();i++)
             {
-                data=new JsonParser().cancelPlasmaRequest(url,number,list.get(i).getCaller());
+                data=new JsonParser().getAllAlrams(url,number);
             }
                 Log.d("cancelling going", "doInBackground: "+data);
+
 
             return data;
         }
@@ -120,10 +127,13 @@ public class CovidCaller extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            String url=new networkData().url+new networkData().getBulks;
-            JsonParser jsonParser=new JsonParser();
+            new networkData();
+            String base= networkData.url;
+            String method=networkData.getAllRequests;
+            String url=base+method;
             String number=mauth.getCurrentUser().getPhoneNumber();
             number=number.substring(3,number.length());
+            System.out.println("The number is :-"+number);
             String data=new JsonParser().getBulkCalled(url,number);
             Log.d("opened", "doInBackground: "+data);
             return data;
@@ -146,15 +156,16 @@ public class CovidCaller extends AppCompatActivity {
                         String called=object1.getString("called");
                         String caller=object1.getString("caller");
                         String status=object1.getString("status");
-                        if(!list2.contains(caller))
+                        if(list2.contains(caller))
                         {
+                            continue;
+                        }
+                        else {
                             list2.add(caller);
                             list.add(new HelpClass(id,caller));
                         }
-                        else {
-                            continue;
-                        }
                     }
+                    System.out.println(list);
                     adapter= new CovidPlasmaAdapter(list,context);
                     results.setHasFixedSize(true);
                     results.setLayoutManager(new LinearLayoutManager(context));

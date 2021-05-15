@@ -628,7 +628,7 @@ public class getReverseReports extends AsyncTask<String,String,String>
                         }
                         else
                         {
-                        nop.setText("No reports are their");
+                        nop.setText("No reports are there");
                         nop.setVisibility(View.VISIBLE);
                         previous.setVisibility(View.VISIBLE);
                         previous.setEnabled(true);

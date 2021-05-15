@@ -456,20 +456,39 @@ public class CovidMain extends AppCompatActivity {
             nameF=uploadId;
             pdfChecker=true;
             if(rDialog){
-                Name=recoveryurl;
-                recoveryurl="no data";
-                new removeData().execute();
+                if(recoveryurl.length()>10)
+                {
+//                    Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
+                    Name=recoveryurl;
+                    recoveryurl="no data";
+                    new removeData().execute();
+                }
+                else{
+                    new uploadData().execute();
+                }
             }
             else if(s1Dialog){
-                Name=shot1url;
-                shot1url="no data";
-                new removeData().execute();
+                if(shot1url.length()>10){
+                    Name=shot1url;
+                    shot1url="no data";
+                    new removeData().execute();
+                }
+                else{
+                    new uploadData().execute();
+                }
                 //shot1url=imagePaths;
             }
             else {
-                Name=shot2url;
-                shot2url="no data";
-                new removeData().execute();
+                if(shot2url.length()>10)
+                {
+                    Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
+                    Name=shot2url;
+                    shot2url="no data";
+                    new removeData().execute();
+                }
+                else{
+                    new uploadData().execute();
+                }
                 //shot2url=imagePaths;
             }
             //till here
@@ -512,7 +531,7 @@ public class CovidMain extends AppCompatActivity {
                 if(rDialog){
                     if(recoveryurl.length()>10)
                     {
-                        Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
                         Name=recoveryurl;
                         recoveryurl="no data";
                         new removeData().execute();
