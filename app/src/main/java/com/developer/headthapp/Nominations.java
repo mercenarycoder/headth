@@ -177,8 +177,8 @@ Toast.makeText(context,"Check the supplied data correctly and then click on veri
              phoneF=phoneF.substring(0,phoneF.length()-1);
          }
          if(hare) {
-             Toast.makeText(context,nameF,Toast.LENGTH_SHORT).show();
-             Toast.makeText(context,phoneF,Toast.LENGTH_SHORT).show();
+//             Toast.makeText(context,nameF,Toast.LENGTH_SHORT).show();
+//             Toast.makeText(context,phoneF,Toast.LENGTH_SHORT).show();
              new submitEmergency().execute();
              hare=false;
          }
@@ -294,7 +294,7 @@ Toast.makeText(context,"Check the supplied data correctly and then click on veri
          }
          default:
          {
-           Toast.makeText(context,"Not here "+i,Toast.LENGTH_SHORT).show();
+//           Toast.makeText(context,"Not here "+i,Toast.LENGTH_SHORT).show();
          }
      }
     }
@@ -492,7 +492,7 @@ Toast.makeText(context,"Check the supplied data correctly and then click on veri
                     // final String responce2=String.valueOf(jsonObject.get("msg"));
                     if(responce.equals("1"))
                     {
-                        Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
                         JSONArray data=jsonObject.getJSONArray("data");
                         for(int i=0;i<data.length();i++)
                         {

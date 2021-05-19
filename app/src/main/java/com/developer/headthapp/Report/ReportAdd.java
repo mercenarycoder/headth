@@ -378,7 +378,7 @@ public static boolean pdfChecker=false,imgCheck=false;
         //Toast.makeText(context, "here", Toast.LENGTH_SHORT).show();
         if(requestCode==STORAGE_PERMISSION_CODE&&resultCode==RESULT_OK)
         {
-            Toast.makeText(context, "reached here", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "reached here", Toast.LENGTH_SHORT).show();
             Uri pdfUri = data.getData();
             base65=getStringPdf(pdfUri);
             base65="data:application/pdf;base64,"+base65;
@@ -431,7 +431,7 @@ public static boolean pdfChecker=false,imgCheck=false;
                 Uri imageuri = data.getData();
                 //path=getPath(imageuri);
                 try {
-                    Toast.makeText(context, "image choosed", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "image choosed", Toast.LENGTH_SHORT).show();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
                     //imageView_pic.setImageURI(imageuri);
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -458,7 +458,7 @@ public static boolean pdfChecker=false,imgCheck=false;
             //path=getPath(imageuri);
             try
             {
-                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
                 Bitmap bitmap=(Bitmap)data.getExtras().get("data");
                 //imageView_pic.setImageURI(imageuri);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -531,11 +531,11 @@ public static boolean pdfChecker=false,imgCheck=false;
                         recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
                         recycler.setHasFixedSize(true);
                         recycler.setAdapter(adapter2);
-                        Toast.makeText(context,typeF+" Inserted",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,typeF+" Inserted",Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        Toast.makeText(context,typeF+" Not Inserted",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,typeF+" Not Inserted",Toast.LENGTH_SHORT).show();
 
                     }
                 }

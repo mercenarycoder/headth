@@ -183,7 +183,8 @@ public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
                         .setTitle("Location access required")
-                        .setMessage("Location access will be required to use the qr code feature")
+                        .setMessage("This app needs needs location request to record the position of access of user's QR code for " +
+                                "security purpose. You can check the point of QR code access through notifications")
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -231,7 +232,17 @@ public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
                     if (ContextCompat.checkSelfPermission(this,
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-
+                        new GpsUtils(context).turnGPSOn(new GpsUtils.onGpsListener() {
+                            @Override
+                            public void gpsStatus(boolean isGPSEnable) {
+                                // turn on GPS
+                                isGPS = isGPSEnable;
+                            }
+                        });
+                        if(isGPS) {
+                            Intent intent = new Intent(QRone.this, QrScanner.class);
+                            startActivity(intent);
+                        }
                         //Request location updates:
 //                        locationManager.requestLocationUpdates(provider, 400, 1, this);
                     }
@@ -247,7 +258,6 @@ public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
             default:
             {
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-
                     Toast.makeText(context,"Permission Needed",Toast.LENGTH_SHORT).show();
                     //resume tasks needing this permission
                 }

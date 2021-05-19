@@ -235,7 +235,7 @@ String optionF="edit";
                         if(imageF.contains(".jpeg")) {
 
                             new getBitmapClass().execute();
-                            Toast.makeText(context, "Getting bitmap", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "Getting bitmap", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {

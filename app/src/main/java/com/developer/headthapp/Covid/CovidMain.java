@@ -171,7 +171,7 @@ public class CovidMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!(recoveryurl.length()>10)){
-                    Toast.makeText(context,"Reaching here",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,"Reaching here",Toast.LENGTH_SHORT).show();
                     String msg="You need to submit your recovery report in order to be a volunteer!!";
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Alert")
@@ -438,7 +438,7 @@ public class CovidMain extends AppCompatActivity {
         //Toast.makeText(context, "here", Toast.LENGTH_SHORT).show();
         if(resultCode==RESULT_OK&&requestCode==STORAGE_PERMISSION_CODE&&data!=null&&data.getData()!=null)
         {
-            Toast.makeText(context, "Uploaded Document", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Uploaded Document", Toast.LENGTH_SHORT).show();
             Uri pdfUri = data.getData();
             Bitmap bitmap=null;
             try {
@@ -481,7 +481,7 @@ public class CovidMain extends AppCompatActivity {
             else {
                 if(shot2url.length()>10)
                 {
-                    Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
                     Name=shot2url;
                     shot2url="no data";
                     new removeData().execute();
@@ -569,7 +569,7 @@ public class CovidMain extends AppCompatActivity {
             else if(data.getData() != null) {
                 try {
                     Uri imageuri = data.getData();
-                    Toast.makeText(context, "image choosed", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "image choosed", Toast.LENGTH_SHORT).show();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
                     //imageView_pic.setImageURI(imageuri);
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -632,7 +632,7 @@ public class CovidMain extends AppCompatActivity {
             //path=getPath(imageuri);
             try
             {
-                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
                 Bitmap bitmap=(Bitmap)data.getExtras().get("data");
                 //imageView_pic.setImageURI(imageuri);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -648,7 +648,7 @@ public class CovidMain extends AppCompatActivity {
                 if(rDialog){
                     if(recoveryurl.length()>10)
                     {
-                        Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
                         Name=recoveryurl;
                         recoveryurl="no data";
                         new removeData().execute();

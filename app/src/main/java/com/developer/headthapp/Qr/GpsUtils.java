@@ -74,7 +74,8 @@ public class GpsUtils {
                             case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
                                 String errorMessage = "Location settings are inadequate, and cannot be " +
                                         "fixed here. Fix in Settings.";
-                                Log.e(TAG, errorMessage);Toast.makeText((Activity) context, errorMessage, Toast.LENGTH_LONG).show();
+                                Log.e(TAG, errorMessage);
+                                Toast.makeText((Activity) context, errorMessage, Toast.LENGTH_LONG).show();
                         }
                     }
                 });

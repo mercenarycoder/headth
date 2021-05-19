@@ -209,7 +209,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                        imageRecyclerClass item=list.get(i);
                        imagePaths+=item.getId()+";";
                    }
-                   Toast.makeText(context,imagePaths,Toast.LENGTH_SHORT).show();
+//                   Toast.makeText(context,imagePaths,Toast.LENGTH_SHORT).show();
                    if(titleF.isEmpty()||dateF.isEmpty()||docF.isEmpty())
                    {
                        Toast.makeText(context,"Please fill all the fields",Toast.LENGTH_SHORT).show();
@@ -324,7 +324,7 @@ public class PrescriptionAdd extends AppCompatActivity {
         //Toast.makeText(context, "here", Toast.LENGTH_SHORT).show();
         if(resultCode==RESULT_OK&&requestCode==STORAGE_PERMISSION_CODE&&data!=null&&data.getData()!=null)
         {
-            Toast.makeText(context, "Uploaded Document", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Uploaded Document", Toast.LENGTH_SHORT).show();
             Uri pdfUri = data.getData();
             Bitmap bitmap=null;
             try {
@@ -385,7 +385,7 @@ public class PrescriptionAdd extends AppCompatActivity {
            else if(data.getData() != null) {
                 try {
                     Uri imageuri = data.getData();
-                    Toast.makeText(context, "image choosed", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "image choosed", Toast.LENGTH_SHORT).show();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
                     //imageView_pic.setImageURI(imageuri);
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -413,7 +413,7 @@ public class PrescriptionAdd extends AppCompatActivity {
             //path=getPath(imageuri);
             try
             {
-                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
                 Bitmap bitmap=(Bitmap)data.getExtras().get("data");
                 //imageView_pic.setImageURI(imageuri);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -493,7 +493,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                         recycler.setLayoutManager(new LinearLayoutManager(context, HORIZONTAL,false));
                         recycler.setHasFixedSize(true);
                         recycler.setAdapter(adapter);
-                        Toast.makeText(context,"Image Inserted",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,"Image Inserted",Toast.LENGTH_SHORT).show();
                     }
                     else
                     {

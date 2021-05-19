@@ -79,7 +79,7 @@ public class LoginUser extends AppCompatActivity {
                 checker.getString("emergency","no").equals("no"))
         {
 
-            Toast.makeText(context,"emergency finder",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context,"emergency finder",Toast.LENGTH_SHORT).show();
          Intent intent=new Intent(LoginUser.this,EmergencyContacts.class);
             intent.putExtra("edit","false");
          startActivity(intent);
@@ -90,7 +90,7 @@ public class LoginUser extends AppCompatActivity {
                 checker.getString("otp","not done").equals("not done"))
         {
 
-            Toast.makeText(context,"opt verfier finder",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context,"opt verfier finder",Toast.LENGTH_SHORT).show();
          Intent intent=new Intent(LoginUser.this,Verifier.class);
 //            intent.putExtra("edit","false");
          startActivity(intent);
@@ -99,7 +99,7 @@ public class LoginUser extends AppCompatActivity {
         else if(mAuth.getCurrentUser()!=null&&checker.getString("personal","no").equals("no")
                 &&checker.getString("emergency","no").equals("no"))
         {
-            Toast.makeText(context,"profile finder",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context,"profile finder",Toast.LENGTH_SHORT).show();
             Intent intent=new Intent(LoginUser.this,ProfileUpdate.class);
             intent.putExtra("edit","false");
             startActivity(intent);

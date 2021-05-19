@@ -167,7 +167,7 @@ public class QrScanner extends AppCompatActivity {
         }
     }
     private void initialiseDetectorsAndSources() {
-        Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
@@ -208,7 +208,7 @@ public class QrScanner extends AppCompatActivity {
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -235,11 +235,11 @@ public class QrScanner extends AppCompatActivity {
                                 public void onSuccess(Location o) {
                                     if(o!=null||1==1)
                                     {
-                                        Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
 //                                    System.out.println(o.getLatitude()+" "+o.getLongitude());
                                         barcodeDetector.release();
                                         numberF=barcodes.valueAt(0).displayValue;
-                                        Toast.makeText(context,numberF,Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(context,numberF,Toast.LENGTH_SHORT).show();
                                         Intent intent=new Intent(context,QRprofile.class);
                                         intent.putExtra("mobile",numberF);
                                         intent.putExtra("access",accessF);
@@ -258,7 +258,7 @@ public class QrScanner extends AppCompatActivity {
                                     }
                                     else
                                     {
-                                        Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(context,String.valueOf(o),Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });

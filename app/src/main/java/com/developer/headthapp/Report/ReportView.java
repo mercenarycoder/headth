@@ -200,7 +200,7 @@ boolean editer=false;
                     if(isStoragePermissionGranted()) {
                         if(urlF.contains(".jpeg")) {
                             new getBitmapClass().execute();
-                            Toast.makeText(context, "Getting bitmap", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "Getting bitmap", Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
@@ -208,7 +208,7 @@ boolean editer=false;
                             downloadUrl=new networkData().url_image+urlF;
                             downloadFileName="mummyMiss.pdf";
                             new DownloadingTask().execute();
-                            Toast.makeText(context,"Pdf downloader testing",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context,"Pdf downloader testing",Toast.LENGTH_SHORT).show();
                         }
                     }
                     else
@@ -413,7 +413,7 @@ boolean editer=false;
     private void requestPermission()
     {
 
-        Toast.makeText(context,"Initial reach",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context,"Initial reach",Toast.LENGTH_SHORT).show();
         if (ActivityCompat.shouldShowRequestPermissionRationale(ReportView.this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             Toast.makeText(ReportView.this, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();

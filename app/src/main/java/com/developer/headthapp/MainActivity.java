@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ImageView imageView = findViewById(R.id.imageView);
 
             if (requestCode == IMAGE_RESULT) {
-                Toast.makeText(MainActivity.this,"Reaching here",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this,"Reaching here",Toast.LENGTH_SHORT).show();
                 String filePath = getImageFilePath(data);
                 if (filePath != null) {
                     mBitmap = BitmapFactory.decodeFile(filePath);
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String getImageFromFilePath(Intent data) {
         boolean isCamera = data == null || data.getData() == null;
-        Toast.makeText(MainActivity.this,String.valueOf(isCamera),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this,String.valueOf(isCamera),Toast.LENGTH_SHORT).show();
         if (isCamera) return getCaptureImageOutputUri().getPath();
         else return getPathFromURI(data.getData());
     }

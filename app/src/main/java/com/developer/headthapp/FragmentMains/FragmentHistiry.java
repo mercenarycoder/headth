@@ -145,7 +145,7 @@ TextView sabchanga;
     public void onResume() {
         super.onResume();
         if(check) {
-            Toast.makeText(context,String.valueOf(check),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context,String.valueOf(check),Toast.LENGTH_SHORT).show();
 //            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
             new getDieseas().execute();
         }

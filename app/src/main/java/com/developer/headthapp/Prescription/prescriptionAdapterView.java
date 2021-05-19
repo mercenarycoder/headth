@@ -81,7 +81,7 @@ public class prescriptionAdapterView extends RecyclerView.Adapter<prescriptionAd
                     }
                 });
 
-                Toast.makeText(context,"Zoom view will open soon",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"Zoom view will open soon",Toast.LENGTH_SHORT).show();
             }
         });
     }

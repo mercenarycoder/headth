@@ -263,7 +263,7 @@ public class EmergencyContacts extends AppCompatActivity {
         verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,String.valueOf(z),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,String.valueOf(z),Toast.LENGTH_SHORT).show();
                 if(edit.equals("true"))
                 {
                     if(z<=0)
@@ -825,7 +825,7 @@ public class EmergencyContacts extends AppCompatActivity {
             }
             default:
             {
-                Toast.makeText(context,"Not here "+i,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"Not here "+i,Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -926,7 +926,7 @@ public class EmergencyContacts extends AppCompatActivity {
                     list.remove(index-1);
                     list.add(new emergencyClass(Rec_Id,Name,Phone));
                     String msg=object.getString("msg");
-                    Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
                 }
                 catch(Exception e)
                 {
@@ -1040,7 +1040,7 @@ public class EmergencyContacts extends AppCompatActivity {
                     // final String responce2=String.valueOf(jsonObject.get("msg"));
                     if(responce.equals("1"))
                     {
-                        Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context,"Reching here",Toast.LENGTH_SHORT).show();
                         JSONArray data=jsonObject.getJSONArray("data");
                         for(int i=0;i<data.length();i++)
                         {
