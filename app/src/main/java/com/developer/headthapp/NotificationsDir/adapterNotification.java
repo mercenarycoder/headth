@@ -4,11 +4,13 @@ package com.developer.headthapp.NotificationsDir;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,8 @@ import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +51,24 @@ public class adapterNotification extends RecyclerView.Adapter<adapterNotificatio
     @Override
     public void onBindViewHolder(@NonNull final viewholder1 holder, final int position) {
         final notiClass adapter=list.get(position);
+        if(adapter.getDecription().contains("location")){
+            holder.mapper.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String arr1[]=adapter.getDecription().split("location");
+                    System.out.println(Arrays.toString(arr1));
+                    String arr2[]=arr1[1].split(" ");
+                    System.out.println(Arrays.toString(arr2));
+                    String lat[]=arr2[1].split("-");
+                    String lon[]=arr2[3].split("-");
+                    System.out.println(Arrays.toString(lat) + Arrays.toString(lon));
+                    String uri=String.format(Locale.ENGLISH,"geo:%f,%f"
+                            ,Float.parseFloat(lat[1]),Float.parseFloat(lon[1]));
+                    Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                    context.startActivity(intent);
+                }
+            });
+        }
         holder.action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,8 +101,10 @@ public class adapterNotification extends RecyclerView.Adapter<adapterNotificatio
     {
         TextView title,date,decription;
         Button action,hide;
+        LinearLayout mapper;
         public viewholder1(@NonNull View itemView) {
             super(itemView);
+            mapper=(LinearLayout)itemView.findViewById(R.id.mapper);
             title=(TextView)itemView.findViewById(R.id.title);
             date=(TextView)itemView.findViewById(R.id.date);
             decription=(TextView)itemView.findViewById(R.id.description);

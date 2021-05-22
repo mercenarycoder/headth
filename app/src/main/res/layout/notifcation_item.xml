@@ -4,8 +4,11 @@
     android:background="@drawable/edit2"
     android:layout_margin="5dp"
     android:gravity="center"
+    android:id="@+id/mapper"
     android:layout_width="match_parent"
-    android:layout_height="110dp">
+    android:layout_height="wrap_content"
+    android:minHeight="110dp"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

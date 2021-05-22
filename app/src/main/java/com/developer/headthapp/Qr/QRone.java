@@ -200,9 +200,21 @@ public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
             } else {
                 // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
+                new AlertDialog.Builder(this)
+                        .setTitle("Location access required")
+                        .setMessage("This app needs needs location request to record the position of access of user's QR code for " +
+                                "security purpose. You can check the point of QR code access through notifications")
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(QRone.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
             }
             return false;
         } else {

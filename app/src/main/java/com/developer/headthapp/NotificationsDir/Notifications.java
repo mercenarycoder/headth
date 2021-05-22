@@ -114,7 +114,6 @@ FirebaseAuth mauth=FirebaseAuth.getInstance();
                          String statusN=object1.getString("status");
                          list.add(new notiClass(id,title,dd[0],content,statusN));
                      }
-
                      Toast.makeText(context,"also here",Toast.LENGTH_SHORT).show();
                      if(list.size()>0)
                      {

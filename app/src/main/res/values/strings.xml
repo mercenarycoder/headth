@@ -35,7 +35,7 @@ If you choose to use our Service, then you agree to the collection and use of in
 
         The app uses third party services that may collect information used to identify you. This include Google Location Services, whose privacy policy can be found here - https://policies.google.com/technologies/location-data?hl=en-IN.
 
-        In case the user wants to make unavailable the data provided to us through the app, he/she can delete their account and all their stored data will be deleted from our servers within 20 days.
+        In case the user wants to make unavailable the data provided to us through the app, he/she can delete their account and all their stored data will be deleted from our servers within 30 days.
     </string>
     <string name="privacy3">
         We keep your personal information till the time you voluntarily delete your account through the app.
