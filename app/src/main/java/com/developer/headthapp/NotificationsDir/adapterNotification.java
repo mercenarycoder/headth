@@ -4,6 +4,8 @@ package com.developer.headthapp.NotificationsDir;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -18,8 +20,10 @@ import com.developer.headthapp.ApiMethods.JsonParser;
 import com.developer.headthapp.ApiMethods.networkData;
 import com.developer.headthapp.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -52,15 +56,19 @@ public class adapterNotification extends RecyclerView.Adapter<adapterNotificatio
     public void onBindViewHolder(@NonNull final viewholder1 holder, final int position) {
         final notiClass adapter=list.get(position);
         if(adapter.getDecription().contains("location")){
+            String arr1[]=adapter.getDecription().split("at location");
+            String arr2[]=arr1[1].split(" ");
+            String lat[]=arr2[1].split("-");
+            String lon[]=arr2[3].split("-");
+            System.out.println("------------------------------------------");
+            System.out.println(Arrays.toString(arr1));
+            System.out.println(Arrays.toString(arr2));
+            System.out.println(lat[1]+"            "+lon[1]);
+            System.out.println("--------------------------------------");
             holder.mapper.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String arr1[]=adapter.getDecription().split("location");
-                    System.out.println(Arrays.toString(arr1));
-                    String arr2[]=arr1[1].split(" ");
-                    System.out.println(Arrays.toString(arr2));
-                    String lat[]=arr2[1].split("-");
-                    String lon[]=arr2[3].split("-");
+
                     System.out.println(Arrays.toString(lat) + Arrays.toString(lon));
                     String uri=String.format(Locale.ENGLISH,"geo:%f,%f"
                             ,Float.parseFloat(lat[1]),Float.parseFloat(lon[1]));
@@ -68,19 +76,61 @@ public class adapterNotification extends RecyclerView.Adapter<adapterNotificatio
                     context.startActivity(intent);
                 }
             });
-        }
-        holder.action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context,NotificationLayout.class);
-                intent.putExtra("title",adapter.getTitle());
-                intent.putExtra("content",adapter.getDecription());
-                intent.putExtra("date",adapter.getDate());
-                intent.putExtra("id",adapter.getId());
-                context.startActivity(intent);
-//                Toast.makeText(context,"Layout unknown",Toast.LENGTH_SHORT).show();
+            Geocoder geocoder;
+            List<Address> addresses;
+            geocoder=new Geocoder(context,Locale.getDefault());
+            String address="",city="",state="",country="India";
+            try {
+                addresses=geocoder.getFromLocation(Float.parseFloat(lat[1]),Float.parseFloat(lon[1]),1);
+                if(addresses.size()>0)
+                {
+                    address=addresses.get(0).getAddressLine(0);
+                    city=addresses.get(0).getLocality();
+                    state=addresses.get(0).getAdminArea();
+                    country=addresses.get(0).getCountryName();
+                }
+                else{
+                    country="India";
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+            String content;
+            if(address.length()>6)
+            {
+                content=arr1[0]+" near "+address;
+            }
+            else{
+                content=arr1[0]+" near "+city+" "+state+" "+country;
+            }
+            holder.decription.setText(content);
+            holder.action.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context,NotificationLayout.class);
+                    intent.putExtra("title",adapter.getTitle());
+                    intent.putExtra("content",content);
+                    intent.putExtra("date",adapter.getDate());
+                    intent.putExtra("id",adapter.getId());
+                    context.startActivity(intent);
+                }
+            });
+        }
+        else{
+            holder.decription.setText(adapter.getDecription());
+            holder.action.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context,NotificationLayout.class);
+                    intent.putExtra("title",adapter.getTitle());
+                    intent.putExtra("content",adapter.getDecription());
+                    intent.putExtra("date",adapter.getDate());
+                    intent.putExtra("id",adapter.getId());
+                    context.startActivity(intent);
+//                Toast.makeText(context,"Layout unknown",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         holder.hide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +140,6 @@ public class adapterNotification extends RecyclerView.Adapter<adapterNotificatio
             }
         });
         holder.date.setText(adapter.getDate());
-        holder.decription.setText(adapter.getDecription());
         holder.title.setText(adapter.getTitle());
     }
     @Override
