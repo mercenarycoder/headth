@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".Report.ReportAdd">
+    tools:context="androidi.developer.headthapp.Report.ReportAdd">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"

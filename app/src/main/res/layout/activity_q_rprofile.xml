@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/b_2"
     android:layout_height="match_parent"
-    tools:context=".Qr.QRprofile">
+    tools:context="androidi.developer.headthapp.Qr.QRprofile">
 <ScrollView
     android:layout_width="match_parent"
     android:layout_marginTop="20dp"

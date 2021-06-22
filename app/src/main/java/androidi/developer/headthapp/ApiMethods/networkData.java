@@ -1,0 +1,70 @@
+package androidi.developer.headthapp.ApiMethods;
+//http://52.66.205.197:5000/app1
+//Bhopal ip address
+//http://192.168.1.4:5000/app1
+public class networkData {
+    public static String url="http://52.66.205.197:5000/app1";
+    public static String url_image="http://52.66.205.197:5000/";
+    public static String update="/newUser";
+    public static String profileUpdate="/updateUser";
+    public static String emergency="/emergency";
+    public static String precription="/prescription";
+    public static String getprescriptions="/getprescriptions";
+    public static String getprofile="/getprofile";
+    public static String getemergency="/getemergency";
+    public static String singleemergency="/singleEmergency";
+    public static String updateemergency="/updateEmergency";
+    public static String gettoppres="/frontpres";
+    public static String allergyAdd="/allergyAdd";
+    public static String dieseasAdd="/dieseasAdd";
+    public static String historyAdd="/historyAdd";
+    public static String medicineAdd="/medicineAdd";
+    public static String getDieseas="/getDieseas";
+    public static String getAllergy="/getAllergy";
+    public static String getHistory="/getHistory";
+    public static String getMedicine="/getMedicine";
+    public static String addReport="/addReport";
+    public static String updateAllergy="/updateAllergy";
+    public static String updateHistory="/updateHistory";
+    public static String updateMedicine="/updateMedicine";
+    public static String updateDieseas="/updateDiesease";
+    public static String gettopreport="/gettopreport";
+    public static String getreport="/getReports";
+    public static String getLevel="/getLevel";
+    public static String getQR="/getQR";
+    public static String deleteAllergy="/deleteAllergy";
+    public static String deleteHistory="/deleteHistory";
+    public static String deleteMedicine="/deleteMedicine";
+    public static String deleteDieseas="/deleteDieseas";
+    public static String deletePrescription="/deletePrescription";
+    public static String deleteReport="/deleteReport";
+    public static String notification="/notification";
+    public static String checkShare="/checkShare";
+    public static String deleteEmergency="/deleteEmergency";
+    public static String deleteNotification="/deleteNotification";
+    public static String updateNotification="/updateNotification";
+    public static String deleteData="/deleteData";
+    public static String addImage64="/addImage64";
+    public static String updatePrescription="/updatePrescription";
+    public static String updateReport="/updateReport";
+    public static String recordLocation="/recordLocation";
+    public static String newOtp="/newOtp";
+    public static String updateOtp="/updateOtp";
+    public static String checkotp="/checkOtp";
+    public static String deleteOtp="/deleteOtp";
+    public static String getReverseReports="/getReverseReports";
+    public static String getReverseprescriptions="/getReverseprescriptions";
+    public static String getCovidProfile="/getCovidProfile";
+    public static String submitData="/submitData";
+    public static String volunteer="/volunteer";
+    public static String setVolunteer="/setVolunteer";
+    public static String getVolunteer="/getVolunteer";
+    public static String defaultVolunteer="/defaultVolunteer";
+    //raising bulk request apis
+    public static String raiseAlarm="/raiseAlarm";
+    public static String getBulks="/getBulks";
+    public static String changeBulkStatus="/changeBulkStatus";
+    public static String getVolunteerCity="/getVolunteerCity";
+    public static String getVolunteerPin="/getVolunteerPin";
+    public static String getAllRequests="/getAllRequests";
+}

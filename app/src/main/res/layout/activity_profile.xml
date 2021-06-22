@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/b_2"
-    tools:context=".Profile">
+    tools:context="androidi.developer.headthapp.Profile">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"

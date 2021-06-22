@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.developer.headthapp">
+    package="androidi.developer.headthapp">
     <!-- Step 1: Add the following permission to the app -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- Step 2: This permission is depreciated in Android P -->
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
@@ -28,7 +28,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".NotificationCode.App"
+        android:name="androidi.developer.headthapp.NotificationCode.App"
         android:allowBackup="true"
         android:icon="@drawable/logom"
         android:label="@string/app_name"
@@ -37,43 +37,43 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Covid.CovidCaller">
+        <activity android:name="androidi.developer.headthapp.Covid.CovidCaller">
 
         </activity>
-        <activity android:name=".Covid.SearchResults" />
-        <activity android:name=".Covid.SearchHelp" />
-        <activity android:name=".Covid.Volunteer" />
-        <activity android:name=".Covid.CovidMain" />
-        <activity android:name=".ApiMethods.Verifier" />
-        <activity android:name=".NotificationsDir.NotificationLayout" />
-        <activity android:name=".WiproId" />
-        <activity android:name=".Setting" />
-        <activity android:name=".Qr.QrProfileDoctor" />
-        <activity android:name=".Prescription.PrescriptionsView" />
-        <activity android:name=".Report.ReportView" />
-        <activity android:name=".Qr.QRprofile" />
-        <activity android:name=".Qr.QRotp" />
-        <activity android:name=".Qr.QrScanner" />
-        <activity android:name=".Qr.QRone" />
-        <activity android:name=".SplashScreen">
+<!--        <activity android:name=".Covid.SearchResults" />-->
+<!--        <activity android:name=".Covid.SearchHelp" />-->
+<!--        <activity android:name=".Covid.Volunteer" />-->
+<!--        <activity android:name=".Covid.CovidMain" />-->
+        <activity android:name="androidi.developer.headthapp.ApiMethods.Verifier" />
+        <activity android:name="androidi.developer.headthapp.NotificationsDir.NotificationLayout" />
+        <activity android:name="androidi.developer.headthapp.WiproId" />
+        <activity android:name="androidi.developer.headthapp.Setting" />
+        <activity android:name="androidi.developer.headthapp.Qr.QrProfileDoctor" />
+        <activity android:name="androidi.developer.headthapp.Prescription.PrescriptionsView" />
+        <activity android:name="androidi.developer.headthapp.Report.ReportView" />
+        <activity android:name="androidi.developer.headthapp.Qr.QRprofile" />
+        <activity android:name="androidi.developer.headthapp.Qr.QRotp" />
+        <activity android:name="androidi.developer.headthapp.Qr.QrScanner" />
+        <activity android:name="androidi.developer.headthapp.Qr.QRone" />
+        <activity android:name="androidi.developer.headthapp.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Prescription.PrescriptionAdd" />
-        <activity android:name=".Report.ReportAdd" />
-        <activity android:name=".Prescription.Prescriptions" />
-        <activity android:name=".Report.ReportActivity" />
-        <activity android:name=".Profile" />
-        <activity android:name=".NotificationsDir.Notifications" />
-        <activity android:name=".HealthCart" />
-        <activity android:name=".Nominations" />
-        <activity android:name=".ProfileUpdate" />
-        <activity android:name=".EmergencyContacts" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginUser" />
+        <activity android:name="androidi.developer.headthapp.Prescription.PrescriptionAdd" />
+        <activity android:name="androidi.developer.headthapp.Report.ReportAdd" />
+        <activity android:name="androidi.developer.headthapp.Prescription.Prescriptions" />
+        <activity android:name="androidi.developer.headthapp.Report.ReportActivity" />
+        <activity android:name="androidi.developer.headthapp.Profile" />
+        <activity android:name="androidi.developer.headthapp.NotificationsDir.Notifications" />
+        <activity android:name="androidi.developer.headthapp.HealthCart" />
+        <activity android:name="androidi.developer.headthapp.Nominations" />
+        <activity android:name="androidi.developer.headthapp.ProfileUpdate" />
+        <activity android:name="androidi.developer.headthapp.EmergencyContacts" />
+        <activity android:name="androidi.developer.headthapp.MainActivity" />
+        <activity android:name="androidi.developer.headthapp.LoginUser" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
@@ -90,7 +90,7 @@
         </provider>
 
         <receiver
-            android:name=".NotificationCode.FromNotificationclass"
+            android:name="androidi.developer.headthapp.NotificationCode.FromNotificationclass"
             android:directBootAware="true"
             android:enabled="false"
             android:exported="true">
@@ -101,16 +101,16 @@
         </receiver>
 
         <service
-            android:name=".LoggerService.newService"
+            android:name="androidi.developer.headthapp.LoggerService.newService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".LoggerService.NotificationServiceCovid"
+            android:name="androidi.developer.headthapp.LoggerService.NotificationServiceCovid"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <receiver android:name=".NotificationCode.NotificationReciever" />
+        <receiver android:name="androidi.developer.headthapp.NotificationCode.NotificationReciever" />
 
         <service
-            android:name=".Schedulers.BlukRaiser"
+            android:name="androidi.developer.headthapp.Schedulers.BlukRaiser"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 

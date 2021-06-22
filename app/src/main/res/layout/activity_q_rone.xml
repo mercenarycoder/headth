@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".Qr.QRone">
+    tools:context="androidi.developer.headthapp.Qr.QRone">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"

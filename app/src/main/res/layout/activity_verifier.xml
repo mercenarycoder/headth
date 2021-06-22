@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
    android:background="@drawable/b_2"
-    tools:context=".ApiMethods.Verifier">
+    tools:context="androidi.developer.headthapp.ApiMethods.Verifier">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/b_2"
     android:layout_height="match_parent"
-    tools:context=".Report.ReportActivity">
+    tools:context="androidi.developer.headthapp.Report.ReportActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
