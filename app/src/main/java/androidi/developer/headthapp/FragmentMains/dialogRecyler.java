@@ -151,7 +151,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                 holder.check.setVisibility(View.VISIBLE);
                 holder.visible.setVisibility(View.VISIBLE);
                 holder.check.setChecked(true);
-                dd.listD2.add(adapter.getId());
+//                dd.listD2.add(adapter.getId());
                 return false;
             }
         });
@@ -175,6 +175,7 @@ public class dialogRecyler extends RecyclerView.Adapter<dialogRecyler.viewholder
                         String str=dd.listD2.get(i);
                         if(str.equals(adapter.getId()))
                         {
+                            Toast.makeText(context,"coming here",Toast.LENGTH_SHORT).show();
                             dd.listD2.remove(i);
                         }
                     }

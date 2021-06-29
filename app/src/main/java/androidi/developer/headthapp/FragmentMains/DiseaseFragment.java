@@ -266,6 +266,7 @@ ImageButton close_btn;
             ArrayList<String> arr= dd.listD2;
             String logInfo=testCheck.getString("LogInfo","No");
             String number="";
+            System.out.println("arr-------------------------"+arr.toString());
             if(mauth.getCurrentUser()!=null) {
                 number = mauth.getCurrentUser().getPhoneNumber();
                 number=number.substring(3,number.length());

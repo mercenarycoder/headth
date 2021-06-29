@@ -268,6 +268,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                 }
             }
         });
+
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -275,8 +276,25 @@ public class PrescriptionAdd extends AppCompatActivity {
                if(!pdfChecker) {
                    if (ActivityCompat.checkSelfPermission(PrescriptionAdd.this, Manifest.permission.CAMERA) ==
                            PackageManager.PERMISSION_GRANTED) {
-                       Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                       startActivityForResult(cam, 9);
+                       cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                       if(cam.resolveActivity(getPackageManager())!=null){
+                           File photoFile=null;
+                           try{
+                               photoFile=createImageFile();
+                           }catch(Exception e){
+                               e.printStackTrace();
+                           }
+//                           will continue only if file was created
+                           if(photoFile!=null){
+                               Uri photoURI=FileProvider.getUriForFile(context,
+                                       "androidi.developer.headthapp.provider",photoFile);
+                               cam.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
+                               startActivityForResult(cam, 9);
+                           }
+                       }else{
+                           Toast.makeText(context,"Camera not available on the device",Toast.LENGTH_SHORT).show();
+                       }
+
                    } else {
                        ActivityCompat.requestPermissions(PrescriptionAdd.this, new
                                String[]{Manifest.permission.CAMERA}, 34);
@@ -291,6 +309,7 @@ public class PrescriptionAdd extends AppCompatActivity {
         });
         dialog.show();
     }
+    Intent cam;
     private void openPdfChooser()
     {
         Intent intent = new Intent();
@@ -386,7 +405,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageuri);
                     //imageView_pic.setImageURI(imageuri);
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 75, byteArrayOutputStream);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 1000, byteArrayOutputStream);
                     byte[] byteArray = byteArrayOutputStream.toByteArray();
                     imageF = Base64.encodeToString(byteArray, Base64.NO_WRAP);
                     imageF = "data:image/jpeg;base64," + imageF;
@@ -406,13 +425,17 @@ public class PrescriptionAdd extends AppCompatActivity {
         }
         if(requestCode==9&&resultCode==RESULT_OK)
         {
-            Uri imageuri=data.getData();
+//            Uri imageuri=data.getData();
             //path=getPath(imageuri);
             try
             {
+                File file=new File(imageFilePath);
+
 //                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
-                Bitmap bitmap=(Bitmap)data.getExtras().get("data");
+                Bitmap bitmap=MediaStore.Images.Media.getBitmap(context.getContentResolver(),
+                        Uri.fromFile(file));
                 //imageView_pic.setImageURI(imageuri);
+                if(bitmap!=null){
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
@@ -420,17 +443,23 @@ public class PrescriptionAdd extends AppCompatActivity {
                 imageF="data:image/jpeg;base64,"+imageF;
                 typeF=".jpeg";
                //keep this much code to make it dynamic
+                //trying to solve the image quality issue
+
                 String uploadId= UUID.randomUUID().toString();
                 nameF=uploadId;
                 imgCheck=true;
                 new uploadData().execute();
-
+                }
+                else{
+                    Toast.makeText(context,"Please click once again",Toast.LENGTH_SHORT).show();
+                }
                 //till here
 //                System.out.println("-------------------------------------"+imageF);
                 //                Log.d("image ", "doInBackground: "+convertImage);
 
             } catch (Exception e) {
                 e.printStackTrace();
+                Toast.makeText(context,"Error Here",Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -684,6 +713,7 @@ public class PrescriptionAdd extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //Displaying a toast
                 Toast.makeText(this, "Permission granted now you can take images", Toast.LENGTH_LONG).show();
+                openCameraIntent();
             } else {
                 //Displaying another toast if permission is not granted
                 Toast.makeText(this, "Oops you just denied the permission", Toast.LENGTH_LONG).show();

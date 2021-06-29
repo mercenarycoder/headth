@@ -38,6 +38,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name="androidi.developer.headthapp.Covid.CovidCaller">
+            <!--    A provider for high quality images-->
 
         </activity>
 <!--        <activity android:name=".Covid.SearchResults" />-->
@@ -87,6 +88,16 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="androidi.developer.headthapp.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
         </provider>
 
         <receiver
