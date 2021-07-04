@@ -2,6 +2,7 @@ package androidi.developer.headthapp.Report;
 
 import androidi.developer.headthapp.ApiMethods.JsonParser;
 import androidi.developer.headthapp.ApiMethods.networkData;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -37,6 +39,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -482,6 +487,11 @@ public class getReverseReports extends AsyncTask<String,String,String>
                         }
                         list2.add(new bundleReport(main,list3));
                     }
+                    Collections.sort(list2, new Comparator<bundleReport>() {
+                        public int compare(bundleReport m1, bundleReport m2) {
+                            return m1.getDate().compareTo(m2.getDate());
+                        }
+                    });
                     previous_report.setLayoutManager(new LinearLayoutManager(context));
                     previous_report.setHasFixedSize(true);
                     adapter=new dateReportAdapter(list2,context);
@@ -575,6 +585,7 @@ public class getReverseReports extends AsyncTask<String,String,String>
             String json=new JsonParser().viewOffer(url,number);
             return json;
         }
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
@@ -643,9 +654,22 @@ public class getReverseReports extends AsyncTask<String,String,String>
                         }
                         list2.add(new bundleReport(main,list3));
                        }
+//                        for sorting the reports in ascending order
+                        Collections.sort(list2, new Comparator<bundleReport>() {
+                            public int compare(bundleReport m1, bundleReport m2) {
+                                return m1.getDate().compareTo(m2.getDate());
+                            }
+                        });
+                        ArrayList<bundleReport> list_s=new ArrayList<>();
+                        for(int i=list2.size()-1;i>=0;i--){
+                            list_s.add(list2.get(i));
+                        }
+//                        list2.sort(Collections.reverseOrder());
+//                        for sorting them in lastest to oldest fashion
+//                        Collections.sort(list2,Collections.reverseOrder());
                         previous_report.setLayoutManager(new LinearLayoutManager(context));
                         previous_report.setHasFixedSize(true);
-                        adapter=new dateReportAdapter(list2,context);
+                        adapter=new dateReportAdapter(list_s,context);
                         previous_report.setAdapter(adapter);
                         if(list2.size()>0)
                         {

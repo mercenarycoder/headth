@@ -2,9 +2,11 @@ package androidi.developer.headthapp.Report;
 
 import androidi.developer.headthapp.ApiMethods.JsonParser;
 import androidi.developer.headthapp.ApiMethods.networkData;
+import androidi.developer.headthapp.Prescription.PrescriptionAdd;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +25,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
@@ -49,12 +52,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -82,6 +87,8 @@ ProgressDialog progressDialog;
 FirebaseAuth mauth=FirebaseAuth.getInstance();
 String titleF,observerF,dateF,detailF="no details",typeF,base65,reportType=null,idF,category;
 Context context;
+Intent cam;
+
 boolean imgChoosed=false,pdfChoosed=false,dateCheck=false;
 public static boolean pdfChecker=false,imgCheck=false;
 
@@ -356,12 +363,29 @@ public static boolean pdfChecker=false,imgCheck=false;
                 if(!pdfChecker) {
                     if (ActivityCompat.checkSelfPermission(ReportAdd.this, Manifest.permission.CAMERA) ==
                             PackageManager.PERMISSION_GRANTED) {
-                        Intent cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cam, 9);
+                        cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if(cam.resolveActivity(getPackageManager())!=null){
+                            File photoFile=null;
+                            try{
+                                photoFile=createImageFile();
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+//                           will continue only if file was created
+                            if(photoFile!=null){
+                                Uri photoURI= FileProvider.getUriForFile(context,
+                                        "androidi.developer.headthapp.provider",photoFile);
+                                cam.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
+                                startActivityForResult(cam, 9);
+                            }
+                        }else{
+                            Toast.makeText(context,"Camera not available on the device",Toast.LENGTH_SHORT).show();
+                        }
+
                     } else {
                         ActivityCompat.requestPermissions(ReportAdd.this, new
                                 String[]{Manifest.permission.CAMERA}, 34);
-                        Toast.makeText(ReportAdd.this, "Click on allow and then choose the camera option again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Click on allow and then choose the camera option again", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
@@ -372,7 +396,23 @@ public static boolean pdfChecker=false,imgCheck=false;
         });
         dialog.show();
     }
+    String imageFilePath;
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir =
+                ReportAdd.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
 
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -409,7 +449,7 @@ public static boolean pdfChecker=false,imgCheck=false;
                         String image = Base64.encodeToString(byteArray, Base64.NO_WRAP);
                         base65 += "data:image/jpeg;base64," + image+"HareKrishna";
                         typeF = ".jpeg";
-//                        System.out.println("-------------------------------------" + imageF);
+//                        System.out.println("-------------------------------------" + base65);
                         //keep this much code to make it dynamic
                         String uploadId = UUID.randomUUID().toString();
                         System.out.println("------------------------------DETECING-----------------------");
@@ -456,26 +496,34 @@ public static boolean pdfChecker=false,imgCheck=false;
         }
         else if(requestCode==9&&resultCode==RESULT_OK)
         {
-            Uri imageuri=data.getData();
+//            Uri imageuri=data.getData();
             //path=getPath(imageuri);
             try
             {
+                File file=new File(imageFilePath);
+
 //                Toast.makeText(context,"image found",Toast.LENGTH_SHORT).show();
-                Bitmap bitmap=(Bitmap)data.getExtras().get("data");
+                Bitmap bitmap=MediaStore.Images.Media.getBitmap(context.getContentResolver(),
+                        Uri.fromFile(file));
                 //imageView_pic.setImageURI(imageuri);
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream.toByteArray();
-                base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
-                base65="data:image/jpeg;base64,"+base65;
-                typeF=".jpeg";
-//                pdf.setImageBitmap(bitmap);
-                System.out.println("-------------------------------------"+base65);
-                //                Log.d("image ", "doInBackground: "+convertImage);
-                String uploadId= UUID.randomUUID().toString();
-                nameF=uploadId;
-                imgCheck=true;
-                new uploadData().execute();
+                if(bitmap!=null){
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream.toByteArray();
+                    base65= Base64.encodeToString(byteArray,Base64.NO_WRAP);
+                    base65="data:image/jpeg;base64,"+base65;
+                    typeF=".jpeg";
+                    //keep this much code to make it dynamic
+                    //trying to solve the image quality issue
+
+                    String uploadId= UUID.randomUUID().toString();
+                    nameF=uploadId;
+                    imgCheck=true;
+                    new uploadData().execute();
+                }
+                else{
+                    Toast.makeText(context,"Please click once again",Toast.LENGTH_SHORT).show();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
