@@ -1,14 +1,4 @@
-package androidi.developer.headthapp.Prescription;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+package androidi.developer.headthapp.Vaccines;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -38,16 +28,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidi.developer.headthapp.ApiMethods.JsonParser;
-import androidi.developer.headthapp.ApiMethods.networkData;
-//import com.developer.headthapp.ImageRecyclerAdapter;
-import androidi.developer.headthapp.ImageRecylerAdapter;
-
-//import com.developer.headthapp.R;
-import androidi.developer.headthapp.R;
-import androidi.developer.headthapp.imageRecyclerClass;
 import com.google.firebase.auth.FirebaseAuth;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,15 +45,31 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
+import androidi.developer.headthapp.ApiMethods.JsonParser;
+import androidi.developer.headthapp.ApiMethods.networkData;
+import androidi.developer.headthapp.ImageRecylerAdapter;
+import androidi.developer.headthapp.Prescription.PrescriptionAdd;
+import androidi.developer.headthapp.R;
+import androidi.developer.headthapp.imageRecyclerClass;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
 
-public class PrescriptionAdd extends AppCompatActivity {
+public class VaccineAdd extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private static final int STORAGE_PERMISSION_CODE = 2;
     ImageButton back;
-    EditText title,doc_name,observation;
+    EditText title;
+    TextView doc_name,observation;
     Button choose,upload;
-    TextView date;
+    TextView date,title_main;
     Context context;
     Bitmap img=null;
     FirebaseAuth mauth;
@@ -97,10 +94,10 @@ public class PrescriptionAdd extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_prescription_add);
+        setContentView(R.layout.vaccineadder);
         testCheck=getSharedPreferences("TestCheck",Context.MODE_PRIVATE);
         testMake=testCheck.edit();
-        context=PrescriptionAdd.this;
+        context= VaccineAdd.this;
         progressDialog=new ProgressDialog(context);
         progressDialog.setMessage("Sending information");
         progressDialog.setCanceledOnTouchOutside(false);
@@ -130,6 +127,8 @@ public class PrescriptionAdd extends AppCompatActivity {
         doc_name.setText(docF);
         if(mode!=null && mode.equals("edit"))
         {
+            upload.setText("Update Vaccination");
+            title_main.setText("Update Vaccination");
             String fileName[]=imagePaths.split(";");
             for(int i=0;i<fileName.length;i++)
             {
@@ -170,6 +169,52 @@ public class PrescriptionAdd extends AppCompatActivity {
                 dialog.show();
             }
         });
+        doc_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 DatePickerDialog.OnDateSetListener date7 = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        String myFormat = "dd-MM-YYYY"; //In which you need put here
+                        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                        doc_name.setText(sdf.format(myCalendar.getTime()));
+                    }
+                };
+                DatePickerDialog dialog=new DatePickerDialog(context,date7,myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dialog.show();
+            }
+        });
+        observation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog.OnDateSetListener date8 = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        String myFormat = "dd-MM-YYYY"; //In which you need put here
+                        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                        observation.setText(sdf.format(myCalendar.getTime()));
+                    }
+                };
+                DatePickerDialog dialog=new DatePickerDialog(context,date8,myCalendar.get(Calendar.YEAR),
+                        myCalendar.get(Calendar.MONTH),myCalendar.get(Calendar.DAY_OF_MONTH));
+//                dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+                dialog.show();
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,49 +224,52 @@ public class PrescriptionAdd extends AppCompatActivity {
         choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              dialogShower();
+                dialogShower();
             }
         });
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               titleF=title.getText().toString();
-               dateF=date.getText().toString();
-               String mod[]=dateF.split("-");
-               if(mod[0].length()==2) {
-                   dateF = mod[2] + "-" + mod[1] + "-" + mod[0];
-               }
-               docF=doc_name.getText().toString();
-               observationF=observation.getText().toString();
-               if(list.size()<=0)
-               {
-                   Toast.makeText(context,"Choose atleast a image and try again",Toast.LENGTH_SHORT).show();
-                   return;
-               }
-               else
-               {
-                   imagePaths="";
-                   for(int i=0;i<list.size();i++)
-                   {
-                       imageRecyclerClass item=list.get(i);
-                       imagePaths+=item.getId()+";";
-                   }
-//                   Toast.makeText(context,imagePaths,Toast.LENGTH_SHORT).show();
-                   if(titleF.isEmpty()||dateF.isEmpty()||docF.isEmpty())
-                   {
-                       Toast.makeText(context,"Please fill all the fields",Toast.LENGTH_SHORT).show();
-                       return;
-                   }
-                   else
-                   {
-                    if(observationF.isEmpty())
+                titleF=title.getText().toString();
+                docF=doc_name.getText().toString();
+                dateF=docF;
+                String mod[]=dateF.split("-");
+                if(mod[0].length()==2) {
+                    dateF = mod[2] + "-" + mod[1] + "-" + mod[0];
+                }
+                observationF=observation.getText().toString();
+                if(observationF.isEmpty()){
+                    observationF="No Renewal Date";
+                }
+                if(list.size()<=0)
+                {
+                    Toast.makeText(context,"Choose atleast a image and try again",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else
+                {
+                    imagePaths="";
+                    for(int i=0;i<list.size();i++)
                     {
-                        observationF="Its a prescription";
+                        imageRecyclerClass item=list.get(i);
+                        imagePaths+=item.getId()+";";
                     }
-                       //multipartImageUpload();
-                       new uploadPres().execute();
-                   }
-               }
+//                   Toast.makeText(context,imagePaths,Toast.LENGTH_SHORT).show();
+                    if(titleF.isEmpty()||dateF.isEmpty()||docF.isEmpty())
+                    {
+                        Toast.makeText(context,"Please fill all the fields",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else
+                    {
+                        if(observationF.isEmpty())
+                        {
+                            observationF="Its a prescription";
+                        }
+                        //multipartImageUpload();
+                        new uploadPres().execute();
+                    }
+                }
             }
         });
     }
@@ -251,7 +299,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                 }
                 else
                 {
-               Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -273,38 +321,38 @@ public class PrescriptionAdd extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-               if(!pdfChecker) {
-                   if (ActivityCompat.checkSelfPermission(PrescriptionAdd.this, Manifest.permission.CAMERA) ==
-                           PackageManager.PERMISSION_GRANTED) {
-                       cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                       if(cam.resolveActivity(getPackageManager())!=null){
-                           File photoFile=null;
-                           try{
-                               photoFile=createImageFile();
-                           }catch(Exception e){
-                               e.printStackTrace();
-                           }
+                if(!pdfChecker) {
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
+                            PackageManager.PERMISSION_GRANTED) {
+                        cam = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if(cam.resolveActivity(getPackageManager())!=null){
+                            File photoFile=null;
+                            try{
+                                photoFile=createImageFile();
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
 //                           will continue only if file was created
-                           if(photoFile!=null){
-                               Uri photoURI=FileProvider.getUriForFile(context,
-                                       "androidi.developer.headthapp.provider",photoFile);
-                               cam.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
-                               startActivityForResult(cam, 9);
-                           }
-                       }else{
-                           Toast.makeText(context,"Camera not available on the device",Toast.LENGTH_SHORT).show();
-                       }
+                            if(photoFile!=null){
+                                Uri photoURI= FileProvider.getUriForFile(context,
+                                        "androidi.developer.headthapp.provider",photoFile);
+                                cam.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
+                                startActivityForResult(cam, 9);
+                            }
+                        }else{
+                            Toast.makeText(context,"Camera not available on the device",Toast.LENGTH_SHORT).show();
+                        }
 
-                   } else {
-                       ActivityCompat.requestPermissions(PrescriptionAdd.this, new
-                               String[]{Manifest.permission.CAMERA}, 34);
-                       Toast.makeText(PrescriptionAdd.this, "Click on allow and then choose the camera option again", Toast.LENGTH_SHORT).show();
-                   }
-               }
-               else
-               {
-                   Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
-               }
+                    } else {
+                        ActivityCompat.requestPermissions(VaccineAdd.this, new
+                                String[]{Manifest.permission.CAMERA}, 34);
+                        Toast.makeText(context, "Click on allow and then choose the camera option again", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(context,"Either 1 pdf or 10 images can be choosed",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         dialog.show();
@@ -322,7 +370,7 @@ public class PrescriptionAdd extends AppCompatActivity {
         try {
             startActivityForResult(Intent.createChooser(intent, "Select Your .pdf File"), STORAGE_PERMISSION_CODE);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(PrescriptionAdd.this, "Please Install a File Manager",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please Install a File Manager",Toast.LENGTH_SHORT).show();
         }
     }
     private void openFileChooser() {
@@ -330,8 +378,8 @@ public class PrescriptionAdd extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
 //        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-       intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-       startActivityForResult(intent.createChooser(intent,"Select Picture"),PICK_IMAGE_REQUEST);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+        startActivityForResult(intent.createChooser(intent,"Select Picture"),PICK_IMAGE_REQUEST);
     }
     String nameF;
     @Override
@@ -398,7 +446,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                 new uploadData().execute();
             }
             //path=getPath(imageuri);
-           else if(data.getData() != null) {
+            else if(data.getData() != null) {
                 try {
                     Uri imageuri = data.getData();
 //                    Toast.makeText(context, "image choosed", Toast.LENGTH_SHORT).show();
@@ -436,19 +484,19 @@ public class PrescriptionAdd extends AppCompatActivity {
                         Uri.fromFile(file));
                 //imageView_pic.setImageURI(imageuri);
                 if(bitmap!=null){
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream.toByteArray();
-                imageF= Base64.encodeToString(byteArray,Base64.NO_WRAP);
-                imageF="data:image/jpeg;base64,"+imageF;
-                typeF=".jpeg";
-               //keep this much code to make it dynamic
-                //trying to solve the image quality issue
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,75,byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream.toByteArray();
+                    imageF= Base64.encodeToString(byteArray,Base64.NO_WRAP);
+                    imageF="data:image/jpeg;base64,"+imageF;
+                    typeF=".jpeg";
+                    //keep this much code to make it dynamic
+                    //trying to solve the image quality issue
 
-                String uploadId= UUID.randomUUID().toString();
-                nameF=uploadId;
-                imgCheck=true;
-                new uploadData().execute();
+                    String uploadId= UUID.randomUUID().toString();
+                    nameF=uploadId;
+                    imgCheck=true;
+                    new uploadData().execute();
                 }
                 else{
                     Toast.makeText(context,"Please click once again",Toast.LENGTH_SHORT).show();
@@ -568,10 +616,12 @@ public class PrescriptionAdd extends AppCompatActivity {
     public void initiaLize()
     {
         title=(EditText)findViewById(R.id.title);
-        observation=(EditText)findViewById(R.id.observation);
-        doc_name=(EditText)findViewById(R.id.doc_name);
+        observation=(TextView) findViewById(R.id.observation);
+        doc_name=(TextView) findViewById(R.id.doc_name);
         choose=(Button)findViewById(R.id.choose);
         upload=(Button)findViewById(R.id.upload);
+        title_main=(TextView)findViewById(R.id.title_main);
+        title_main.setText("Add Vaccine");
 //        image=(ImageView)findViewById(R.id.image);
     }
 
@@ -602,7 +652,7 @@ public class PrescriptionAdd extends AppCompatActivity {
                         Locale.getDefault()).format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
         File storageDir =
-                PrescriptionAdd.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -630,8 +680,8 @@ public class PrescriptionAdd extends AppCompatActivity {
                 {
                     requestStoragePermission();
                     requestWritePermission();
-                        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, 2);
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, 2);
 
                 }
                 else if (options[item].equals("Cancel")) {
@@ -679,7 +729,7 @@ public class PrescriptionAdd extends AppCompatActivity {
     private void requestStoragePermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
                 PackageManager.PERMISSION_GRANTED)
-         return ;
+            return ;
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
             //If the user has denied the permission previously your code will come to this block
@@ -730,112 +780,112 @@ public class PrescriptionAdd extends AppCompatActivity {
             }
         }
     }
-public class uploadPres extends AsyncTask<String,String,String>
-{
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        progressDialog.show();
-    }
+    public class uploadPres extends AsyncTask<String,String,String>
+    {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.show();
+        }
 
-    @Override
-    protected String doInBackground(String... strings) {
-        new networkData();
-        String base= networkData.url;
-        String method=networkData.precription;
-        String url=base+method;
-        String logInfo=testCheck.getString("LogInfo","No");
-        String number="";
-        if(mauth.getCurrentUser()!=null) {
-            number = mauth.getCurrentUser().getPhoneNumber();
-            number=number.substring(3,number.length());
-        }
-        else if(logInfo.equals("Yes")) {
-            number="1234567890";
-        }
-        String uploadId= UUID.randomUUID().toString();
-        String json;
-        if(mode!=null&&mode.equals("edit"))
-        {
-            method=networkData.updatePrescription;
-            url=base+method;
-            json=new JsonParser().updatePrescription(url,idF,number,titleF,docF,imagePaths,observationF,dateF);
-        }
-        else {
-            json = new JsonParser().saveCategory(url, number, titleF, dateF, imagePaths, docF, observationF);
-        }
-        return json;
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-        progressDialog.dismiss();
-        if(null!=result)
-        {
-            try
+        @Override
+        protected String doInBackground(String... strings) {
+            new networkData();
+            String base= networkData.url;
+            String method=networkData.addVaccine;
+            String url=base+method;
+            String logInfo=testCheck.getString("LogInfo","No");
+            String number="";
+            if(mauth.getCurrentUser()!=null) {
+                number = mauth.getCurrentUser().getPhoneNumber();
+                number=number.substring(3,number.length());
+            }
+            else if(logInfo.equals("Yes")) {
+                number="1234567890";
+            }
+            String uploadId= UUID.randomUUID().toString();
+            String json;
+            if(mode!=null&&mode.equals("edit"))
             {
-                JSONObject jsonObject = new JSONObject(result);
-                final String responce = String.valueOf(jsonObject.get("status"));
-                final String responce2=String.valueOf(jsonObject.get("msg"));
-                if(responce.equals("1"))
-                {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Update")
-                            .setMessage(responce2)
-                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                                }
-                            });
-                    builder.create();
-                    builder.show();
-                }
-                else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Update")
-                            .setMessage(responce2)
-                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            });
-                    builder.create();
-                    builder.show();
-                }
+                method=networkData.updateVaccine;
+                url=base+method;
+                json=new JsonParser().updatePrescription(url,idF,number,titleF,docF,imagePaths,observationF,dateF);
             }
-            catch (JSONException e) {
-                e.printStackTrace();
-                try {
+            else {
+                json = new JsonParser().saveCategory(url, number, titleF, dateF, imagePaths, docF, observationF);
+            }
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            if(null!=result)
+            {
+                try
+                {
                     JSONObject jsonObject = new JSONObject(result);
+                    final String responce = String.valueOf(jsonObject.get("status"));
                     final String responce2=String.valueOf(jsonObject.get("msg"));
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Update")
-                            .setMessage(responce2)
-                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                    if(responce.equals("1"))
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                                }
-                            });
-                    builder.create();
-                    builder.show();
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
                 }
-                catch (Exception r)
-                {
+                catch (JSONException e) {
+                    e.printStackTrace();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        final String responce2=String.valueOf(jsonObject.get("msg"));
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Update")
+                                .setMessage(responce2)
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                    catch (Exception r)
+                    {
+
+                    }
                 }
             }
-        }
-        //Toast.makeText(signup_Activity.this, "something missing", Toast.LENGTH_SHORT).show();
-        else
-        {
-            Toast.makeText(context,"please check details and try again",Toast.LENGTH_SHORT).show();
-        }
+            //Toast.makeText(signup_Activity.this, "something missing", Toast.LENGTH_SHORT).show();
+            else
+            {
+                Toast.makeText(context,"please check details and try again",Toast.LENGTH_SHORT).show();
+            }
 
+        }
     }
-}
 
 }

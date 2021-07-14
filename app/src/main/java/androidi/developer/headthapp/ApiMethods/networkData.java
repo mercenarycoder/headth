@@ -67,4 +67,10 @@ public class networkData {
     public static String getVolunteerCity="/getVolunteerCity";
     public static String getVolunteerPin="/getVolunteerPin";
     public static String getAllRequests="/getAllRequests";
+//    vaccines apis route from here
+    public static String getVaccines="/getVaccines";
+    public static String getVaccinesReverse="/getVaccinesReverse";
+    public static String addVaccine="/addVaccine";
+    public static String updateVaccine="/updateVaccine";
+    public static String deleteVaccines="/deleteVaccines";
 }

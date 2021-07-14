@@ -2,6 +2,7 @@ package androidi.developer.headthapp;
 
 import androidi.developer.headthapp.ApiMethods.JsonParser;
 import androidi.developer.headthapp.ApiMethods.networkData;
+//import androidi.developer.headthapp.Covid.CovidMain;
 import androidi.developer.headthapp.FragmentMains.DiseaseFragment;
 import androidi.developer.headthapp.FragmentMains.FragmentAllergies;
 import androidi.developer.headthapp.FragmentMains.FragmentHistiry;
@@ -14,6 +15,7 @@ import androidi.developer.headthapp.Prescription.dashboard2;
 import androidi.developer.headthapp.Prescription.presClass;
 import androidi.developer.headthapp.Qr.QRone;
 import androidi.developer.headthapp.Report.ReportActivity;
+import androidi.developer.headthapp.Vaccines.VaccineMain;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -343,13 +345,13 @@ public static void changeVisiblity()
                 startActivity(intent);
             }
         });
-//        covid_profile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent=new Intent(context, CovidMain.class);
-//                startActivity(intent);
-//            }
-//        });
+        covid_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context, VaccineMain.class);
+                startActivity(intent);
+            }
+        });
 //        covid.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -787,7 +789,7 @@ public static void changeVisiblity()
                                 String date[] = object.getString("date").split("T");
                                 String id = object.getString("id");
                                 String image = object.getString("image");
-                                list2.add(new presClass(title, date[0], doctor, image, id, observation));
+                                list2.add(new presClass(title, date[0], doctor, image, id, observation,"prescription"));
                             }
                             adapter2 = new dashboard2(list2, context);
                             recycler_pres.setHasFixedSize(true);

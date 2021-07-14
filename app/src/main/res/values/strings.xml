@@ -68,4 +68,10 @@ If you choose to use our Service, then you agree to the collection and use of in
     <string name="privacy9">
         If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact Hcard360@gmail.com.
     </string>
+    <string name="title_activity_vaccine_main">VaccineMain</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

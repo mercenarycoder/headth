@@ -26,13 +26,13 @@
        <Button
            android:layout_width="match_parent"
            android:layout_height="30dp"
-           android:text="My Covid Profile"
+           android:text="Vaccines"
            android:layout_weight="1"
            android:layout_gravity="center"
            android:layout_marginRight="5dp"
            android:textSize="10sp"
-           android:visibility="invisible"
-           android:enabled="false"
+           android:visibility="visible"
+           android:enabled="true"
            android:id="@+id/covid_profile"
            android:textColor="#fff"
            android:background="@drawable/dark_btn"/>

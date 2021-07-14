@@ -23,6 +23,7 @@ import androidi.developer.headthapp.HealthCart;
 import androidi.developer.headthapp.R;
 import java.util.ArrayList;
 
+import androidi.developer.headthapp.Vaccines.VaccineView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -88,19 +89,37 @@ public class dashboard2 extends RecyclerView.Adapter<dashboard2.viewholder1>{
         holder.prescribtion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new GlobalVariables();
-                if(GlobalVariables.Helper) {
-                    new HealthCart();
-                    HealthCart.check =true;
-                    Intent intent = new Intent(context, PrescriptionsView.class);
-                    intent.putExtra("title", adapter.getDiesease());
-                    intent.putExtra("doctor", adapter.getDoctor());
-                    intent.putExtra("observation", adapter.getObservation());
-                    intent.putExtra("image", adapter.getImg_url());
-                    intent.putExtra("id", adapter.getId());
-                    intent.putExtra("url", adapter.getImg_url());
-                    intent.putExtra("date", adapter.getDate());
-                    context.startActivity(intent);
+                if(adapter.getType().equals("prescription")){
+                    new GlobalVariables();
+                    if(GlobalVariables.Helper) {
+                        new HealthCart();
+                        HealthCart.check =true;
+                        Intent intent = new Intent(context, PrescriptionsView.class);
+                        intent.putExtra("title", adapter.getDiesease());
+                        intent.putExtra("doctor", adapter.getDoctor());
+                        intent.putExtra("observation", adapter.getObservation());
+                        intent.putExtra("image", adapter.getImg_url());
+                        intent.putExtra("id", adapter.getId());
+                        intent.putExtra("url", adapter.getImg_url());
+                        intent.putExtra("date", adapter.getDate());
+                        context.startActivity(intent);
+                    }
+                }
+                else if(adapter.getType().equals("vaccines")){
+                    new GlobalVariables();
+                    if(GlobalVariables.Helper) {
+                        new HealthCart();
+                        HealthCart.check =true;
+                        Intent intent = new Intent(context, VaccineView.class);
+                        intent.putExtra("title", adapter.getDiesease());
+                        intent.putExtra("doctor", adapter.getDoctor());
+                        intent.putExtra("observation", adapter.getObservation());
+                        intent.putExtra("image", adapter.getImg_url());
+                        intent.putExtra("id", adapter.getId());
+                        intent.putExtra("url", adapter.getImg_url());
+                        intent.putExtra("date", adapter.getDate());
+                        context.startActivity(intent);
+                    }
                 }
                 // Toast.makeText(context,"Report Page soon",Toast.LENGTH_SHORT).show();
             }

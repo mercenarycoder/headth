@@ -1,9 +1,4 @@
-package androidi.developer.headthapp.Prescription;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+package androidi.developer.headthapp.Vaccines;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+//import android.support.wearable.activity.WearableActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -22,12 +18,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidi.developer.headthapp.ApiMethods.JsonParser;
-import androidi.developer.headthapp.ApiMethods.networkData;
-import androidi.developer.headthapp.DeleteClass;
-
-//import com.developer.headthapp.R;
-import androidi.developer.headthapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
@@ -39,31 +29,44 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class Prescriptions extends AppCompatActivity {
-RecyclerView previous_pres;
-ArrayList<presClass> list2;
-ArrayList<String> data_cont;
-ArrayList<Integer> counter;
-Context context;
-ImageButton back,filter;
-dashboard2 adapter;
-FirebaseAuth mauth;
-SwipeRefreshLayout refresh;
-static boolean adding=false;
-boolean searched=false;
-DeleteClass dd=new DeleteClass("fdfd");
-//ProgressDialog //progressDialog;
-TextView nop;
-SharedPreferences testCheck;
-SharedPreferences.Editor testMake;
-TextView latest,oldest,me;
-Button add_prescription,remove_prescription,previous;
+import androidi.developer.headthapp.ApiMethods.JsonParser;
+import androidi.developer.headthapp.ApiMethods.networkData;
+import androidi.developer.headthapp.DeleteClass;
+import androidi.developer.headthapp.Prescription.PrescriptionAdd;
+import androidi.developer.headthapp.Prescription.Prescriptions;
+import androidi.developer.headthapp.Prescription.dashboard2;
+import androidi.developer.headthapp.Prescription.presClass;
+import androidi.developer.headthapp.R;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+public class VaccineMain extends AppCompatActivity {
+    RecyclerView previous_pres;
+    ArrayList<presClass> list2;
+    ArrayList<String> data_cont;
+    ArrayList<Integer> counter;
+    Context context;
+    ImageButton back,filter;
+    dashboard2 adapter;
+    FirebaseAuth mauth;
+    SwipeRefreshLayout refresh;
+    static boolean adding=false;
+    boolean searched=false;
+    DeleteClass dd=new DeleteClass("fdfd");
+    //ProgressDialog //progressDialog;
+    TextView nop;
+    SharedPreferences testCheck;
+    SharedPreferences.Editor testMake;
+    TextView latest,oldest,me;
+    Button add_prescription,remove_prescription,previous;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mauth=FirebaseAuth.getInstance();
-        setContentView(R.layout.activity_prescriptions);
-        context=Prescriptions.this;
+        setContentView(R.layout.activity_vaccine_main);
+        context= VaccineMain.this;
         testCheck=getSharedPreferences("TestCheck",Context.MODE_PRIVATE);
         testMake=testCheck.edit();
         refresh=(SwipeRefreshLayout)findViewById(R.id.refresh);
@@ -90,7 +93,7 @@ Button add_prescription,remove_prescription,previous;
             @Override
             public void onClick(View view) {
                 if(list2.size()>0)
-                dialogShower();
+                    dialogShower();
                 else
                     Toast.makeText(context,"No Items to run this operation",Toast.LENGTH_LONG).show();
             }
@@ -147,7 +150,7 @@ Button add_prescription,remove_prescription,previous;
         add_prescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(Prescriptions.this, PrescriptionAdd.class);
+                Intent intent=new Intent(context, VaccineAdd.class);
                 startActivity(intent);
                 adding=true;
             }
@@ -188,15 +191,15 @@ Button add_prescription,remove_prescription,previous;
         latest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            new getallPres().execute();
-            dialog.dismiss();
+                new getallPres().execute();
+                dialog.dismiss();
             }
         });
         oldest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            new getReversePres().execute();
-            dialog.dismiss();
+                new getReversePres().execute();
+                dialog.dismiss();
             }
         });
         TextView me=(TextView)dialog.findViewById(R.id.me);
@@ -247,10 +250,10 @@ Button add_prescription,remove_prescription,previous;
 
     @Override
     protected void onResume() {
-       if(adding)
-       {
-           adding=false;
-       }
+        if(adding)
+        {
+            adding=false;
+        }
         new getallPres().execute();
         super.onResume();
     }
@@ -263,20 +266,20 @@ Button add_prescription,remove_prescription,previous;
             new getallPres().execute();
         }
         else
-        super.onBackPressed();
+            super.onBackPressed();
     }
 
     public class deleteItems extends AsyncTask<String,String,String>
     {
         @Override
         protected void onPreExecute() {
-          //progressDialog.show();
+            //progressDialog.show();
             super.onPreExecute();
         }
 
         @Override
         protected String doInBackground(String... strings) {
-            String url=new networkData().url+new networkData().deletePrescription;
+            String url=new networkData().url+new networkData().deleteVaccines;
             ArrayList<String> arr= new ArrayList<>();
             ArrayList<String> arr2= new ArrayList<>();
             HashMap mapper=dd.listD;
@@ -347,7 +350,7 @@ Button add_prescription,remove_prescription,previous;
         protected String doInBackground(String... strings) {
             new networkData();
             String base= networkData.url;
-            String method=networkData.getReverseprescriptions;
+            String method=networkData.getVaccinesReverse;
             String url=base+method;
             String logInfo=testCheck.getString("LogInfo","No");
             String number="";
@@ -393,7 +396,7 @@ Button add_prescription,remove_prescription,previous;
                             String id=object.getString("id");
                             String image=object.getString("image");
                             counter.add(i);
-                            list2.add(new presClass(title,date[0],doctor,image,id,observation,"prescription"));
+                            list2.add(new presClass(title,date[0],doctor,image,id,observation,"vaccines"));
                         }
                         adapter=new dashboard2(list2,context);
                         previous_pres.setHasFixedSize(true);
@@ -470,7 +473,7 @@ Button add_prescription,remove_prescription,previous;
         protected String doInBackground(String... strings) {
             new networkData();
             String base= networkData.url;
-            String method=networkData.getprescriptions;
+            String method=networkData.getVaccines;
             String url=base+method;
             String logInfo=testCheck.getString("LogInfo","No");
             String number="";
@@ -498,26 +501,26 @@ Button add_prescription,remove_prescription,previous;
                     counter=new ArrayList<>();
                     JSONObject jsonObject = new JSONObject(result);
                     final String responce = String.valueOf(jsonObject.get("status"));
-                   // final String responce2=String.valueOf(jsonObject.get("msg"));
+                    // final String responce2=String.valueOf(jsonObject.get("msg"));
                     if(responce.equals("1"))
                     {
-                    JSONArray data=jsonObject.getJSONArray("data");
-                    for(int i=0;i<data.length();i++)
-                    {
-                        JSONObject object = data.getJSONObject(i);
-                        String title=object.getString("title");
-                        data_cont.add(title);
-                        String doctor=object.getString("doctor");
-                        data_cont.add(doctor);
-                        String observation=object.getString("observation");
-                        data_cont.add(observation);
-                        String date[]=object.getString("date").split("T");
-                        data_cont.add(date[0]);
-                        String id=object.getString("id");
-                        String image=object.getString("image");
-                        counter.add(i);
-                        list2.add(new presClass(title,date[0],doctor,image,id,observation,"prescription"));
-                    }
+                        JSONArray data=jsonObject.getJSONArray("data");
+                        for(int i=0;i<data.length();i++)
+                        {
+                            JSONObject object = data.getJSONObject(i);
+                            String title=object.getString("title");
+                            data_cont.add(title);
+                            String doctor=object.getString("doctor");
+                            data_cont.add(doctor);
+                            String observation=object.getString("observation");
+                            data_cont.add(observation);
+                            String date[]=object.getString("date").split("T");
+                            data_cont.add(date[0]);
+                            String id=object.getString("id");
+                            String image=object.getString("image");
+                            counter.add(i);
+                            list2.add(new presClass(title,date[0],doctor,image,id,observation,"vaccines"));
+                        }
                         adapter=new dashboard2(list2,context);
                         previous_pres.setHasFixedSize(true);
                         previous_pres.setLayoutManager(new LinearLayoutManager(context));
@@ -531,7 +534,7 @@ Button add_prescription,remove_prescription,previous;
                             nop.setVisibility(View.VISIBLE);
                             nop.setText("No Items found");
                         }
-                     }
+                    }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Update")
